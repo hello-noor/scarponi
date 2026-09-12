@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scarponi · Maiali da Assisi · Listino e consegne</title>
+<meta name="description" content="Maiali interi da 70, 100 e 120 kg. Prezzo al kg che scende con il peso, trasporto gratis fino a 100 km da Assisi. Calcola il tuo ordine.">
+<meta name="theme-color" content="#F5F0EA">
+<meta property="og:title" content="Scarponi · Maiali da Assisi">
+<meta property="og:description" content="Maiali interi da 70, 100 e 120 kg. Trasporto gratis fino a 100 km da Assisi.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   CONFIGURAZIONE RAPIDA — modifica qui prezzi, contatti, testi
+   (la parte dati sta anche in fondo, nell'oggetto CONFIG del JS)
+   ============================================================ */
+:root{
+  --ink:#17130F;
+  --ink-soft:#3A322B;
+  --muted:#7C6E63;
+  --paper:#F5F0EA;
+  --paper-2:#EDE5DC;
+  --line:#DCD1C5;
+  --accent:#C0605A;
+  --accent-deep:#8E3E3A;
+  --accent-wash:#F2DED9;
+  --ok:#4E7A55;
+  --ok-wash:#E2EBE0;
+  --radius:26px;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Outfit',system-ui,sans-serif;
+  font-size:17px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  padding-bottom:96px;
+}
+.num{font-family:'JetBrains Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+section{padding:clamp(56px,9vw,120px) 0}
+h1,h2,h3{letter-spacing:-.035em;line-height:1.03;font-weight:600}
+h1{font-size:clamp(2.5rem,6.2vw,4.4rem)}
+h2{font-size:clamp(1.9rem,4.2vw,3.1rem)}
+p{max-width:62ch;color:var(--ink-soft)}
+.lede{font-size:clamp(1.02rem,1.6vw,1.22rem);color:var(--ink-soft)}
+.eyebrow{
+  font-size:.72rem;text-transform:uppercase;letter-spacing:.18em;
+  font-weight:600;color:var(--accent-deep);display:flex;align-items:center;gap:10px
+}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--accent);display:block}
+
+/* grana pellicola, fissa, senza costi di repaint sullo scroll */
+.grain{position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.14;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E")}
+
+/* ---------- NAV ---------- */
+nav{
+  position:sticky;top:0;z-index:40;
+  backdrop-filter:blur(14px) saturate(1.4);
+  background:rgba(245,240,234,.78);
+  border-bottom:1px solid var(--line);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5);
+}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:600;letter-spacing:-.02em;text-decoration:none;color:var(--ink)}
+.brand small{display:block;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.nav-links{display:none;gap:28px}
+.nav-links a{color:var(--ink-soft);text-decoration:none;font-size:.92rem;position:relative;padding:4px 0}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--accent);transition:width .4s var(--ease)}
+.nav-links a:hover::after{width:100%}
+@media(min-width:900px){.nav-links{display:flex}}
+
+/* ---------- HERO ---------- */
+.hero{padding-top:clamp(40px,6vw,72px);position:relative}
+.hero-grid{display:grid;grid-template-columns:1fr;gap:40px;align-items:center}
+@media(min-width:900px){.hero-grid{grid-template-columns:1.15fr .85fr;gap:56px}}
+.hero h1{margin:18px 0 20px}
+.hero h1 em{font-style:normal;color:var(--accent-deep);position:relative;white-space:nowrap}
+.hero h1 em svg{position:absolute;left:0;bottom:-6px;width:100%;height:12px;overflow:visible}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.facts{display:flex;flex-wrap:wrap;gap:0;margin-top:42px;border-top:1px solid var(--line)}
+.fact{padding:18px 26px 4px 0;margin-right:26px;border-right:1px solid var(--line)}
+.fact:last-child{border-right:0}
+.fact b{display:block;font-size:1.65rem;font-weight:600;letter-spacing:-.04em}
+.fact span{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+
+/* maiale */
+.pig-stage{position:relative;aspect-ratio:1/1;max-width:460px;margin-inline:auto;width:100%}
+.pig-disc{position:absolute;inset:6%;border-radius:50%;background:
+  radial-gradient(120% 120% at 30% 20%, #FBF3EE 0%, var(--accent-wash) 55%, #E7CDC7 100%);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.7);animation:breathe 7s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.028)}}
+.pig-svg{position:absolute;inset:0;width:100%;height:100%}
+.pig-svg .stroke{fill:none;stroke:var(--ink);stroke-width:5.5;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 2.1s var(--ease) forwards}
+.pig-svg .stroke.d2{animation-delay:.5s}
+.pig-svg .stroke.d3{animation-delay:.9s}
+.pig-svg .stroke.d4{animation-delay:1.15s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.pig-svg .tail{transform-origin:27% 58%;animation:wag 2.6s ease-in-out 2s infinite}
+@keyframes wag{0%,100%{transform:rotate(0)}30%{transform:rotate(11deg)}60%{transform:rotate(-7deg)}}
+.pig-svg .ear{transform-origin:65% 38%;animation:flick 5.5s ease-in-out 2.4s infinite}
+@keyframes flick{0%,86%,100%{transform:rotate(0)}90%{transform:rotate(-13deg)}94%{transform:rotate(5deg)}}
+.pig-badge{position:absolute;right:-4px;bottom:6%;background:var(--ink);color:var(--paper);
+  border-radius:100px;padding:11px 19px;font-size:.82rem;font-weight:500;display:flex;align-items:center;gap:9px;
+  box-shadow:0 16px 30px -18px rgba(23,19,15,.6)}
+.dot{width:7px;height:7px;border-radius:50%;background:#8FCB9B;box-shadow:0 0 0 0 rgba(143,203,155,.7);animation:pulse 2.2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(143,203,155,0)}100%{box-shadow:0 0 0 0 rgba(143,203,155,0)}}
+
+/* ---------- BOTTONI ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;border:0;cursor:pointer;
+  font-family:inherit;font-size:.97rem;font-weight:500;padding:15px 26px;border-radius:100px;
+  text-decoration:none;transition:transform .35s var(--ease),background .3s,color .3s,box-shadow .35s var(--ease)
+}
+.btn-primary{background:var(--ink);color:var(--paper);box-shadow:0 14px 28px -18px rgba(23,19,15,.9)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 20px 34px -18px rgba(23,19,15,.85)}
+.btn-primary:active{transform:scale(.975)}
+.btn-ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.btn-ghost:hover{box-shadow:inset 0 0 0 1px var(--ink);transform:translateY(-2px)}
+.btn-ghost:active{transform:scale(.975)}
+.btn-accent{background:var(--accent);color:#fff;box-shadow:0 14px 28px -18px var(--accent-deep)}
+.btn-accent:hover{background:var(--accent-deep);transform:translateY(-2px)}
+.btn-accent:active{transform:scale(.975)}
+
+/* ---------- LISTINO ---------- */
+.listino-head{display:grid;grid-template-columns:1fr;gap:22px;align-items:end;margin-bottom:44px}
+@media(min-width:900px){.listino-head{grid-template-columns:1.1fr .9fr;gap:60px}}
+.rows{border-top:1px solid var(--line)}
+.row{
+  display:grid;grid-template-columns:1fr auto;gap:14px 20px;align-items:center;
+  padding:24px 0;border-bottom:1px solid var(--line);
+  position:relative;transition:background .35s var(--ease);
+  opacity:0;transform:translateY(14px);animation:rise .7s var(--ease) forwards
+}
+.row:nth-child(1){animation-delay:.05s}
+.row:nth-child(2){animation-delay:.15s}
+.row:nth-child(3){animation-delay:.25s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(min-width:760px){.row{grid-template-columns:auto 1fr auto auto;padding:28px 0}}
+.row.active{background:linear-gradient(90deg,rgba(242,222,217,.55),rgba(242,222,217,0) 70%)}
+.row.active::before{content:"";position:absolute;left:-14px;top:18px;bottom:18px;width:3px;border-radius:3px;background:var(--accent)}
+.row-mark{width:56px;height:56px;flex:none;border-radius:50%;background:var(--paper-2);display:grid;place-items:center;
+  transition:transform .5s var(--ease),background .3s}
+.row.active .row-mark{background:var(--accent-wash);transform:rotate(-6deg) scale(1.06)}
+.row-mark svg{width:32px;height:32px}
+.row-main h3{font-size:1.5rem;margin-bottom:3px}
+.row-main p{font-size:.9rem;color:var(--muted);max-width:36ch}
+.row-price{text-align:left}
+@media(min-width:760px){.row-price{text-align:right;min-width:150px}}
+.row-price b{display:block;font-size:1.42rem;font-weight:600;letter-spacing:-.04em}
+.row-price span{font-size:.82rem;color:var(--muted)}
+.stepper{justify-self:end;display:flex;align-items:center;gap:6px;background:var(--paper-2);border-radius:100px;padding:5px;
+  box-shadow:inset 0 0 0 1px rgba(220,209,197,.9)}
+.stepper button{width:40px;height:40px;border-radius:50%;border:0;cursor:pointer;background:transparent;color:var(--ink);
+  font-size:1.25rem;line-height:1;display:grid;place-items:center;transition:background .25s,transform .25s var(--ease)}
+.stepper button:hover{background:#fff}
+.stepper button:active{transform:scale(.9)}
+.stepper button:disabled{opacity:.28;cursor:not-allowed}
+.stepper .qty{min-width:34px;text-align:center;font-weight:600;font-size:1.05rem}
+.qty.bump{animation:bump .4s var(--ease)}
+@keyframes bump{40%{transform:translateY(-7px) scale(1.18)}100%{transform:none}}
+
+.note-inline{margin-top:22px;font-size:.88rem;color:var(--muted);display:flex;gap:9px;align-items:flex-start}
+.note-inline svg{flex:none;margin-top:3px}
+
+/* ---------- MAPPA / DISTANZA ---------- */
+.map-sec{background:var(--paper-2);border-block:1px solid var(--line)}
+.map-grid{display:grid;grid-template-columns:1fr;gap:44px;align-items:center}
+@media(min-width:920px){.map-grid{grid-template-columns:.92fr 1.08fr;gap:64px}}
+.radar{width:100%;max-width:460px;margin-inline:auto;aspect-ratio:1/1}
+.radar circle.ring{fill:none;stroke:var(--line);stroke-width:1.4;transition:stroke .4s,stroke-width .4s}
+.radar circle.ring.on{stroke:var(--accent);stroke-width:2.2}
+.radar circle.fill{fill:rgba(192,96,90,.07);transition:r .7s var(--ease)}
+.radar .pin{transition:transform .7s var(--ease)}
+.radar .sweep{transform-origin:200px 200px;animation:spin 14s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.radar text{font-family:'JetBrains Mono',monospace;font-size:11px;fill:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 26px}
+.chip{border:0;cursor:pointer;font-family:inherit;font-size:.85rem;padding:9px 15px;border-radius:100px;
+  background:transparent;color:var(--ink-soft);box-shadow:inset 0 0 0 1px var(--line);
+  transition:transform .3s var(--ease),background .25s,color .25s,box-shadow .25s}
+.chip:hover{box-shadow:inset 0 0 0 1px var(--ink);transform:translateY(-2px)}
+.chip.on{background:var(--ink);color:var(--paper);box-shadow:none}
+.chip:active{transform:scale(.95)}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;background:transparent;margin:10px 0 6px}
+input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:4px;background:linear-gradient(90deg,var(--accent) var(--pct,30%),var(--line) var(--pct,30%))}
+input[type=range]::-moz-range-track{height:4px;border-radius:4px;background:var(--line)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--ink);
+  margin-top:-11px;cursor:grab;box-shadow:0 6px 14px -6px rgba(23,19,15,.8);transition:transform .25s var(--ease)}
+input[type=range]:active::-webkit-slider-thumb{transform:scale(1.18);cursor:grabbing}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border:0;border-radius:50%;background:var(--ink);cursor:grab}
+.range-label{display:flex;justify-content:space-between;align-items:baseline;font-size:.82rem;color:var(--muted)}
+.km-big{font-size:2.4rem;font-weight:600;letter-spacing:-.05em;color:var(--ink)}
+.km-big small{font-size:1rem;font-weight:400;color:var(--muted);margin-left:4px}
+
+.status{margin-top:26px;padding:20px 22px;border-radius:var(--radius);background:#fff;
+  box-shadow:inset 0 0 0 1px var(--line),0 18px 34px -26px rgba(23,19,15,.35);transition:box-shadow .4s var(--ease)}
+.status.free{background:var(--ok-wash);box-shadow:inset 0 0 0 1px rgba(78,122,85,.3)}
+.status.warn{background:var(--accent-wash);box-shadow:inset 0 0 0 1px rgba(192,96,90,.28)}
+.status-top{display:flex;align-items:center;gap:11px;font-weight:600;letter-spacing:-.02em;font-size:1.06rem}
+.status p{font-size:.92rem;margin-top:6px;color:var(--ink-soft)}
+.bar{height:6px;border-radius:6px;background:rgba(23,19,15,.1);margin-top:14px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:6px;background:var(--accent);width:0;transition:width .6s var(--ease)}
+.status.free .bar i{background:var(--ok)}
+
+/* ---------- RIEPILOGO ---------- */
+.recap{display:grid;grid-template-columns:1fr;gap:34px}
+@media(min-width:920px){.recap{grid-template-columns:1.05fr .95fr;gap:70px}}
+.ticket{background:#fff;border-radius:var(--radius);padding:clamp(24px,4vw,38px);
+  box-shadow:inset 0 0 0 1px var(--line),0 28px 50px -34px rgba(23,19,15,.45)}
+.ticket h3{font-size:1.05rem;text-transform:uppercase;letter-spacing:.14em;font-size:.76rem;color:var(--muted);font-weight:600}
+.tk-list{margin:18px 0 0;list-style:none}
+.tk-list li{display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px dashed var(--line);font-size:.97rem;
+  animation:rise .5s var(--ease) both}
+.tk-list li span:last-child{font-weight:600;white-space:nowrap}
+.tk-empty{padding:34px 0 30px;text-align:center;color:var(--muted)}
+.tk-empty svg{opacity:.5;margin-bottom:12px}
+.tk-total{display:flex;justify-content:space-between;align-items:flex-end;margin-top:22px;padding-top:20px;border-top:1px solid var(--ink)}
+.tk-total b{font-size:2.3rem;font-weight:600;letter-spacing:-.05em}
+.tk-meta{font-size:.82rem;color:var(--muted);margin-top:14px}
+.ticket .btn{width:100%;justify-content:center;margin-top:22px}
+.ticket .btn+.btn{margin-top:10px}
+.ticket .btn:disabled{opacity:.35;pointer-events:none}
+
+/* ---------- SCONTI & CAMPI ORDINE ---------- */
+.discount-pill{display:inline-flex;align-items:center;gap:8px;background:var(--ok-wash);color:var(--ok);
+  border-radius:100px;padding:8px 16px;font-size:.85rem;font-weight:600;margin-top:10px;
+  opacity:0;transform:scale(.9);transition:opacity .35s var(--ease),transform .35s var(--ease)}
+.discount-pill.on{opacity:1;transform:none}
+.discount-pill svg{flex:none}
+.price-strike{text-decoration:line-through;color:var(--muted);font-weight:400;font-size:.8em;margin-right:7px}
+.price-scontato{color:var(--ok)}
+
+.field{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
+.field label{font-size:.76rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:600}
+.field input{font-family:inherit;font-size:1rem;padding:13px 16px;border-radius:14px;color:var(--ink);
+  background:#fff;border:1px solid var(--line);transition:border-color .3s,box-shadow .3s}
+.field input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(192,96,90,.14)}
+.field small{font-size:.78rem;color:var(--muted)}
+.fields-row{display:grid;grid-template-columns:1fr;gap:0 18px;margin-bottom:6px}
+@media(min-width:520px){.fields-row{grid-template-columns:1fr 1fr}}
+
+.hints{margin:20px 0 0;display:flex;flex-direction:column;gap:10px}
+.hint{display:flex;gap:10px;align-items:flex-start;font-size:.87rem;color:var(--ink-soft);
+  background:var(--paper-2);border-radius:16px;padding:13px 15px;
+  opacity:0;transform:translateY(6px);animation:rise .5s var(--ease) forwards}
+.hint svg{flex:none;margin-top:2px}
+.hint.win{background:var(--ok-wash);color:#2F4F34}
+.hint b{color:var(--ink);font-weight:600}
+
+/* ---------- CONDIZIONI ---------- */
+.cond{border-top:1px solid var(--line)}
+.cond details{border-bottom:1px solid var(--line);padding:20px 0}
+.cond summary{cursor:pointer;list-style:none;font-weight:500;font-size:1.08rem;display:flex;justify-content:space-between;gap:20px;align-items:center}
+.cond summary::-webkit-details-marker{display:none}
+.cond summary i{width:22px;height:22px;flex:none;position:relative;transition:transform .4s var(--ease)}
+.cond summary i::before,.cond summary i::after{content:"";position:absolute;background:var(--ink);border-radius:2px}
+.cond summary i::before{left:0;top:10px;width:22px;height:2px}
+.cond summary i::after{left:10px;top:0;width:2px;height:22px;transition:transform .4s var(--ease)}
+.cond details[open] summary i{transform:rotate(90deg)}
+.cond details[open] summary i::after{transform:scaleY(0)}
+.cond details p{margin-top:12px;font-size:.96rem}
+
+/* ---------- BARRA STICKY ---------- */
+.dock{
+  position:fixed;left:0;right:0;bottom:0;z-index:50;
+  background:rgba(23,19,15,.94);backdrop-filter:blur(16px);color:var(--paper);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 -20px 40px -30px rgba(0,0,0,.8);
+  transform:translateY(102%);transition:transform .55s var(--ease)
+}
+.dock.up{transform:none}
+.dock-in{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 20px;max-width:1180px;margin:0 auto}
+.dock-left{display:flex;align-items:center;gap:14px;min-width:0}
+.dock-left .cnt{width:42px;height:42px;flex:none;border-radius:50%;background:rgba(245,240,234,.12);display:grid;place-items:center;font-weight:600}
+.dock-left p{color:rgba(245,240,234,.62);font-size:.76rem;margin:0;line-height:1.3}
+.dock-left b{font-size:1.3rem;letter-spacing:-.04em}
+.dock .btn-accent{padding:13px 22px;white-space:nowrap}
+@media(max-width:520px){.dock-left p{display:none}.dock .btn-accent{padding:13px 18px;font-size:.9rem}}
+
+footer{background:var(--ink);color:var(--paper);padding:70px 0 40px}
+footer a{color:var(--paper)}
+.foot-grid{display:grid;gap:30px;grid-template-columns:1fr}
+@media(min-width:760px){.foot-grid{grid-template-columns:1.2fr .8fr .8fr}}
+footer h4{font-size:.74rem;text-transform:uppercase;letter-spacing:.16em;color:rgba(245,240,234,.5);font-weight:600;margin-bottom:14px}
+footer p,footer li{color:rgba(245,240,234,.8);font-size:.94rem}
+footer ul{list-style:none}
+footer li{padding:4px 0}
+.foot-bot{margin-top:46px;padding-top:22px;border-top:1px solid rgba(245,240,234,.14);font-size:.8rem;color:rgba(245,240,234,.45);display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<nav>
+  <div class="wrap nav-in">
+    <a class="brand" href="#top">
+      <svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="19" fill="#C0605A"/>
+        <ellipse cx="20" cy="21" rx="10" ry="8.5" fill="#F5F0EA"/>
+        <circle cx="16.6" cy="21" r="1.9" fill="#C0605A"/><circle cx="23.4" cy="21" r="1.9" fill="#C0605A"/>
+      </svg>
+      <span>Scarponi<small>Assisi</small></span>
+    </a>
+    <div class="nav-links">
+      <a href="#listino">Listino</a>
+      <a href="#consegne">Consegne</a>
+      <a href="#riepilogo">Il tuo ordine</a>
+      <a href="#condizioni">Come funziona</a>
+    </div>
+    <a class="btn btn-ghost" href="#riepilogo" style="padding:11px 20px">Ordina</a>
+  </div>
+</nav>
+
+<!-- ======================= HERO ======================= -->
+<header class="hero wrap" id="top">
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow">Allevamento e commercio suini · dal 1978</div>
+      <h1>Un maiale intero,<br>consegnato <em>sotto casa<svg viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8 C 50 2, 150 2, 198 7" fill="none" stroke="#C0605A" stroke-width="4" stroke-linecap="round"/></svg></em>.</h1>
+      <p class="lede">Tre pesi, un prezzo al chilo che scende man mano che il maiale cresce. Scegli quanti capi ti servono e dove li vuoi: il conto si fa da solo, il trasporto lo mettiamo noi.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#listino">
+          Calcola il tuo ordine
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#consegne">Dove consegniamo</a>
+      </div>
+      <div class="facts">
+        <div class="fact"><b class="num">100 km</b><span>trasporto gratis</span></div>
+        <div class="fact"><b class="num">3,30 €</b><span>al kg, dai 120 kg</span></div>
+        <div class="fact"><b class="num">48 h</b><span>tempo di consegna</span></div>
+      </div>
+    </div>
+
+    <div class="pig-stage" aria-hidden="true">
+      <div class="pig-disc"></div>
+      <svg class="pig-svg" viewBox="0 0 400 400">
+        <!-- corpo -->
+        <path class="stroke" d="M108 233 C 96 196, 118 156, 163 145 C 196 137, 236 139, 262 154 C 281 165, 292 184, 293 206 C 294 232, 281 254, 258 266 C 230 281, 186 282, 157 269 C 130 257, 113 250, 108 233 Z"/>
+        <!-- muso -->
+        <ellipse class="stroke d2" cx="298" cy="209" rx="26" ry="22"/>
+        <circle class="stroke d3" cx="291" cy="209" r="4"/>
+        <circle class="stroke d3" cx="306" cy="209" r="4"/>
+        <!-- occhio -->
+        <path class="stroke d3" d="M258 178 q7 -6 14 0"/>
+        <!-- orecchio -->
+        <path class="stroke d2 ear" d="M231 150 C 224 120, 246 106, 262 117 C 273 124, 272 141, 265 152"/>
+        <!-- zampe -->
+        <path class="stroke d4" d="M152 272 v40 M186 280 v34 M234 279 v35 M266 268 v42"/>
+        <!-- codino -->
+        <path class="stroke d2 tail" d="M108 233 C 88 228, 80 208, 92 198 C 103 189, 117 198, 111 210 C 106 220, 92 219, 89 208"/>
+      </svg>
+      <div class="pig-badge"><span class="dot"></span>Consegne attive questa settimana</div>
+    </div>
+  </div>
+</header>
+
+<!-- ======================= LISTINO ======================= -->
+<section id="listino">
+  <div class="wrap">
+    <div class="listino-head">
+      <div>
+        <div class="eyebrow">Listino</div>
+        <h2 style="margin:16px 0 14px">Più pesa,<br>meno costa al chilo.</h2>
+        <p>I prezzi sono al chilogrammo e comprendono la consegna dove il trasporto è gratuito. Aggiungi i capi che ti servono: il totale si aggiorna mentre scegli.</p>
+      </div>
+      <div style="align-self:end">
+        <div id="avgBox" style="opacity:.35;transition:opacity .4s var(--ease)">
+          <div style="font-size:.74rem;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:600">Prezzo medio del tuo ordine</div>
+          <div class="num" style="font-size:clamp(2.6rem,6vw,3.6rem);font-weight:600;letter-spacing:-.05em;line-height:1.05"><span id="avgKg">—</span> <span style="font-size:1rem;font-weight:400;color:var(--muted)">€/kg</span></div>
+          <div id="avgSave" style="font-size:.88rem;color:var(--accent-deep);font-weight:500;min-height:22px"></div>
+          <div class="discount-pill" id="discPill">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>
+            <span id="discPillText">Sconto attivo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rows" id="rows"><!-- generato via JS --></div>
+
+    <div class="note-inline">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C6E63" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.6v.1"/></svg>
+      <span>I pesi indicati sono quelli medi del capo. Il peso definitivo viene verificato alla consegna e il conto si aggiusta su quello.</span>
+    </div>
+    <div class="note-inline">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C6E63" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 3.5"/></svg>
+      <span>Prezzi aggiornati settimanalmente in base alla quotazione della Borsa Merci di Mantova: possono variare da una settimana all'altra.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= CONSEGNE ======================= -->
+<section class="map-sec" id="consegne">
+  <div class="wrap map-grid">
+    <div>
+      <svg class="radar" viewBox="0 0 400 400" role="img" aria-labelledby="radarTitle">
+        <title id="radarTitle">Raggio di consegna da Assisi</title>
+        <g class="sweep" opacity=".5">
+          <path d="M200 200 L200 40 A160 160 0 0 1 312 88 Z" fill="url(#sweepGrad)"/>
+        </g>
+        <defs>
+          <radialGradient id="sweepGrad" cx="50%" cy="100%" r="100%">
+            <stop offset="0%" stop-color="#C0605A" stop-opacity=".16"/>
+            <stop offset="100%" stop-color="#C0605A" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <circle class="fill" id="fillCircle" cx="200" cy="200" r="50"/>
+        <circle class="ring" id="ring100" cx="200" cy="200" r="50"/>
+        <circle class="ring" id="ring200" cx="200" cy="200" r="100"/>
+        <circle class="ring" id="ring300" cx="200" cy="200" r="150"/>
+        <line x1="200" y1="50" x2="200" y2="350" stroke="#DCD1C5" stroke-width="1" stroke-dasharray="3 6"/>
+        <line x1="50" y1="200" x2="350" y2="200" stroke="#DCD1C5" stroke-width="1" stroke-dasharray="3 6"/>
+        <text x="200" y="145" text-anchor="middle">100</text>
+        <text x="200" y="95" text-anchor="middle">200</text>
+        <text x="200" y="45" text-anchor="middle">300 km</text>
+        <g class="pin" id="pin" transform="translate(200,200)">
+          <circle r="11" fill="#C0605A" opacity=".22"/>
+          <circle r="5.5" fill="#C0605A"/>
+        </g>
+        <circle cx="200" cy="200" r="7" fill="#17130F"/>
+        <text x="200" y="224" text-anchor="middle" style="fill:#17130F;font-weight:700">ASSISI</text>
+      </svg>
+    </div>
+
+    <div>
+      <div class="eyebrow">Consegne</div>
+      <h2 style="margin:16px 0 14px">Il trasporto lo<br>mettiamo noi.</h2>
+      <p>Gratis sempre entro 100 km da Assisi, anche per un solo capo. Più lontano, il viaggio ha senso se il camion parte pieno: da 3 capi arriviamo a 200 km, da 5 a 300.</p>
+
+      <div class="chips" id="chips"></div>
+
+      <div class="range-label"><span>Distanza da Assisi</span><span id="zoneTag" style="font-weight:600;color:var(--ink)"></span></div>
+      <div class="km-big"><span class="num" id="kmVal">40</span><small>km</small></div>
+      <input type="range" id="km" min="0" max="300" step="5" value="40" aria-label="Distanza in chilometri da Assisi">
+      <div class="range-label"><span>Assisi</span><span>300 km</span></div>
+
+      <div class="status" id="status">
+        <div class="status-top"><span id="statusIcon"></span><span id="statusTitle">Aggiungi un capo per iniziare</span></div>
+        <p id="statusText">Scegli quanti maiali ti servono nel listino qui sopra.</p>
+        <div class="bar"><i id="statusBar"></i></div>
+      </div>
+      <p style="font-size:.84rem;color:var(--muted);margin-top:14px">Oltre i 300 km ci organizziamo caso per caso: scrivici e vediamo se passiamo di lì.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= RIEPILOGO ======================= -->
+<section id="riepilogo">
+  <div class="wrap recap">
+    <div>
+      <div class="eyebrow">Il tuo ordine</div>
+      <h2 style="margin:16px 0 14px">Pronto quando<br>lo sei tu.</h2>
+      <p>Il riepilogo qui accanto è una stima basata sui pesi medi. Mandalo su WhatsApp così com'è: ti richiamiamo per concordare il giorno, l'ora e il punto di scarico.</p>
+
+      <div class="fields-row" style="margin-top:30px">
+        <div class="field">
+          <label for="nomeCliente">Nome e cognome</label>
+          <input type="text" id="nomeCliente" placeholder="Come ti chiami" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="dataConsegna">Data di consegna desiderata</label>
+          <input type="date" id="dataConsegna" aria-describedby="dataHint">
+          <small id="dataHint">Prenota con 10 giorni di anticipo: −5 cent/kg. Con 15: −10 cent/kg.</small>
+        </div>
+      </div>
+
+      <div class="facts" style="margin-top:34px">
+        <div class="fact"><b class="num" id="factCapi">0</b><span>capi</span></div>
+        <div class="fact"><b class="num" id="factKg">0</b><span>kg totali</span></div>
+        <div class="fact"><b class="num" id="factKm">40</b><span>km da Assisi</span></div>
+      </div>
+    </div>
+
+    <div class="ticket">
+      <h3>Riepilogo</h3>
+      <ul class="tk-list" id="tkList"></ul>
+      <div class="tk-total">
+        <span>Totale stimato</span>
+        <b class="num" id="tkTotal">€ 0</b>
+      </div>
+      <div class="tk-meta" id="tkMeta">Trasporto incluso entro 100 km da Assisi.</div>
+      <div class="hints" id="hints"></div>
+      <a class="btn btn-accent" id="waBtn" href="#" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.7 15l-1.2 4.3 4.4-1.2A10 10 0 1 0 12 2Zm5.6 14.2c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.7-4.4-3.9-.1-.2-1-1.4-1-2.6s.6-1.8.9-2.1c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .6l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 2 1.1.9 1.9 1.2 2.2 1.4.3.1.5.1.6-.1l.9-1c.2-.2.4-.2.6-.1l1.9.9c.2.1.4.2.5.3.1.1.1.6-.1 1.2Z"/></svg>
+        Invia l'ordine su WhatsApp
+      </a>
+      <a class="btn btn-ghost" id="telBtn" href="#">Preferisco telefonare</a>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= CONDIZIONI ======================= -->
+<section id="condizioni" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow" style="margin-bottom:26px">Come funziona</div>
+    <div class="cond">
+      <details open>
+        <summary>Il prezzo è al chilo o a capo?<i></i></summary>
+        <p>Al chilo. Un maiale da 120 kg a 3,30 €/kg fa 396 € a capo. Il peso che vedi è quello medio della categoria: alla consegna pesiamo e il conto si chiude sul peso reale.</p>
+      </details>
+      <details>
+        <summary>Quando è gratis il trasporto?<i></i></summary>
+        <p>Entro 100 km da Assisi sempre, anche per un capo solo. Fino a 200 km con un ordine minimo di 3 capi, fino a 300 km con 5 capi. Oltre, si valuta insieme.</p>
+      </details>
+      <details>
+        <summary>Posso mettere insieme pesi diversi?<i></i></summary>
+        <p>Sì, e conta il numero totale di capi. Tre maiali, anche di tre pesi diversi, sbloccano la consegna gratuita fino a 200 km.</p>
+      </details>
+      <details>
+        <summary>In quanto tempo consegnate?<i></i></summary>
+        <p>Di norma entro 48 ore nel raggio dei 100 km. Per le distanze maggiori ti diciamo subito il primo giorno utile: spesso accorpiamo più consegne sulla stessa direttrice.</p>
+      </details>
+      <details>
+        <summary>Come si paga?<i></i></summary>
+        <p>Alla consegna, contanti o bonifico. Per le aziende agricole e i ristoranti si fattura a fine mese.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div style="font-size:1.5rem;font-weight:600;letter-spacing:-.03em;margin-bottom:10px">Scarponi</div>
+        <p style="max-width:34ch">Commercio suini a Rivotorto di Assisi. Consegniamo in Umbria, Toscana, Marche, Lazio, Abruzzo ed Emilia-Romagna.</p>
+      </div>
+      <div>
+        <h4>Contatti</h4>
+        <ul>
+          <li><a id="footTel" href="#">Telefono</a></li>
+          <li><a id="footWa" href="#" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a id="footMail" href="#">Email</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Listino</h4>
+        <ul>
+          <li>120 kg — 3,30 €/kg</li>
+          <li>100 kg — 3,50 €/kg</li>
+          <li>70 kg — 4,00 €/kg</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>Prezzi indicativi, non costituiscono un'offerta vincolante.</span>
+      <span>Sito realizzato da NOOR</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ======================= DOCK ======================= -->
+<div class="dock" id="dock">
+  <div class="dock-in">
+    <div class="dock-left">
+      <div class="cnt num" id="dockCnt">0</div>
+      <div>
+        <p id="dockLine">Trasporto incluso</p>
+        <b class="num" id="dockTotal">€ 0</b>
+      </div>
+    </div>
+    <a class="btn btn-accent" href="#riepilogo">Vedi il riepilogo</a>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   DATI — cambia qui e cambia tutto il sito
+   ============================================================ */
+const CONFIG = {
+  telefono: "+39 347 191 7366",
+  whatsapp: "393471917366",               // numero WhatsApp, formato internazionale senza +
+  email:    "info@example.it",            // <— email di Luca
+  tagli: [
+    { id:"g120", nome:"Maiale grande",  kg:120, prezzo:3.30, desc:"Il taglio più conveniente. Per chi fa salumi in casa o riempie il congelatore." },
+    { id:"g100", nome:"Maiale medio",   kg:100, prezzo:3.50, desc:"La misura classica: resa piena, ingombro gestibile." },
+    { id:"g70",  nome:"Maiale piccolo", kg:70,  prezzo:4.00, desc:"Per famiglie piccole o per una prima prova." }
+  ],
+  soglie: [
+    { km:100, capi:1 },
+    { km:200, capi:3 },
+    { km:300, capi:5 }
+  ],
+  citta: [
+    {n:"Perugia",km:25},{n:"Foligno",km:20},{n:"Terni",km:80},{n:"Arezzo",km:100},
+    {n:"Siena",km:130},{n:"Ancona",km:140},{n:"Firenze",km:165},{n:"Roma",km:175},
+    {n:"L'Aquila",km:135},{n:"Pescara",km:220},{n:"Bologna",km:250}
+  ],
+  // Sconto per prenotazione anticipata (giorni tra oggi e la data di consegna scelta).
+  // Si applica per soglia più alta raggiunta, non è cumulativo tra le due righe.
+  scontoAnticipo: [
+    { giorni:15, sconto:0.10 },
+    { giorni:10, sconto:0.05 }
+  ],
+  // Sconto per quantità, legato alla soglia minima di capi già prevista per quella fascia
+  // di trasporto gratuito (vedi "soglie" sopra). Il moltiplicatore si applica alla soglia
+  // della fascia: es. a 100 km la soglia gratuita è 1 capo, quindi lo sconto scatta a 3,5,10 capi.
+  // A 200 km la soglia è 3, quindi gli stessi moltiplicatori scattano a 9,15,30 capi, e così a 300 km.
+  // Cambia qui i moltiplicatori se preferisci soglie diverse per le fasce più lontane.
+  scontoVolume: [
+    { mult:3,  sconto:0.05 },
+    { mult:5,  sconto:0.10 },
+    { mult:10, sconto:0.20 }
+  ]
+};
+
+/* ---------- stato ---------- */
+const stato = { q:{}, km:40 };
+CONFIG.tagli.forEach(t => stato.q[t.id] = 0);
+
+/* ---------- utility ---------- */
+const eur = n => "€ " + n.toLocaleString("it-IT", {maximumFractionDigits:0});
+const kgFmt = n => n.toLocaleString("it-IT");
+const $ = s => document.querySelector(s);
+
+/* ---------- listino ---------- */
+const rows = $("#rows");
+CONFIG.tagli.forEach(t => {
+  const el = document.createElement("div");
+  el.className = "row";
+  el.dataset.id = t.id;
+  el.innerHTML = `
+    <div class="row-mark">
+      <svg viewBox="0 0 40 40" fill="none" stroke="#17130F" stroke-width="2.2" stroke-linecap="round">
+        <ellipse cx="20" cy="22" rx="11" ry="9"/>
+        <ellipse cx="20" cy="22" rx="4.5" ry="3.6"/>
+        <path d="M13 13.5c-1-3.5 1.5-5.5 4-4M27 13.5c1-3.5-1.5-5.5-4-4"/>
+      </svg>
+    </div>
+    <div class="row-main">
+      <h3>${t.nome} <span class="num" style="color:var(--muted);font-size:1.05rem">· ${t.kg} kg</span></h3>
+      <p>${t.desc}</p>
+    </div>
+    <div class="row-price">
+      <b class="num">${eur(t.kg*t.prezzo)}</b>
+      <span class="num">${t.prezzo.toLocaleString("it-IT",{minimumFractionDigits:2})} €/kg</span>
+    </div>
+    <div class="stepper">
+      <button type="button" data-act="-" aria-label="Togli un ${t.nome}">−</button>
+      <span class="qty num" id="q-${t.id}">0</span>
+      <button type="button" data-act="+" aria-label="Aggiungi un ${t.nome}">+</button>
+    </div>`;
+  rows.appendChild(el);
+});
+
+rows.addEventListener("click", e => {
+  const b = e.target.closest("button[data-act]");
+  if (!b) return;
+  const id = b.closest(".row").dataset.id;
+  stato.q[id] = Math.max(0, Math.min(40, stato.q[id] + (b.dataset.act === "+" ? 1 : -1)));
+  const q = document.getElementById("q-" + id);
+  q.classList.remove("bump"); void q.offsetWidth; q.classList.add("bump");
+  render();
+});
+
+/* ---------- chips città ---------- */
+const chips = $("#chips");
+CONFIG.citta.forEach(c => {
+  const b = document.createElement("button");
+  b.className = "chip"; b.type = "button";
+  b.innerHTML = `${c.n} <span class="num" style="opacity:.55">${c.km}</span>`;
+  b.dataset.km = c.km;
+  b.onclick = () => { stato.km = c.km; $("#km").value = c.km; render(); };
+  chips.appendChild(b);
+});
+$("#km").addEventListener("input", e => { stato.km = +e.target.value; render(); });
+
+/* ---------- icone stato ---------- */
+const icoOk = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4E7A55" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>`;
+const icoWarn = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C0605A" stroke-width="2.2" stroke-linecap="round"><path d="M3 17h18M6 17V9m5 8V7m5 10v-5"/></svg>`;
+const icoAsk = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C6E63" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.6v.1"/></svg>`;
+
+/* ---------- animazione numeri ---------- */
+function animateTo(el, val, fmt){
+  const from = +el.dataset.v || 0;
+  if (from === val){ el.textContent = fmt(val); return; }
+  el.dataset.v = val;
+  const t0 = performance.now(), dur = 520;
+  cancelAnimationFrame(+el.dataset.raf || 0);
+  const step = now => {
+    const p = Math.min(1, (now - t0) / dur);
+    const e = 1 - Math.pow(1 - p, 3);
+    el.textContent = fmt(Math.round(from + (val - from) * e));
+    if (p < 1) el.dataset.raf = requestAnimationFrame(step);
+  };
+  el.dataset.raf = requestAnimationFrame(step);
+}
+
+/* ---------- render ---------- */
+function render(){
+  const capi = CONFIG.tagli.reduce((s,t) => s + stato.q[t.id], 0);
+  const kgTot = CONFIG.tagli.reduce((s,t) => s + stato.q[t.id] * t.kg, 0);
+  const tot = CONFIG.tagli.reduce((s,t) => s + stato.q[t.id] * t.kg * t.prezzo, 0);
+  const km = stato.km;
+
+  /* righe attive */
+  CONFIG.tagli.forEach(t => {
+    const row = rows.querySelector(`[data-id="${t.id}"]`);
+    row.classList.toggle("active", stato.q[t.id] > 0);
+    row.querySelector(".qty").textContent = stato.q[t.id];
+    row.querySelector('[data-act="-"]').disabled = stato.q[t.id] === 0;
+  });
+
+  /* prezzo medio + risparmio */
+  const avgBox = $("#avgBox");
+  if (capi > 0){
+    const avg = tot / kgTot;
+    avgBox.style.opacity = 1;
+    $("#avgKg").textContent = avg.toLocaleString("it-IT",{minimumFractionDigits:2,maximumFractionDigits:2});
+    const risp = kgTot * 4.00 - tot;
+    $("#avgSave").textContent = risp > 0 ? `Risparmi ${eur(risp)} rispetto al prezzo del taglio piccolo.` : "";
+  } else {
+    avgBox.style.opacity = .35;
+    $("#avgKg").textContent = "—";
+    $("#avgSave").textContent = "";
+  }
+
+  /* zona di consegna */
+  const soglia = CONFIG.soglie.find(s => km <= s.km);
+  let statoSped, titolo, testo, prog;
+  if (!soglia){
+    statoSped = "ask";
+    titolo = "Oltre i 300 km";
+    testo = "Qui ragioniamo caso per caso, in base alle consegne già in programma su quella direttrice. Mandaci comunque l'ordine.";
+    prog = 100;
+  } else if (capi === 0){
+    statoSped = "idle";
+    titolo = "Aggiungi un capo per iniziare";
+    testo = `A ${km} km da Assisi il trasporto è gratis ${soglia.capi === 1 ? "da subito" : `con almeno ${soglia.capi} capi`}.`;
+    prog = 0;
+  } else if (capi >= soglia.capi){
+    statoSped = "free";
+    titolo = "Trasporto gratis";
+    testo = soglia.km === 100
+      ? `Sei dentro i 100 km da Assisi: consegniamo senza costi aggiuntivi, anche per un capo solo.`
+      : `Con ${capi} capi copriamo i ${km} km senza costi di trasporto.`;
+    prog = 100;
+  } else {
+    statoSped = "warn";
+    const mancano = soglia.capi - capi;
+    titolo = mancano > 1 ? `Mancano ${mancano} capi` : "Manca 1 capo";
+    testo = `Per consegnare gratis fino a ${soglia.km} km servono almeno ${soglia.capi} capi. Puoi anche unirti a un ordine di vicini: chiamaci e vediamo chi c'è in zona.`;
+    prog = (capi / soglia.capi) * 100;
+  }
+
+  const st = $("#status");
+  st.className = "status" + (statoSped === "free" ? " free" : statoSped === "warn" ? " warn" : "");
+  $("#statusIcon").innerHTML = statoSped === "free" ? icoOk : statoSped === "warn" ? icoWarn : icoAsk;
+  $("#statusTitle").textContent = titolo || "Aggiungi un capo per iniziare";
+  $("#statusText").textContent = testo || "Scegli quanti maiali ti servono nel listino qui sopra.";
+  $("#statusBar").style.width = (prog || 0) + "%";
+  $("#zoneTag").textContent = !soglia ? "su richiesta" : soglia.km === 100 ? "zona gratuita" : `min ${soglia.capi} capi`;
+
+  /* radar */
+  const r = Math.min(150, km * 0.5);
+  $("#fillCircle").setAttribute("r", Math.max(4, r));
+  const ang = -50 * Math.PI / 180;
+  $("#pin").setAttribute("transform", `translate(${200 + Math.cos(ang)*r},${200 + Math.sin(ang)*r})`);
+  $("#ring100").classList.toggle("on", km > 0 && km <= 100);
+  $("#ring200").classList.toggle("on", km > 100 && km <= 200);
+  $("#ring300").classList.toggle("on", km > 200);
+  $("#kmVal").textContent = km;
+  $("#km").style.setProperty("--pct", (km / 300 * 100) + "%");
+  chips.querySelectorAll(".chip").forEach(c => c.classList.toggle("on", +c.dataset.km === km));
+
+  /* riepilogo */
+  const list = $("#tkList");
+  list.innerHTML = "";
+  if (capi === 0){
+    list.innerHTML = `<li class="tk-empty" style="display:block;border:0">
+      <svg width="46" height="46" viewBox="0 0 40 40" fill="none" stroke="#7C6E63" stroke-width="1.8" stroke-linecap="round">
+        <ellipse cx="20" cy="22" rx="11" ry="9"/><ellipse cx="20" cy="22" rx="4.5" ry="3.6"/>
+        <path d="M13 13.5c-1-3.5 1.5-5.5 4-4M27 13.5c1-3.5-1.5-5.5-4-4"/>
+      </svg>
+      <div>Il carrello è vuoto.<br>Aggiungi un maiale dal listino.</div>
+    </li>`;
+  } else {
+    let i = 0;
+    CONFIG.tagli.forEach(t => {
+      if (!stato.q[t.id]) return;
+      const li = document.createElement("li");
+      li.style.animationDelay = (i++ * 60) + "ms";
+      li.innerHTML = `<span>${stato.q[t.id]} × ${t.nome} <span class="num" style="color:var(--muted)">(${t.kg} kg)</span></span>
+                      <span class="num">${eur(stato.q[t.id] * t.kg * t.prezzo)}</span>`;
+      list.appendChild(li);
+    });
+    const li = document.createElement("li");
+    li.style.animationDelay = (i * 60) + "ms";
+    li.innerHTML = `<span>Trasporto · ${km} km</span><span class="num" style="color:${statoSped === "free" ? "var(--ok)" : "var(--muted)"}">${statoSped === "free" ? "gratis" : "da confermare"}</span>`;
+    list.appendChild(li);
+  }
+
+  animateTo($("#tkTotal"), Math.round(tot), eur);
+  animateTo($("#dockTotal"), Math.round(tot), eur);
+  animateTo($("#factCapi"), capi, v => v);
+  animateTo($("#factKg"), kgTot, kgFmt);
+  animateTo($("#factKm"), km, v => v);
+  $("#dockCnt").textContent = capi;
+  $("#dockLine").textContent = statoSped === "free" ? "Trasporto incluso" : statoSped === "warn" ? "Trasporto da confermare" : "Il tuo ordine";
+  $("#tkMeta").textContent = statoSped === "free"
+    ? `Trasporto incluso fino a ${km} km da Assisi.`
+    : statoSped === "warn"
+      ? `Con ${CONFIG.soglie.find(s => km <= s.km).capi} capi il trasporto diventa gratuito.`
+      : "Trasporto incluso entro 100 km da Assisi.";
+
+  $("#dock").classList.toggle("up", capi > 0);
+
+  /* link precompilati */
+  const righe = CONFIG.tagli.filter(t => stato.q[t.id]).map(t => `${stato.q[t.id]} maiale/i da ${t.kg} kg`).join(", ");
+  const msg = capi === 0
+    ? "Ciao, vorrei informazioni sui maiali."
+    : `Ciao, vorrei ordinare: ${righe}. Consegna a circa ${km} km da Assisi. Totale indicativo ${eur(Math.round(tot))}.`;
+  const wa = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
+  $("#waBtn").href = wa;
+  $("#footWa").href = wa;
+  $("#telBtn").href = "tel:" + CONFIG.telefono.replace(/\s/g,"");
+  $("#footTel").href = "tel:" + CONFIG.telefono.replace(/\s/g,"");
+  $("#footTel").textContent = CONFIG.telefono;
+  $("#footMail").href = "mailto:" + CONFIG.email;
+  $("#footMail").textContent = CONFIG.email;
+}
+
+render();
+</script>
+</body>
+</html>
