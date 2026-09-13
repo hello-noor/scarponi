@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Scarponi · Suini vivi da Assisi · Calcolatore e listino</title>
-<meta name="description" content="Suini vivi da 70, 100 e 120 kg, da Assisi. Sconti automatici per quantità e prenotazione anticipata, trasporto gratuito. Calcola il tuo ordine.">
+<meta name="description" content="Suini vivi da 70, 100 e 130 kg, da Assisi. Sconti automatici per quantità e prenotazione anticipata, trasporto gratuito. Calcola il tuo ordine.">
 <meta name="theme-color" content="#F5F0EA">
 <meta property="og:title" content="Scarponi · Suini vivi da Assisi">
-<meta property="og:description" content="Suini vivi da 70, 100 e 120 kg. Sconti automatici, trasporto gratuito da Assisi.">
+<meta property="og:description" content="Suini vivi da 70, 100 e 130 kg. Sconti automatici, trasporto gratuito da Assisi.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,7 +46,7 @@ body{
 .wrap{max-width:1180px;margin:0 auto;padding:0 18px}
 section{padding:clamp(34px,6vw,74px) 0}
 h1,h2,h3,h4{letter-spacing:-.03em;line-height:1.08;font-weight:600}
-h1{font-size:clamp(1.9rem,4.6vw,3.1rem)}
+h1{font-size:clamp(2.3rem,5.6vw,3.8rem)}
 h2{font-size:clamp(1.45rem,3vw,2.1rem)}
 p{max-width:62ch;color:var(--ink-soft)}
 .lede{font-size:clamp(.96rem,1.4vw,1.08rem);color:var(--ink-soft)}
@@ -107,7 +107,7 @@ nav{
 .pig-gauge-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;max-width:200px;margin-inline:auto}
 .pig-gauge{width:100%;max-width:170px}
 .pig-gauge svg{width:100%;height:auto;display:block}
-.pig-gauge .pg-base{fill:var(--paper-2);stroke:var(--line);stroke-width:2.4;stroke-linejoin:round}
+.pig-gauge .pg-base{fill:var(--accent-wash);stroke:var(--accent);stroke-width:2.4;stroke-linejoin:round}
 .pig-gauge .pg-fill{fill:var(--accent)}
 .pig-gauge.maxed .pg-fill{fill:var(--ok)}
 .pig-gauge .pg-dot{fill:var(--ink)}
@@ -137,30 +137,34 @@ nav{
 .step-head h3{font-size:1rem;font-weight:600;letter-spacing:-.01em}
 .step-sub{margin-left:auto;font-size:.72rem;color:var(--muted);font-weight:600;white-space:nowrap}
 
-.presets{display:flex;flex-wrap:wrap;gap:8px}
-.preset{position:relative;cursor:pointer;border:0;font-family:inherit;background:var(--paper);border-radius:13px;padding:10px 13px;
-  box-shadow:inset 0 0 0 1px var(--line);text-align:left;transition:box-shadow .25s,transform .25s var(--ease)}
-.preset:hover{box-shadow:inset 0 0 0 1px var(--ink-soft);transform:translateY(-1px)}
+.presets{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+@media(min-width:520px){.presets{grid-template-columns:repeat(3,1fr)}}
+.preset{position:relative;cursor:pointer;border:0;font-family:inherit;background:var(--paper);border-radius:14px;
+  padding:13px 14px;border-left:3px solid var(--accent);text-align:left;
+  box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow .25s,transform .25s var(--ease),background .25s}
+.preset:hover{box-shadow:inset 0 0 0 1px var(--ink-soft);transform:translateY(-2px)}
 .preset:active{transform:scale(.97)}
-.preset.active{background:var(--ink);box-shadow:none}
-.preset-title{font-size:.82rem;font-weight:600;display:block;color:var(--ink);padding-right:20px}
-.preset.active .preset-title{color:var(--paper)}
-.preset-sub{font-size:.68rem;color:var(--muted);display:block;margin-top:1px}
-.preset.active .preset-sub{color:rgba(36,30,26,.6)}
-.preset .p-num{position:absolute;top:9px;right:11px;font-size:.6rem;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
-.preset.active .p-num{color:rgba(36,30,26,.5)}
+.preset.active{background:var(--accent);border-left-color:var(--accent-deep);box-shadow:none}
+.preset-title{font-size:.92rem;font-weight:700;display:block;color:var(--ink);padding-right:20px;letter-spacing:-.01em}
+.preset.active .preset-title{color:#fff}
+.preset-sub{font-size:.72rem;color:var(--muted);display:block;margin-top:3px}
+.preset.active .preset-sub{color:rgba(255,255,255,.82)}
+.preset .p-num{position:absolute;top:10px;right:12px;font-size:.62rem;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.preset.active .p-num{color:rgba(255,255,255,.6)}
 .preset .p-badge{position:absolute;top:-9px;left:11px;font-size:.6rem;font-weight:700;background:var(--accent);color:#fff;padding:3px 8px;border-radius:100px;white-space:nowrap}
+.preset.active .p-badge{background:var(--accent-deep)}
 
 .items{display:flex;flex-direction:column}
 .item{display:grid;grid-template-columns:42px 1fr auto;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--paper-2)}
 .item:last-child{border-bottom:0;padding-bottom:0}
 .item:first-child{padding-top:0}
-.item-badge{width:42px;height:42px;border-radius:50%;background:var(--paper-2);display:flex;flex-direction:column;
+.item-badge{width:46px;height:46px;border-radius:50%;background:var(--paper-2);display:flex;flex-direction:column;
   align-items:center;justify-content:center;line-height:1;font-weight:700;color:var(--ink-soft);
   border:1px solid var(--line);transition:all .25s var(--ease);flex:none}
-.item-badge b{font-size:.8rem;font-weight:700}
-.item-badge span{font-size:.5rem;font-weight:600;letter-spacing:.02em;margin-top:1px}
+.item-badge b{font-size:1.02rem;font-weight:800;letter-spacing:-.02em}
+.item-badge span{font-size:.48rem;font-weight:600;letter-spacing:.02em;margin-top:2px;color:var(--muted)}
 .item.active .item-badge{background:var(--accent-wash);color:var(--accent-deep);border-color:rgba(192,96,90,.3)}
+.item.active .item-badge span{color:var(--accent-deep);opacity:.75}
 .item-info b{display:block;font-size:.9rem;font-weight:600;line-height:1.25}
 .item-info .desc{display:block;font-size:.74rem;color:var(--muted);line-height:1.3;margin-top:2px}
 .item-info .item-price{font-size:.76rem;font-weight:600;color:var(--ink-soft);margin-top:4px}
@@ -230,19 +234,19 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border:0;border-radiu
 .promo-status.ok{background:var(--ok-wash);color:var(--ok)}
 .promo-status.bad{background:var(--accent-wash);color:var(--accent-deep)}
 
-.pay-list{display:flex;flex-direction:column;gap:8px}
-.pay-opt{position:relative;display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer;
-  border:0;width:100%;font-family:inherit;text-align:left;background:var(--paper);border-radius:13px;padding:12px 14px;
+.pay-list{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.pay-opt{position:relative;display:flex;flex-direction:column;gap:1px;cursor:pointer;
+  border:0;font-family:inherit;text-align:left;background:var(--paper);border-radius:12px;padding:9px 11px;
   box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow .25s,transform .25s var(--ease),background .25s}
 .pay-opt:hover{box-shadow:inset 0 0 0 1px var(--ink-soft);transform:translateY(-1px)}
 .pay-opt:active{transform:scale(.98)}
 .pay-opt.active{background:var(--ink);box-shadow:none}
-.pay-name{display:block;font-size:.86rem;font-weight:600;color:var(--ink)}
+.pay-name{display:block;font-size:.78rem;font-weight:600;color:var(--ink);line-height:1.25}
 .pay-opt.active .pay-name{color:var(--paper)}
-.pay-desc{display:block;font-size:.71rem;color:var(--muted);margin-top:1px}
+.pay-desc{display:block;font-size:.65rem;color:var(--muted)}
 .pay-opt.active .pay-desc{color:rgba(36,30,26,.6)}
-.pay-tag{position:absolute;top:-9px;right:12px;font-size:.6rem;font-weight:700;background:var(--ok);color:#fff;
-  padding:3px 9px;border-radius:100px;white-space:nowrap}
+.pay-tag{position:absolute;top:-7px;right:8px;font-size:.55rem;font-weight:700;background:var(--ok);color:#fff;
+  padding:2px 7px;border-radius:100px;white-space:nowrap}
 
 /* ---------- TICKET (colonna destra) ---------- */
 aside#ticket{position:static}
@@ -297,6 +301,7 @@ aside#ticket{position:static}
 .save-banner b{font-size:1.02rem;font-weight:700}
 
 .total-row{margin-top:12px}
+.total-hint{font-size:.78rem;color:var(--accent);font-weight:600;line-height:1.4;margin:2px 0 10px;padding-top:10px;border-top:1px dashed var(--line)}
 .total-row .lbl{font-size:.8rem;color:var(--muted);font-weight:600}
 .total-row .num-row{display:flex;align-items:baseline;justify-content:flex-end;gap:8px;margin-top:2px}
 .tot-strike{text-decoration:line-through;color:var(--muted);font-size:.98rem;font-weight:500}
@@ -313,7 +318,6 @@ aside#ticket{position:static}
 
 /* ---------- FAQ ---------- */
 .faq-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:20px}
-@media(min-width:760px){.faq-grid{grid-template-columns:1fr 1fr}}
 .faq-card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:16px 18px}
 .faq-card summary{cursor:pointer;list-style:none;font-weight:600;font-size:.9rem;display:flex;
   justify-content:space-between;gap:14px;align-items:center}
@@ -380,7 +384,7 @@ footer{border-top:1px solid var(--line);padding:26px 0}
     <div class="hero-grid">
       <div>
         <div class="eyebrow">Commercio suini vivi · Assisi</div>
-        <h1>Scarponi porta i suini <em>buoni</em>.</h1>
+        <h1><em>Scarponi</em> ti porta i<br><em>maiali buoni</em>.</h1>
         <p class="lede">Capi selezionati e trasportati al fresco del mattino, con il peso verificato alla bilancia: la stessa serietà di sempre. Compila il tuo preventivo qui sotto e inviacelo: ti richiamiamo per confermare tutto.</p>
         <div class="pill-row">
           <span class="pill-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>Trasporto gratuito da 1 capo</span>
@@ -411,7 +415,6 @@ footer{border-top:1px solid var(--line);padding:26px 0}
             <circle class="pg-dot" cx="103" cy="66" r="1.3"/>
           </svg>
         </div>
-        <p class="pig-gauge-caption">Più capi ordini e più anticipo prenoti, più si riempie.</p>
       </div>
     </div>
   </header>
@@ -504,6 +507,7 @@ footer{border-top:1px solid var(--line);padding:26px 0}
 
           <div class="save-banner" id="saveBanner"><span>Risparmio totale</span><b class="num" id="saveAmount">€ 0</b></div>
 
+          <p class="total-hint" id="totalHint"></p>
           <div class="total-row">
             <div class="lbl">Totale stimato · <span id="payLabel">bonifico, fine mese</span></div>
             <div class="num-row">
@@ -527,12 +531,12 @@ footer{border-top:1px solid var(--line);padding:26px 0}
   </section>
 
   <!-- ======================= FAQ ======================= -->
-  <section id="faq" style="padding-top:0">
+  <section id="faq" style="padding-top:48px">
     <div class="eyebrow">Come funziona</div>
     <div class="faq-grid">
       <details class="faq-card" open>
         <summary>Pesi e macellazione: quali scegliere?<i></i></summary>
-        <p>I capi da 120 kg e 100 kg sono già prossimi alla macellazione: ideali per lavorazione immediata e salumi. I capi da 70 kg sono da accrescimento, adatti a chi vuole allevarli e farli crescere ancora nella propria stalla.</p>
+        <p>I capi da 130 kg e 100 kg sono già prossimi alla macellazione: ideali per lavorazione immediata e salumi. I capi da 70 kg sono da accrescimento, adatti a chi vuole allevarli e farli crescere ancora nella propria stalla.</p>
       </details>
       <details class="faq-card">
         <summary>Quando è gratis il trasporto?<i></i></summary>
@@ -548,7 +552,7 @@ footer{border-top:1px solid var(--line);padding:26px 0}
       </details>
       <details class="faq-card">
         <summary>Il prezzo è al chilo o a capo?<i></i></summary>
-        <p>Al chilo. Un suino da 120 kg a 3,30 €/kg fa 396 € a capo. Il peso indicato è quello medio della categoria: alla consegna si pesa alla bilancia e il conto si chiude sul peso reale.</p>
+        <p>Al chilo. Un suino da 130 kg a 3,30 €/kg fa 429 € a capo. Il peso indicato è quello medio della categoria: alla consegna si pesa alla bilancia e il conto si chiude sul peso reale.</p>
       </details>
       <details class="faq-card">
         <summary>Come si paga?<i></i></summary>
@@ -592,9 +596,9 @@ const CONFIG = {
   whatsapp: "393471917366",
   assisi: { lat: 43.0275, lon: 12.6393 }, // sede Scarponi: via Romana 28, Capodacqua di Assisi (PG)
   tagli: [
-    { id:"g120", nome:"Suino da 120 kg", kg:120, prezzo:3.30, desc:"Già pronto per la macellazione: ideale per lavorazione immediata e salumi." },
-    { id:"g100", nome:"Suino da 100 kg", kg:100, prezzo:3.50, desc:"Misura intermedia, pronto a breve o per un ultimo accrescimento." },
-    { id:"g70",  nome:"Suino da 70 kg",  kg:70,  prezzo:4.00, desc:"Da accrescimento: per chi vuole allevarlo e farlo crescere in stalla." }
+    { id:"g130", nome:"Suino da 130 kg", kg:130, prezzo:3.30, taglia:"XL", desc:"Già pronto per la macellazione: ideale per lavorazione immediata e salumi." },
+    { id:"g100", nome:"Suino da 100 kg", kg:100, prezzo:3.50, taglia:"L",  desc:"Misura intermedia, pronto a breve o per un ultimo accrescimento." },
+    { id:"g70",  nome:"Suino da 70 kg",  kg:70,  prezzo:4.00, taglia:"M",  desc:"Da accrescimento: per chi vuole allevarlo e farlo crescere in stalla." }
   ],
   soglie: [
     { km:100, capi:1 },
@@ -608,12 +612,12 @@ const CONFIG = {
     {n:"Pescara",km:220},{n:"Bologna",km:250}
   ],
   presets: [
-    { id:"prova",       nome:"Prima prova",         sub:"1 suino da 70 kg",          q:{g70:1, g100:0,  g120:0}, badge:"Per iniziare" },
-    { id:"famiglia",    nome:"Scorta famiglia",     sub:"1 suino da 120 kg",         q:{g70:0, g100:0,  g120:1}, badge:"Il più scelto" },
-    { id:"allargata",   nome:"Famiglia allargata",  sub:"3 suini da 100 kg",         q:{g70:0, g100:3,  g120:0}, badge:"Sconto attivo" },
-    { id:"cella",       nome:"Cella piena",         sub:"5 suini da 100 kg",         q:{g70:0, g100:5,  g120:0}, badge:"Risparmio alto" },
-    { id:"allevamento", nome:"Piccolo allevamento", sub:"10 suini da 100 kg",        q:{g70:0, g100:10, g120:0}, badge:"Grande sconto" },
-    { id:"chemacello",  nome:"Che Macello!",        sub:"15 suini da 100 kg",        q:{g70:0, g100:15, g120:0}, badge:"Fornitura grande" }
+    { id:"prova",       nome:"Prima prova",         sub:"1 suino da 70 kg",          q:{g70:1, g100:0,  g130:0}, badge:"Per iniziare" },
+    { id:"famiglia",    nome:"Scorta famiglia",     sub:"1 suino da 130 kg",         q:{g70:0, g100:0,  g130:1}, badge:"Il più scelto" },
+    { id:"allargata",   nome:"Famiglia allargata",  sub:"3 suini da 100 kg",         q:{g70:0, g100:3,  g130:0}, badge:"Sconto attivo" },
+    { id:"cella",       nome:"Cella piena",         sub:"5 suini da 100 kg",         q:{g70:0, g100:5,  g130:0}, badge:"Risparmio alto" },
+    { id:"allevamento", nome:"Piccolo allevamento", sub:"10 suini da 100 kg",        q:{g70:0, g100:10, g130:0}, badge:"Grande sconto" },
+    { id:"chemacello",  nome:"Che Macello!",        sub:"15 suini da 130 kg",        q:{g70:0, g100:0,  g130:15}, badge:"Fornitura grande" }
   ],
   scontoAnticipo: [
     { giorni:15, sconto:0.10 },
@@ -644,7 +648,7 @@ const CONFIG = {
     { id:"contanti",  nome:"Contanti alla consegna",  desc:"Pagamento diretto al ritiro",  pct:-0.025 },
     { id:"bonifico",  nome:"Bonifico, fine mese",      desc:"Fattura a fine mese",          pct:0 },
     { id:"gg30",      nome:"Pagamento a 30 giorni",    desc:"Dilazionato",                  pct:0.02 },
-    { id:"klarna",    nome:"Klarna, a rate",           desc:"3 rate senza interessi",       pct:0.04 },
+    { id:"klarna",    nome:"Klarna, a rate",           desc:"3 rate senza interessi",       pct:0 },
     { id:"gg60",      nome:"Pagamento a 60 giorni",    desc:"Dilazionato",                  pct:0.05 },
     { id:"gg90",      nome:"Pagamento a 90 giorni",    desc:"Dilazionato",                  pct:0.075 }
   ]
@@ -669,7 +673,7 @@ CONFIG.tagli.forEach(t => {
   el.className = "item";
   el.dataset.id = t.id;
   el.innerHTML = `
-    <div class="item-badge"><b>${t.kg}</b><span>kg</span></div>
+    <div class="item-badge"><b>${t.taglia}</b><span>${t.kg} kg</span></div>
     <div class="item-info">
       <b>${t.nome}</b>
       <span class="desc">${t.desc}</span>
@@ -860,6 +864,13 @@ function render(){
   const totSconti = euroVolume + euroAnticipo + euroPromo;
   const finalTot = Math.max(0, baseTot - totSconti);
   const scKg = scVol + scAntic;
+  const nome = $("#nomeCliente").value.trim();
+
+  /* modalità di pagamento: calcolata subito per poterla contare nel risparmio totale */
+  const payDef = CONFIG.pagamenti.find(p => p.id === stato.pagamento) || CONFIG.pagamenti[1];
+  const totaleConPagamento = Math.max(0, finalTot * (1 + payDef.pct));
+  const euroPagamento = Math.max(0, finalTot - totaleConPagamento); // solo se il pagamento fa risparmiare
+  const risparmioTotale = totSconti + euroPagamento;
 
   /* capi: badge, prezzo per riga */
   CONFIG.tagli.forEach(t => {
@@ -910,7 +921,7 @@ function render(){
   const antPill = $("#anticipoPill");
   if (scAntic > 0){
     antPill.classList.add("on");
-    $("#anticipoText").textContent = `Sconto anticipo attivo: −${Math.round(scAntic*100)} cent/kg`;
+    $("#anticipoText").textContent = capi > 0 ? `Hai risparmiato ${eur(euroAnticipo)} grazie alla data scelta` : "Sconto anticipo attivo su questa data";
   } else {
     antPill.classList.remove("on");
     $("#anticipoText").textContent = dataVal ? "Anticipo insufficiente per lo sconto" : "Scegli la data di consegna";
@@ -924,7 +935,7 @@ function render(){
 
   /* upsell / suggerimenti */
   const upsell = $("#upsell");
-  const achieved = totSconti > 0;
+  const achieved = risparmioTotale > 0;
   upsell.className = "upsell" + (achieved ? " achieved" : "");
   $("#upsellIco").innerHTML = achieved ? icoOk : icoAsk;
   const prossimoVol = prossimoScontoVolume(capi, soglia);
@@ -937,7 +948,7 @@ function render(){
     upTitle = "Trasporto gratuito vicino";
     upSub = `Aggiungi ${gap} cap${gap>1?"i":"o"} per azzerare i costi di trasporto.`;
   } else if (totSconti > 0){
-    upTitle = `Risparmio attivo: ${eur(totSconti)}`;
+    upTitle = `Risparmio attivo: ${eur(risparmioTotale)}`;
     upSub = "Continua a comporre l'ordine qui sotto: lo sconto può ancora crescere.";
   } else {
     upTitle = "Trasporto gratuito incluso";
@@ -956,14 +967,18 @@ function render(){
   $("#pigFillRect").setAttribute("y", 120 - pigH);
   $("#pigFillRect").setAttribute("height", pigH);
 
-  /* un solo suggerimento alla volta, senza rivelare soglie o importi esatti */
+  /* un solo suggerimento alla volta */
   let nudge = null;
   if (capi > 0 && capi >= soglia.capi){
     if (prossimoVol){
       nudge = { text:"Con qualche capo in più il totale potrebbe scontarsi ulteriormente.", label:"Aggiungi un capo", action: aggiungiUnCapo };
     } else {
       const pa = prossimaSogliaAnticipo(giorni);
-      if (pa) nudge = { text:"Prenotando con più anticipo potresti risparmiare di più sul totale.", label:"Prenota con più anticipo", action: () => spostaData(pa.giorni) };
+      if (pa){
+        const giorniInPiu = pa.giorni - giorni;
+        const risparmioInPiu = kgTot * (pa.sconto - scAntic);
+        nudge = { text:`Sposta la consegna di ${giorniInPiu} giorn${giorniInPiu===1?"o":"i"} più avanti per risparmiare ${eur(risparmioInPiu)} in più.`, label:"Sposta la consegna", action: () => spostaData(pa.giorni) };
+      }
       else if (!stato.promo) nudge = { text:"Hai un codice riservato? Applicalo qui sotto per uno sconto extra.", label:null };
     }
   }
@@ -1008,28 +1023,22 @@ function render(){
   if (euroVolume > 0) discBox.innerHTML += `<div class="disc-row"><span>Sconto quantità</span><b>− ${eur(euroVolume)}</b></div>`;
   if (euroAnticipo > 0) discBox.innerHTML += `<div class="disc-row"><span>Sconto prenotazione anticipata</span><b>− ${eur(euroAnticipo)}</b></div>`;
   if (euroPromo > 0) discBox.innerHTML += `<div class="disc-row"><span>Sconto codice riservato</span><b>− ${eur(euroPromo)}</b></div>`;
+  if (euroPagamento > 0) discBox.innerHTML += `<div class="disc-row"><span>Sconto pagamento anticipato</span><b>− ${eur(euroPagamento)}</b></div>`;
 
   $("#statCapi").textContent = capi;
   $("#statKg").textContent = kgFmt(kgTot);
-  $("#discTag").textContent = (capi>0 && totSconti>0) ? `−${Math.round(totSconti/baseTot*100)}%` : "";
+  $("#discTag").textContent = (capi>0 && risparmioTotale>0) ? `−${Math.round(risparmioTotale/baseTot*100)}% · −${eur(risparmioTotale)}` : "";
 
   const saveBanner = $("#saveBanner");
-  if (totSconti > 0 && capi > 0){ saveBanner.classList.add("show"); $("#saveAmount").textContent = eur(totSconti); }
+  if (risparmioTotale > 0 && capi > 0){ saveBanner.classList.add("show"); $("#saveAmount").textContent = eur(risparmioTotale); }
   else saveBanner.classList.remove("show");
 
-  /* modalità di pagamento: aggiorna l'importo effettivo di ciascuna opzione, mai la percentuale */
-  const payDef = CONFIG.pagamenti.find(p => p.id === stato.pagamento) || CONFIG.pagamenti[1];
-  const totaleConPagamento = Math.max(0, finalTot * (1 + payDef.pct));
-  let payMigliore = null;
-  CONFIG.pagamenti.forEach(p => {
-    const importo = Math.max(0, finalTot * (1 + p.pct));
-    if (!payMigliore || importo < payMigliore.importo) payMigliore = { id:p.id, importo };
-  });
+  /* modalità di pagamento: aggiorna lo stato di selezione. "Contanti alla consegna" è sempre il più conveniente. */
   CONFIG.pagamenti.forEach(p => {
     const opt = payBox.querySelector(`[data-id="${p.id}"]`);
     opt.classList.toggle("active", p.id === stato.pagamento);
     let tag = opt.querySelector(".pay-tag");
-    const isBest = capi > 0 && p.id === payMigliore.id;
+    const isBest = p.id === "contanti";
     if (isBest && !tag){
       tag = document.createElement("span"); tag.className = "pay-tag"; tag.textContent = "Più conveniente";
       opt.appendChild(tag);
@@ -1044,13 +1053,21 @@ function render(){
   animateTo($("#finalPrice"), Math.round(totaleConPagamento), eur);
   $("#avgNote").textContent = capi > 0 ? `Prezzo effettivo: ${(totaleConPagamento/kgTot).toLocaleString("it-IT",{minimumFractionDigits:2,maximumFractionDigits:2})} €/kg` : "Seleziona i capi per iniziare";
 
+  /* riga guida sopra il totale: sconti extra da ottenere, o come completare il preventivo */
+  let guida;
+  if (capi === 0) guida = "Aggiungi almeno un capo qui sopra per generare il preventivo.";
+  else if (nudge) guida = nudge.text;
+  else if (!dataVal) guida = "Aggiungi una data di consegna per completare il preventivo.";
+  else if (!nome) guida = "Inserisci il tuo nome qui sotto per un preventivo pronto da inviare.";
+  else guida = "Il tuo preventivo è pronto: invialo con il pulsante qui sotto.";
+  $("#totalHint").textContent = guida;
+
   animateTo($("#dockTotal"), Math.round(totaleConPagamento), eur);
-  $("#dockDisc").textContent = (capi>0 && totSconti>0) ? `−${Math.round(totSconti/baseTot*100)}%` : "";
+  $("#dockDisc").textContent = (capi>0 && risparmioTotale>0) ? `−${Math.round(risparmioTotale/baseTot*100)}%` : "";
   $("#dockLine").textContent = `${capi} cap${capi===1?"o":"i"} · ${statoSped==='free' && capi>0 ? "trasporto gratis" : "il tuo ordine"}`;
   $("#dock").classList.toggle("up", capi > 0);
 
   /* link precompilati */
-  const nome = $("#nomeCliente").value.trim();
   const capiDesc = CONFIG.tagli.filter(t => stato.q[t.id]).map(t => `${stato.q[t.id]} da ${t.kg} kg`).join(", ");
   const destDesc = stato.comune ? `${stato.comune} (circa ${km} km dalla sede Scarponi)` : `circa ${km} km dalla sede Scarponi`;
   const dataStr = dataVal ? new Date(dataVal + "T00:00:00").toLocaleDateString("it-IT",{day:"numeric",month:"long",year:"numeric"}) : null;
@@ -1059,10 +1076,14 @@ function render(){
   msg += ".";
   if (capi === 0) msg += " Vorrei informazioni sui suini vivi.";
   else {
-    msg += ` Vorrei ordinare: ${capiDesc}. Consegna a ${destDesc}${dataStr ? `, indicativamente il ${dataStr}` : ""}. Pagamento: ${payDef.nome.toLowerCase()}. Totale stimato ${eur(totaleConPagamento)}`;
-    if (totSconti > 0) msg += ` (sconti già inclusi per ${eur(totSconti)})`;
-    if (promoPct > 0) msg += `, codice ${stato.promo} applicato`;
-    msg += ".";
+    msg += ` Vorrei ordinare: ${capiDesc}. Consegna a ${destDesc}${dataStr ? `, indicativamente il ${dataStr}` : ""}. Pagamento: ${payDef.nome.toLowerCase()}.`;
+    const dettagliSconti = [];
+    if (euroVolume > 0) dettagliSconti.push(`quantità ${eur(euroVolume)}`);
+    if (euroAnticipo > 0) dettagliSconti.push(`anticipo ${eur(euroAnticipo)}`);
+    if (euroPromo > 0) dettagliSconti.push(`codice ${stato.promo} ${eur(euroPromo)}`);
+    if (euroPagamento > 0) dettagliSconti.push(`pagamento ${eur(euroPagamento)}`);
+    if (dettagliSconti.length) msg += ` Sconti applicati: ${dettagliSconti.join(", ")}.`;
+    msg += ` Prezzo medio ${(totaleConPagamento/kgTot).toLocaleString("it-IT",{minimumFractionDigits:2,maximumFractionDigits:2})} €/kg. Totale stimato ${eur(totaleConPagamento)}.`;
   }
   const wa = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
   $("#waBtn").href = wa;
