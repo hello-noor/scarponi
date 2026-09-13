@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Scarponi · Conto alla consegna (uso interno)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#17130F; --ink-soft:#3A322B; --muted:#7C6E63;
+  --paper:#F5F0EA; --paper-2:#EDE5DC; --line:#DCD1C5;
+  --accent:#BC5279; --accent-deep:#82304F; --accent-wash:#F5DDE6;
+  --ok:#4E7A55; --ok-wash:#E2EBE0;
+  --radius:18px; --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:'Bricolage Grotesque',ui-sans-serif,system-ui,sans-serif;
+  font-size:16px;line-height:1.5;padding:0 0 40px}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+header{padding:34px 0 20px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.eyebrow{font-size:.72rem;text-transform:uppercase;letter-spacing:.16em;font-weight:700;color:var(--accent-deep)}
+h1{font-size:1.7rem;font-weight:700;letter-spacing:-.02em;margin-top:8px}
+header p{color:var(--ink-soft);max-width:60ch;margin-top:8px;font-size:.94rem}
+.warn{background:var(--accent-wash);color:var(--accent-deep);border-radius:14px;padding:14px 16px;
+  font-size:.86rem;margin-top:16px;line-height:1.5}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:20px}
+.card h2{font-size:1.05rem;font-weight:700;margin-bottom:4px}
+.card .hint{font-size:.82rem;color:var(--muted);margin-bottom:18px;line-height:1.5}
+
+.name-field{margin-bottom:6px}
+.name-field label{display:block;font-size:.82rem;font-weight:600;margin-bottom:6px}
+.name-field input{width:100%;font-family:inherit;font-size:.95rem;padding:11px 13px;border-radius:12px;
+  border:1px solid var(--line);background:var(--paper)}
+.name-field input:focus{outline:none;border-color:var(--accent)}
+
+.cat-row{display:grid;grid-template-columns:1fr 90px 110px;gap:10px;align-items:center;padding:10px 0;
+  border-bottom:1px solid var(--paper-2)}
+.cat-row:last-child{border-bottom:0}
+.cat-row label{font-size:.9rem;font-weight:600}
+.cat-row input{width:100%;font-family:inherit;font-size:.92rem;padding:9px 10px;border-radius:10px;
+  border:1px solid var(--line);background:var(--paper);text-align:center}
+.cat-row input:focus{outline:none;border-color:var(--accent)}
+.cat-row .price-wrap{position:relative}
+.cat-row .price-wrap span{position:absolute;right:9px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.72rem}
+
+.field-row{display:grid;grid-template-columns:1fr 140px;gap:12px;align-items:center;padding:10px 0;
+  border-bottom:1px solid var(--paper-2)}
+.field-row:last-child{border-bottom:0}
+.field-row label{font-size:.9rem;font-weight:600}
+.field-row .sub{display:block;font-size:.76rem;color:var(--muted);font-weight:400;margin-top:1px}
+.field-row input, .field-row select{width:100%;font-family:inherit;font-size:.95rem;padding:10px 12px;
+  border-radius:10px;border:1px solid var(--line);background:var(--paper);text-align:right}
+.field-row select{text-align:left}
+.field-row input:focus, .field-row select:focus{outline:none;border-color:var(--accent)}
+
+.pesatura-cat{margin-bottom:16px}
+.pesatura-cat h3{font-size:.86rem;font-weight:700;color:var(--accent-deep);margin-bottom:8px}
+.peso-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
+.peso-item{display:flex;align-items:center;gap:6px;background:var(--paper);border:1px solid var(--line);
+  border-radius:10px;padding:7px 10px}
+.peso-item span{font-size:.76rem;color:var(--muted);white-space:nowrap}
+.peso-item input{width:100%;font-family:inherit;font-size:.9rem;border:0;background:transparent;text-align:right}
+.peso-item input:focus{outline:none}
+.peso-empty{font-size:.86rem;color:var(--muted);font-style:italic}
+
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;font-family:inherit;font-size:.9rem;
+  font-weight:600;padding:12px 20px;border-radius:100px;transition:transform .25s var(--ease)}
+.btn:hover{transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.btn-accent{background:var(--accent);color:#fff}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+
+.riepilogo{background:var(--ink);color:var(--paper);border-radius:var(--radius);padding:22px}
+.riepilogo h2{font-size:1.05rem;font-weight:700;color:var(--paper);margin-bottom:14px}
+.rline{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px dashed rgba(245,240,234,.14);font-size:.9rem}
+.rline:last-of-type{border-bottom:0}
+.rline span:last-child{font-weight:700}
+.rtotal{margin-top:14px;padding-top:14px;border-top:1px solid rgba(245,240,234,.2)}
+.rtotal .lbl{font-size:.78rem;color:rgba(245,240,234,.6);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.rtotal .num-big{font-size:2rem;font-weight:700;letter-spacing:-.03em;margin-top:2px}
+.rdelta{font-size:.82rem;margin-top:10px;padding:10px 12px;border-radius:10px;background:rgba(245,240,234,.08)}
+.rdelta.up{color:#E9A0B7}
+.rdelta.down{color:#8FCB9B}
+
+.msgbox{margin-top:16px;background:rgba(245,240,234,.06);border-radius:12px;padding:14px 16px;
+  font-size:.86rem;color:rgba(245,240,234,.85);white-space:pre-wrap;line-height:1.6;display:none}
+.msgbox.show{display:block}
+
+footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Uso interno · non indicizzato</div>
+    <h1>Conto alla consegna</h1>
+    <p>Come ricordato nel sito, i prezzi mostrati al cliente sul peso medio; il conto preciso si fa alla bilancia. Da qui inserisci i dati dell'ordine concordato e il peso reale di ogni capo, e ottieni il totale esatto — rispettando lo sconto e il pagamento già concordati in fase di preventivo.</p>
+    <div class="warn">Pagina privata, senza password: non condividere il link. È solo uno strumento di calcolo — non invia né salva nulla, tutto resta sul tuo telefono/computer finché tieni aperta la pagina.</div>
+  </header>
+
+  <div class="card">
+    <h2>Incolla il messaggio ricevuto</h2>
+    <div class="hint">Copia il messaggio WhatsApp del cliente (quello con capi, sconto, pagamento e totale) e incollalo qui: i campi qui sotto si compilano da soli. Controlla sempre i numeri prima di procedere — la pesatura resta comunque da fare a mano.</div>
+    <textarea id="pasteBox" rows="6" placeholder="Incolla qui il messaggio ricevuto su WhatsApp…" style="width:100%;font-family:inherit;font-size:.88rem;padding:12px 13px;border-radius:12px;border:1px solid var(--line);background:var(--paper);resize:vertical"></textarea>
+    <div class="actions" style="margin-top:12px">
+      <button type="button" class="btn btn-accent" id="parseMsgBtn">Compila i campi dal messaggio</button>
+    </div>
+    <div class="status" id="parseStatus" style="margin-top:12px;padding:12px 15px;border-radius:12px;background:var(--ok-wash);color:var(--ok);font-size:.86rem;font-weight:600;display:none"></div>
+  </div>
+
+  <div class="card">
+    <h2>Cliente</h2>
+    <div class="name-field">
+      <label>Nome (facoltativo, solo per tuo riferimento)</label>
+      <input type="text" id="nomeCliente" placeholder="Es. Mario Rossi">
+    </div>
+    <div class="name-field" style="margin-top:12px">
+      <label>Telefono (facoltativo — per inviare la ricevuta direttamente su WhatsApp)</label>
+      <input type="tel" id="telCliente" placeholder="Es. 347 123 4567">
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>1 · Capi ordinati e prezzo concordato</h2>
+    <div class="hint">Quanti capi di ogni taglia erano nel preventivo, e a che prezzo al kg (di norma quello del listino di quella settimana).</div>
+    <div class="cat-row">
+      <label>Suino da 130 kg · XL</label>
+      <input type="number" id="n130" min="0" step="1" value="0" placeholder="capi">
+      <div class="price-wrap"><input type="number" id="pr130" min="0" step="0.01" value="3.30"><span>€/kg</span></div>
+    </div>
+    <div class="cat-row">
+      <label>Suino da 100 kg · L</label>
+      <input type="number" id="n100" min="0" step="1" value="0" placeholder="capi">
+      <div class="price-wrap"><input type="number" id="pr100" min="0" step="0.01" value="3.50"><span>€/kg</span></div>
+    </div>
+    <div class="cat-row">
+      <label>Suino da 70 kg · M</label>
+      <input type="number" id="n70" min="0" step="1" value="0" placeholder="capi">
+      <div class="price-wrap"><input type="number" id="pr70" min="0" step="0.01" value="4.00"><span>€/kg</span></div>
+    </div>
+    <div class="actions" style="margin-top:14px">
+      <button type="button" class="btn btn-ghost" id="generaCampi">Aggiorna i campi di pesatura ↓</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2 · Sconto e pagamento concordati</h2>
+    <div class="hint">Lo sconto totale (in %) è quello che il calcolatore del sito mostrava al cliente nel preventivo. Il pagamento è quello scelto: se "contanti alla consegna", si applica lo sconto pagamento previsto.</div>
+    <div class="field-row">
+      <label>Sconto concordato<span class="sub">quantità + anticipo + codice, come da preventivo</span></label>
+      <input type="number" id="scontoPct" min="0" max="90" step="0.5" value="0">
+    </div>
+    <div class="field-row">
+      <label>Metodo di pagamento</label>
+      <select id="pagamento">
+        <option value="0" selected>Bonifico, fine mese (prezzo pieno)</option>
+        <option value="-2.5">Contanti alla consegna (−2,5%)</option>
+        <option value="0">Klarna, a rate (prezzo pieno)</option>
+        <option value="2">Pagamento a 30 giorni (+2%)</option>
+        <option value="5">Pagamento a 60 giorni (+5%)</option>
+        <option value="7.5">Pagamento a 90 giorni (+7,5%)</option>
+      </select>
+    </div>
+    <div class="field-row">
+      <label>Totale del preventivo<span class="sub">facoltativo — solo per vedere la differenza col conto reale</span></label>
+      <input type="number" id="totalePreventivo" min="0" step="1" placeholder="€">
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>3 · Pesatura alla consegna</h2>
+    <div class="hint">I campi qui sotto compaiono da soli appena inserisci il numero di capi nella sezione 1. Inserisci il peso reale di ciascun capo, verificato alla bilancia.</div>
+    <div id="pesatura"><div class="peso-empty">Nessun capo inserito ancora.</div></div>
+  </div>
+
+  <div class="riepilogo">
+    <h2>Riepilogo finale</h2>
+    <div class="rline"><span>Peso totale reale</span><span id="rPeso">0 kg</span></div>
+    <div class="rline"><span>Subtotale (peso reale × prezzo)</span><span id="rSub">€ 0</span></div>
+    <div class="rline"><span id="rScontoLbl">Sconto concordato (0%)</span><span id="rSconto">− € 0</span></div>
+    <div class="rline"><span id="rPagLbl">Pagamento</span><span id="rPag">€ 0</span></div>
+    <div class="rtotal">
+      <div class="lbl">Totale da incassare</div>
+      <div class="num-big" id="rTotale">€ 0</div>
+    </div>
+    <div class="rdelta" id="rDelta" style="display:none"></div>
+    <div class="actions" style="margin-top:16px">
+      <button type="button" class="btn btn-ghost" id="generaMsg" style="box-shadow:inset 0 0 0 1px rgba(245,240,234,.3);color:var(--paper)">Genera ricevuta</button>
+      <a class="btn btn-accent" id="waSendBtn" href="#" target="_blank" rel="noopener" style="display:none">Invia su WhatsApp</a>
+    </div>
+    <div class="msgbox" id="msgBox"></div>
+  </div>
+
+  <footer>Pannello interno Scarponi — non è collegato al menu del sito pubblico.</footer>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const eur = n => "€ " + Math.round(n).toLocaleString("it-IT");
+const CATS = [
+  { id:"130", nome:"Suino da 130 kg", taglia:"XL" },
+  { id:"100", nome:"Suino da 100 kg", taglia:"L" },
+  { id:"70",  nome:"Suino da 70 kg",  taglia:"M" }
+];
+
+/* prezzi di partenza: prova a leggerli da config.json, se presente accanto a questa pagina */
+fetch("./config.json", { cache:"no-store" })
+  .then(r => r.ok ? r.json() : null)
+  .then(data => {
+    if (!data || !Array.isArray(data.tagli)) return;
+    data.tagli.forEach(t => {
+      if (t.id === "g130") $("#pr130").value = t.prezzo;
+      if (t.id === "g100") $("#pr100").value = t.prezzo;
+      if (t.id === "g70")  $("#pr70").value  = t.prezzo;
+    });
+  })
+  .catch(() => {});
+
+/* ---------- incolla e compila dal messaggio WhatsApp ---------- */
+function parseEuro(str){
+  if (!str) return null;
+  const pulito = str.replace(/[€\s]/g, "").replace(/\./g, "").replace(",", ".");
+  const n = parseFloat(pulito);
+  return isNaN(n) ? null : n;
+}
+
+$("#parseMsgBtn").addEventListener("click", () => {
+  const testo = $("#pasteBox").value;
+  const status = $("#parseStatus");
+  if (!testo.trim()){
+    status.textContent = "Incolla prima il messaggio nel riquadro qui sopra.";
+    status.style.background = "var(--accent-wash)"; status.style.color = "var(--accent-deep)";
+    status.classList.add("show");
+    return;
+  }
+
+  const trovati = [];
+
+  const nomeMatch = testo.match(/sono\s+([^.,\n]+)/i);
+  if (nomeMatch){ $("#nomeCliente").value = nomeMatch[1].trim(); trovati.push("nome"); }
+
+  const capiMatch = testo.match(/🐷\s*Capi:\s*(.+)/i);
+  CATS.forEach(c => $("#n" + c.id).value = 0);
+  if (capiMatch){
+    let trovatiCapi = false;
+    capiMatch[1].split(",").forEach(parte => {
+      const m = parte.match(/(\d+)\s*da\s*(\d+)\s*kg/i);
+      if (m){
+        const el = $("#n" + m[2]);
+        if (el){ el.value = (parseInt(el.value) || 0) + parseInt(m[1]); trovatiCapi = true; }
+      }
+    });
+    if (trovatiCapi) trovati.push("capi");
+  }
+
+  const pagSel = $("#pagamento");
+  const pagMatch = testo.match(/💳\s*Pagamento:\s*(.+)/i);
+  if (pagMatch){
+    const label = pagMatch[1].trim().toLowerCase();
+    let indiceTrovato = -1;
+    Array.from(pagSel.options).forEach((opt, idx) => {
+      const t = opt.text.toLowerCase();
+      if (label.includes("contanti") && t.includes("contanti")) indiceTrovato = idx;
+      else if (label.includes("klarna") && t.includes("klarna")) indiceTrovato = idx;
+      else if (label.includes("bonifico") && t.includes("bonifico")) indiceTrovato = idx;
+      else if (label.includes("30") && t.includes("30")) indiceTrovato = idx;
+      else if (label.includes("60") && t.includes("60")) indiceTrovato = idx;
+      else if (label.includes("90") && t.includes("90")) indiceTrovato = idx;
+    });
+    if (indiceTrovato >= 0){ pagSel.selectedIndex = indiceTrovato; trovati.push("pagamento"); }
+  }
+
+  const totaleMatch = testo.match(/💶\s*Totale:\s*([€\d.,\s]+)/i);
+  const totale = totaleMatch ? parseEuro(totaleMatch[1]) : null;
+  if (totale != null){ $("#totalePreventivo").value = Math.round(totale); trovati.push("totale"); }
+
+  const scontoMatch = testo.match(/💰\s*Sconto totale:\s*([€\d.,\s]+)/i);
+  const scontoEuro = scontoMatch ? parseEuro(scontoMatch[1]) : null;
+  if (scontoEuro != null && totale != null){
+    const pagPct = parseFloat(pagSel.value) || 0;
+    const baseStimato = totale / (1 + pagPct / 100) + scontoEuro;
+    if (baseStimato > 0){
+      $("#scontoPct").value = Math.round((scontoEuro / baseStimato * 100) * 10) / 10;
+      trovati.push("sconto");
+    }
+  }
+
+  generaCampiPesatura();
+
+  status.style.background = "var(--ok-wash)"; status.style.color = "var(--ok)";
+  status.textContent = trovati.length
+    ? `Compilati: ${trovati.join(", ")}. Controlla i valori, poi inserisci i pesi reali qui sotto.`
+    : "Non ho riconosciuto il formato del messaggio: controlla di aver incollato tutto il testo, oppure compila i campi a mano.";
+  if (!trovati.length){ status.style.background = "var(--accent-wash)"; status.style.color = "var(--accent-deep)"; }
+  status.classList.add("show");
+});
+
+function generaCampiPesatura(){
+  const pesiSalvati = {};
+  document.querySelectorAll(".peso-input").forEach(inp => {
+    if (inp.value) pesiSalvati[inp.dataset.cat + "-" + inp.dataset.idx] = inp.value;
+  });
+
+  const box = $("#pesatura");
+  box.innerHTML = "";
+  let totaleCapi = 0;
+  CATS.forEach(c => {
+    const n = parseInt($("#n" + c.id).value) || 0;
+    if (!n) return;
+    totaleCapi += n;
+    const wrap = document.createElement("div");
+    wrap.className = "pesatura-cat";
+    let grid = `<h3>${c.nome} — ${n} cap${n>1?"i":"o"}</h3><div class="peso-grid">`;
+    for (let i = 1; i <= n; i++){
+      const valoreSalvato = pesiSalvati[c.id + "-" + i] || "";
+      grid += `<div class="peso-item"><span>#${i}</span><input type="number" class="peso-input" data-cat="${c.id}" data-idx="${i}" min="0" step="0.5" placeholder="kg" value="${valoreSalvato}"></div>`;
+    }
+    grid += "</div>";
+    wrap.innerHTML = grid;
+    box.appendChild(wrap);
+  });
+  if (!totaleCapi) box.innerHTML = `<div class="peso-empty">Inserisci il numero di capi nella sezione 1: i campi di pesatura compaiono da soli.</div>`;
+  document.querySelectorAll(".peso-input").forEach(inp => inp.addEventListener("input", aggiornaRiepilogo));
+  aggiornaRiepilogo();
+}
+$("#generaCampi").addEventListener("click", generaCampiPesatura);
+
+/* rigenera i campi di pesatura in automatico quando cambia il numero di capi */
+let generaCampiTimeout = null;
+["n130","n100","n70"].forEach(id => {
+  $("#" + id).addEventListener("input", () => {
+    clearTimeout(generaCampiTimeout);
+    generaCampiTimeout = setTimeout(generaCampiPesatura, 350);
+  });
+});
+
+function aggiornaRiepilogo(){
+  let pesoTotale = 0, subtotale = 0;
+  const dettagli = [];
+  CATS.forEach(c => {
+    const prezzo = parseFloat($("#pr" + c.id).value) || 0;
+    const pesi = [];
+    document.querySelectorAll(`.peso-input[data-cat="${c.id}"]`).forEach(inp => {
+      const kg = parseFloat(inp.value) || 0;
+      pesi.push(kg);
+      pesoTotale += kg;
+      subtotale += kg * prezzo;
+    });
+    if (pesi.length){
+      const totKg = pesi.reduce((a,b) => a+b, 0);
+      dettagli.push({ nome:c.nome, taglia:c.taglia, prezzo, pesi, totKg, subtot: totKg*prezzo });
+    }
+  });
+
+  const scontoPct = Math.max(0, Math.min(90, parseFloat($("#scontoPct").value) || 0));
+  const scontoEuro = subtotale * (scontoPct / 100);
+  const dopoSconto = subtotale - scontoEuro;
+
+  const pagSel = $("#pagamento");
+  const pagPct = parseFloat(pagSel.value) || 0;
+  const pagEuro = dopoSconto * (pagPct / 100);
+  const totaleFinale = Math.max(0, dopoSconto + pagEuro);
+
+  $("#rPeso").textContent = pesoTotale.toLocaleString("it-IT",{maximumFractionDigits:1}) + " kg";
+  $("#rSub").textContent = eur(subtotale);
+  $("#rScontoLbl").textContent = `Sconto concordato (${scontoPct}%)`;
+  $("#rSconto").textContent = "− " + eur(scontoEuro);
+  $("#rPagLbl").textContent = "Pagamento: " + pagSel.options[pagSel.selectedIndex].text.split(" (")[0];
+  $("#rPag").textContent = pagEuro === 0 ? "incluso" : (pagEuro > 0 ? "+ " + eur(pagEuro) : "− " + eur(-pagEuro));
+  $("#rTotale").textContent = eur(totaleFinale);
+
+  const rDelta = $("#rDelta");
+  const preventivo = parseFloat($("#totalePreventivo").value);
+  if (!isNaN(preventivo) && preventivo > 0){
+    const diff = totaleFinale - preventivo;
+    rDelta.style.display = "block";
+    rDelta.className = "rdelta " + (diff > 0 ? "up" : diff < 0 ? "down" : "");
+    rDelta.textContent = diff === 0
+      ? "Corrisponde esattamente al totale del preventivo."
+      : `${diff > 0 ? "In più" : "In meno"} rispetto al preventivo (${eur(preventivo)}): ${eur(Math.abs(diff))}.`;
+  } else {
+    rDelta.style.display = "none";
+  }
+
+  return { pesoTotale, subtotale, scontoPct, scontoEuro, pagEuro, pagPct, pagLabel: pagSel.options[pagSel.selectedIndex].text.split(" (")[0], totaleFinale, dettagli };
+}
+
+["scontoPct","pagamento","totalePreventivo","pr130","pr100","pr70"].forEach(id => {
+  $("#" + id).addEventListener("input", aggiornaRiepilogo);
+  $("#" + id).addEventListener("change", aggiornaRiepilogo);
+});
+
+$("#generaMsg").addEventListener("click", () => {
+  const r = aggiornaRiepilogo();
+  const nome = $("#nomeCliente").value.trim();
+
+  const righe = [];
+  r.dettagli.forEach(d => {
+    righe.push(`🐷 ${d.nome} (${d.taglia}) — ${d.pesi.length} cap${d.pesi.length>1?"i":"o"}`);
+    d.pesi.forEach((kg,i) => righe.push(`   #${i+1}: ${kg.toLocaleString("it-IT",{maximumFractionDigits:1})} kg`));
+    righe.push(`   Totale: ${d.totKg.toLocaleString("it-IT",{maximumFractionDigits:1})} kg × ${d.prezzo.toLocaleString("it-IT",{minimumFractionDigits:2})} €/kg = ${eur(d.subtot)}`);
+    righe.push("");
+  });
+  righe.push(`⚖️ Peso totale: ${r.pesoTotale.toLocaleString("it-IT",{maximumFractionDigits:1})} kg`);
+  righe.push(`🧮 Subtotale: ${eur(r.subtotale)}`);
+  righe.push(`🏷️ Sconto concordato: ${r.scontoPct}% (− ${eur(r.scontoEuro)})`);
+  righe.push(`💳 ${r.pagLabel}${r.pagEuro !== 0 ? ` (${r.pagEuro>0?"+":"−"} ${eur(Math.abs(r.pagEuro))})` : ""}`);
+  righe.push(`💶 TOTALE DA PAGARE: ${eur(r.totaleFinale)}`);
+
+  let msg = "Ciao";
+  if (nome) msg += `, ${nome}`;
+  msg += `,\necco la ricevuta con il conto pesato alla bilancia:\n\n${righe.join("\n")}\n\nGrazie!`;
+
+  const box = $("#msgBox");
+  box.textContent = msg;
+  box.classList.add("show");
+
+  const waBtn = $("#waSendBtn");
+  let telefono = $("#telCliente").value.replace(/[^0-9+]/g, "");
+  if (telefono){
+    if (telefono.startsWith("+")) telefono = telefono.slice(1);
+    else if (telefono.length <= 10 && !telefono.startsWith("39")) telefono = "39" + telefono;
+  }
+  waBtn.href = telefono ? `https://wa.me/${telefono}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`;
+  waBtn.style.display = "inline-flex";
+});
+</script>
+</body>
+</html>
