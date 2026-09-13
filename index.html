@@ -39,7 +39,7 @@ body{
   line-height:1.48;
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
-  padding-bottom:82px;
+  padding-bottom:114px;
 }
 .num{font-family:'JetBrains Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 .wrap{max-width:1180px;margin:0 auto;padding:0 18px}
@@ -103,55 +103,62 @@ nav{
   font-size:.76rem;font-weight:600;display:inline-flex;align-items:center;gap:6px}
 .pill-tag svg{flex:none}
 
-.pig-stage{position:relative;aspect-ratio:1/1;max-width:280px;margin-inline:auto;width:100%}
-.pig-disc{position:absolute;inset:6%;border-radius:50%;background:
-  radial-gradient(120% 120% at 30% 20%, #FBF3EE 0%, var(--accent-wash) 55%, #E7CDC7 100%);
-  box-shadow:inset 0 2px 0 rgba(255,255,255,.7);animation:breathe 7s ease-in-out infinite}
-@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.028)}}
-.pig-svg{position:absolute;inset:0;width:100%;height:100%}
-.pig-svg .stroke{fill:none;stroke:var(--ink);stroke-width:5.5;stroke-linecap:round;stroke-linejoin:round;
-  stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 2s var(--ease) forwards}
-.pig-svg .stroke.d2{animation-delay:.45s}
-.pig-svg .stroke.d3{animation-delay:.8s}
-.pig-svg .stroke.d4{animation-delay:1.05s}
-@keyframes draw{to{stroke-dashoffset:0}}
-.pig-svg .tail{transform-origin:27% 58%;animation:wag 2.6s ease-in-out 1.8s infinite}
-@keyframes wag{0%,100%{transform:rotate(0)}30%{transform:rotate(11deg)}60%{transform:rotate(-7deg)}}
-.pig-svg .ear{transform-origin:65% 38%;animation:flick 5.5s ease-in-out 2.2s infinite}
-@keyframes flick{0%,86%,100%{transform:rotate(0)}90%{transform:rotate(-13deg)}94%{transform:rotate(5deg)}}
-.pig-badge{position:absolute;right:-2px;bottom:4%;background:var(--ink);color:var(--paper);
-  border-radius:100px;padding:8px 14px;font-size:.72rem;font-weight:500;display:flex;align-items:center;gap:7px;
-  box-shadow:0 12px 24px -16px rgba(23,19,15,.6)}
-.dot{width:6px;height:6px;border-radius:50%;background:#8FCB9B;box-shadow:0 0 0 0 rgba(143,203,155,.7);animation:pulse 2.2s infinite}
-@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(143,203,155,0)}100%{box-shadow:0 0 0 0 rgba(143,203,155,0)}}
+.pig-gauge-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;max-width:200px;margin-inline:auto}
+.pig-gauge{width:100%;max-width:170px}
+.pig-gauge svg{width:100%;height:auto;display:block}
+.pig-gauge .pg-base{fill:var(--paper-2);stroke:var(--line);stroke-width:2.4;stroke-linejoin:round}
+.pig-gauge .pg-fill{fill:var(--accent)}
+.pig-gauge.maxed .pg-fill{fill:var(--ok)}
+.pig-gauge .pg-dot{fill:var(--ink)}
+#pigFillRect{transition:y .6s var(--ease),height .6s var(--ease)}
+.pig-gauge-caption{font-size:.8rem;color:var(--muted);text-align:center;line-height:1.4;max-width:22ch}
 
-/* ---------- CALCOLATORE ---------- */
+/* ---------- CALCOLATORE (tema scuro, come il configuratore NOOR) ---------- */
+#calcolatore{
+  background:#17130F;
+  color:var(--ink);
+  border-radius:32px;
+  padding:clamp(20px,4vw,40px) clamp(14px,4vw,32px);
+  --paper:#241E1A;
+  --paper-2:#2C2621;
+  --line:#6E6155;
+  --ink:#F5F0EA;
+  --ink-soft:#D9CFC5;
+  --muted:#9C8F82;
+  --calc-accent-text:#E29089;
+}
 .calc-grid{display:grid;grid-template-columns:1fr;gap:18px;align-items:start;margin-top:6px}
 @media(min-width:960px){.calc-grid{grid-template-columns:1.22fr .78fr;gap:26px}}
 
-.step-box{background:#fff;border-radius:var(--radius);border:1px solid var(--line);padding:19px 20px;margin-bottom:14px}
+.step-box{background:var(--paper);border-radius:var(--radius);border:1px solid var(--line);padding:19px 20px;margin-bottom:14px}
 .step-head{display:flex;align-items:baseline;gap:10px;margin-bottom:14px}
-.step-num{font-family:'JetBrains Mono',monospace;font-size:.74rem;color:var(--accent-deep);font-weight:700}
+.step-num{font-family:'JetBrains Mono',monospace;font-size:.74rem;color:var(--calc-accent-text);font-weight:700}
 .step-head h3{font-size:1rem;font-weight:600;letter-spacing:-.01em}
 .step-sub{margin-left:auto;font-size:.72rem;color:var(--muted);font-weight:600;white-space:nowrap}
 
 .presets{display:flex;flex-wrap:wrap;gap:8px}
-.preset{cursor:pointer;border:0;font-family:inherit;background:#fff;border-radius:13px;padding:10px 13px;
+.preset{position:relative;cursor:pointer;border:0;font-family:inherit;background:var(--paper);border-radius:13px;padding:10px 13px;
   box-shadow:inset 0 0 0 1px var(--line);text-align:left;transition:box-shadow .25s,transform .25s var(--ease)}
-.preset:hover{box-shadow:inset 0 0 0 1px var(--ink);transform:translateY(-1px)}
+.preset:hover{box-shadow:inset 0 0 0 1px var(--ink-soft);transform:translateY(-1px)}
 .preset:active{transform:scale(.97)}
 .preset.active{background:var(--ink);box-shadow:none}
-.preset-title{font-size:.82rem;font-weight:600;display:block;color:var(--ink)}
+.preset-title{font-size:.82rem;font-weight:600;display:block;color:var(--ink);padding-right:20px}
 .preset.active .preset-title{color:var(--paper)}
 .preset-sub{font-size:.68rem;color:var(--muted);display:block;margin-top:1px}
-.preset.active .preset-sub{color:rgba(245,240,234,.6)}
+.preset.active .preset-sub{color:rgba(36,30,26,.6)}
+.preset .p-num{position:absolute;top:9px;right:11px;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;color:var(--muted)}
+.preset.active .p-num{color:rgba(36,30,26,.5)}
+.preset .p-badge{position:absolute;top:-9px;left:11px;font-size:.6rem;font-weight:700;background:var(--accent);color:#fff;padding:3px 8px;border-radius:100px;white-space:nowrap}
 
 .items{display:flex;flex-direction:column}
 .item{display:grid;grid-template-columns:42px 1fr auto;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--paper-2)}
 .item:last-child{border-bottom:0;padding-bottom:0}
 .item:first-child{padding-top:0}
-.item-badge{width:42px;height:42px;border-radius:50%;background:var(--paper-2);display:grid;place-items:center;
-  font-weight:700;font-size:.68rem;color:var(--ink-soft);border:1px solid var(--line);transition:all .25s var(--ease)}
+.item-badge{width:42px;height:42px;border-radius:50%;background:var(--paper-2);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;line-height:1;font-weight:700;color:var(--ink-soft);
+  border:1px solid var(--line);transition:all .25s var(--ease);flex:none}
+.item-badge b{font-size:.8rem;font-weight:700}
+.item-badge span{font-size:.5rem;font-weight:600;letter-spacing:.02em;margin-top:1px}
 .item.active .item-badge{background:var(--accent-wash);color:var(--accent-deep);border-color:rgba(192,96,90,.3)}
 .item-info b{display:block;font-size:.9rem;font-weight:600;line-height:1.25}
 .item-info .desc{display:block;font-size:.74rem;color:var(--muted);line-height:1.3;margin-top:2px}
@@ -166,7 +173,7 @@ nav{
 .stepper .qty{width:24px;text-align:center;font-weight:700;font-size:.88rem}
 .qty.bump{animation:bump .35s var(--ease)}
 @keyframes bump{40%{transform:scale(1.25);color:var(--accent)}}
-.note-inline{margin-top:14px;padding-top:13px;border-top:1px solid var(--paper-2);font-size:.76rem;color:var(--muted);
+.note-inline{margin-top:14px;padding-top:13px;border-top:1px solid var(--line);font-size:.76rem;color:var(--muted);
   display:flex;gap:8px;align-items:flex-start}
 .note-inline svg{flex:none;margin-top:2px}
 
@@ -178,7 +185,7 @@ nav{
 .loc-search .spin.on{display:block}
 .loc-search .spin svg{animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loc-note{font-size:.76rem;color:var(--accent-deep);margin-top:7px;min-height:16px}
+.loc-note{font-size:.76rem;color:var(--calc-accent-text);margin-top:7px;min-height:16px}
 .chips{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
 .chip{border:0;cursor:pointer;font-family:inherit;font-size:.78rem;padding:7px 13px;border-radius:100px;
   background:transparent;color:var(--ink-soft);box-shadow:inset 0 0 0 1px var(--line);
@@ -201,6 +208,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border:0;border-radiu
 .status-ico{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;flex:none;background:#fff}
 .status b{display:block;font-size:.84rem;font-weight:600;line-height:1.3}
 .status span{font-size:.76rem;color:var(--ink-soft);line-height:1.3}
+.status.free b,.status.free span,.status.warn b,.status.warn span{color:#2B2620}
 
 .anticipo-row{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}
 .anticipo-pill{font-size:.76rem;font-weight:600;padding:8px 13px;border-radius:100px;background:var(--paper-2);
@@ -213,7 +221,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border:0;border-radiu
 
 .promo-row{display:flex;gap:9px}
 .promo-row input{flex:1;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.04em;
-  font-size:.86rem;padding:11px 13px;border-radius:12px;border:1px solid var(--line);background:var(--paper)}
+  font-size:.86rem;padding:11px 13px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
 .promo-row input:focus{outline:none;border-color:var(--accent)}
 .promo-status{margin-top:10px;font-size:.8rem;font-weight:500;display:none;align-items:center;gap:8px;
   border-radius:11px;padding:9px 12px}
@@ -221,11 +229,25 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border:0;border-radiu
 .promo-status.ok{background:var(--ok-wash);color:var(--ok)}
 .promo-status.bad{background:var(--accent-wash);color:var(--accent-deep)}
 
+.pay-list{display:flex;flex-direction:column;gap:8px}
+.pay-opt{position:relative;display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer;
+  border:0;width:100%;font-family:inherit;text-align:left;background:var(--paper);border-radius:13px;padding:12px 14px;
+  box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow .25s,transform .25s var(--ease),background .25s}
+.pay-opt:hover{box-shadow:inset 0 0 0 1px var(--ink-soft);transform:translateY(-1px)}
+.pay-opt:active{transform:scale(.98)}
+.pay-opt.active{background:var(--ink);box-shadow:none}
+.pay-name{display:block;font-size:.86rem;font-weight:600;color:var(--ink)}
+.pay-opt.active .pay-name{color:var(--paper)}
+.pay-desc{display:block;font-size:.71rem;color:var(--muted);margin-top:1px}
+.pay-opt.active .pay-desc{color:rgba(36,30,26,.6)}
+.pay-tag{position:absolute;top:-9px;right:12px;font-size:.6rem;font-weight:700;background:var(--ok);color:#fff;
+  padding:3px 9px;border-radius:100px;white-space:nowrap}
+
 /* ---------- TICKET (colonna destra) ---------- */
 aside#ticket{position:static}
 @media(min-width:960px){aside#ticket{position:sticky;top:70px}}
-.ticket-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);
-  padding:clamp(18px,2.4vw,24px);box-shadow:0 24px 50px -32px rgba(23,19,15,.4)}
+.ticket-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+  padding:clamp(18px,2.4vw,24px);box-shadow:0 24px 50px -32px rgba(0,0,0,.6)}
 
 .upsell{background:var(--paper-2);border-radius:15px;padding:14px 15px;margin-bottom:16px;transition:background .3s var(--ease)}
 .upsell.achieved{background:var(--ok-wash)}
@@ -233,10 +255,15 @@ aside#ticket{position:static}
 .upsell-ico{width:28px;height:28px;border-radius:50%;background:#fff;display:grid;place-items:center;flex:none}
 .upsell-body b{display:block;font-size:.86rem;font-weight:600;margin-bottom:2px;line-height:1.3}
 .upsell-body span{font-size:.77rem;color:var(--ink-soft);line-height:1.4;display:block}
-.upsell-hints{margin-top:9px;padding-top:9px;border-top:1px dashed rgba(0,0,0,.08);display:flex;flex-direction:column;gap:6px}
-.upsell-hint{font-size:.75rem;color:var(--ink-soft);display:flex;gap:6px;align-items:flex-start;line-height:1.35}
-.upsell-hint svg{flex:none;margin-top:2px}
-.progress-track{height:5px;background:rgba(0,0,0,.08);border-radius:100px;margin-top:10px;overflow:hidden}
+.upsell.achieved .upsell-body b,.upsell.achieved .upsell-body span{color:#2B2620}
+.upsell-hints{margin-top:9px;padding-top:9px;border-top:1px dashed rgba(150,135,120,.35);display:flex;flex-direction:column;gap:8px}
+.upsell-hint{font-size:.75rem;color:var(--ink-soft);line-height:1.35}
+.upsell.achieved .upsell-hint{color:#2B2620}
+.nudge-action{display:inline-flex;align-self:flex-start;border:0;background:transparent;cursor:pointer;
+  font-family:inherit;font-size:.76rem;font-weight:600;color:var(--accent);padding:0;text-decoration:underline;text-underline-offset:3px}
+.nudge-action:hover{color:var(--accent-deep)}
+.upsell.achieved .nudge-action{color:var(--accent-deep)}
+.progress-track{height:5px;background:rgba(150,135,120,.25);border-radius:100px;margin-top:10px;overflow:hidden}
 .progress-fill{height:100%;background:var(--accent);border-radius:100px;width:0%;transition:width .5s var(--ease)}
 .upsell.achieved .progress-fill{background:var(--ok)}
 
@@ -246,7 +273,7 @@ aside#ticket{position:static}
 
 .tk-list{list-style:none;margin:12px 0;display:flex;flex-direction:column;gap:7px}
 .tk-list li{display:flex;justify-content:space-between;gap:14px;font-size:.85rem;padding-bottom:7px;
-  border-bottom:1px dashed var(--paper-2);animation:rise .45s var(--ease) both}
+  border-bottom:1px dashed var(--line);animation:rise .45s var(--ease) both}
 @keyframes rise{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 .tk-list li span:last-child{font-weight:600;white-space:nowrap}
 .tk-empty{text-align:center;padding:20px 0;color:var(--muted);font-size:.84rem}
@@ -277,7 +304,7 @@ aside#ticket{position:static}
 
 .name-field{margin:14px 0 8px}
 .name-field input{width:100%;font-family:inherit;font-size:.86rem;padding:11px 13px;border-radius:12px;
-  border:1px solid var(--line);background:var(--paper)}
+  border:1px solid var(--line);background:var(--paper);color:var(--ink)}
 .name-field input:focus{outline:none;border-color:var(--accent)}
 
 .ticket-card .btn{width:100%;margin-top:8px}
@@ -306,14 +333,19 @@ footer{border-top:1px solid var(--line);padding:26px 0}
 .foot-links{display:flex;gap:16px}
 
 /* ---------- DOCK MOBILE ---------- */
-.dock{position:fixed;left:0;right:0;bottom:0;z-index:50;background:rgba(23,19,15,.94);backdrop-filter:blur(16px);
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:50;background:rgba(23,19,15,.96);backdrop-filter:blur(16px);
   color:var(--paper);box-shadow:0 -18px 36px -28px rgba(0,0,0,.8);transform:translateY(102%);
   transition:transform .5s var(--ease)}
 .dock.up{transform:none}
+.dock-hint{display:none;font-size:.72rem;color:rgba(245,240,234,.8);line-height:1.35;
+  padding:9px 18px 0;margin:0;max-width:1180px;margin-inline:auto;border-top:1px solid rgba(245,240,234,.1)}
+.dock-hint.show{display:block}
 .dock-in{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;
   max-width:1180px;margin:0 auto}
 .dock-left p{color:rgba(245,240,234,.6);font-size:.72rem;margin:0}
+.dock-left .dock-num-row{display:flex;align-items:baseline;gap:8px}
 .dock-left b{font-size:1.2rem;letter-spacing:-.03em}
+.dock-disc{font-size:.72rem;font-weight:700;color:#7FBD86}
 .dock .btn-accent{padding:11px 18px;font-size:.85rem;white-space:nowrap}
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
@@ -348,26 +380,37 @@ footer{border-top:1px solid var(--line);padding:26px 0}
       <div>
         <div class="eyebrow">Commercio suini vivi · Assisi</div>
         <h1>Scarponi porta i suini <em>buoni</em>.</h1>
-        <p class="lede">Commercio suini per tutto il centro Italia: fai il tuo preventivo e accumula gli sconti.</p>
+        <p class="lede">Capi selezionati e trasportati al fresco del mattino, con il peso verificato alla bilancia: la stessa serietà di sempre. Compila il tuo preventivo qui sotto e inviacelo: ti richiamiamo per confermare tutto.</p>
         <div class="pill-row">
           <span class="pill-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>Trasporto gratuito da 1 capo</span>
           <span class="pill-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>Sconto quantità automatico</span>
           <span class="pill-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>Sconto extra se prenoti in anticipo</span>
         </div>
       </div>
-      <div class="pig-stage" aria-hidden="true">
-        <div class="pig-disc"></div>
-        <svg class="pig-svg" viewBox="0 0 400 400">
-          <path class="stroke" d="M108 233 C 96 196, 118 156, 163 145 C 196 137, 236 139, 262 154 C 281 165, 292 184, 293 206 C 294 232, 281 254, 258 266 C 230 281, 186 282, 157 269 C 130 257, 113 250, 108 233 Z"/>
-          <ellipse class="stroke d2" cx="298" cy="209" rx="26" ry="22"/>
-          <circle class="stroke d3" cx="291" cy="209" r="4"/>
-          <circle class="stroke d3" cx="306" cy="209" r="4"/>
-          <path class="stroke d3" d="M258 178 q7 -6 14 0"/>
-          <path class="stroke d2 ear" d="M231 150 C 224 120, 246 106, 262 117 C 273 124, 272 141, 265 152"/>
-          <path class="stroke d4" d="M152 272 v40 M186 280 v34 M234 279 v35 M266 268 v42"/>
-          <path class="stroke d2 tail" d="M108 233 C 88 228, 80 208, 92 198 C 103 189, 117 198, 111 210 C 106 220, 92 219, 89 208"/>
-        </svg>
-        <div class="pig-badge"><span class="dot"></span>Consegne attive questa settimana</div>
+      <div class="pig-gauge-wrap">
+        <div class="pig-gauge" id="pigGauge" aria-hidden="true">
+          <svg viewBox="0 0 120 120">
+            <defs>
+              <g id="pigShape">
+                <ellipse cx="58" cy="64" rx="40" ry="32"/>
+                <ellipse cx="94" cy="64" rx="13" ry="10"/>
+                <polygon points="38,34 28,14 50,28"/>
+                <polygon points="58,30 54,8 72,24"/>
+                <rect x="26" y="90" width="9" height="17" rx="4"/>
+                <rect x="42" y="94" width="9" height="17" rx="4"/>
+                <rect x="68" y="94" width="9" height="17" rx="4"/>
+                <rect x="84" y="90" width="9" height="17" rx="4"/>
+              </g>
+              <clipPath id="pigClip"><use href="#pigShape"/></clipPath>
+            </defs>
+            <use href="#pigShape" class="pg-base"/>
+            <g clip-path="url(#pigClip)"><rect id="pigFillRect" class="pg-fill" x="0" y="120" width="120" height="0"/></g>
+            <circle class="pg-dot" cx="80" cy="54" r="2.6"/>
+            <circle class="pg-dot" cx="99" cy="62" r="1.3"/>
+            <circle class="pg-dot" cx="103" cy="66" r="1.3"/>
+          </svg>
+        </div>
+        <p class="pig-gauge-caption">Più capi ordini e più anticipo prenoti, più si riempie.</p>
       </div>
     </div>
   </header>
@@ -428,6 +471,11 @@ footer{border-top:1px solid var(--line);padding:26px 0}
           </div>
           <div class="promo-status" id="promoStatus"></div>
         </div>
+
+        <div class="step-box">
+          <div class="step-head"><span class="step-num">05</span><h3>Modalità di pagamento</h3></div>
+          <div class="pay-list" id="payList"></div>
+        </div>
       </div>
 
       <aside id="ticket">
@@ -456,7 +504,7 @@ footer{border-top:1px solid var(--line);padding:26px 0}
           <div class="save-banner" id="saveBanner"><span>Risparmio totale</span><b class="num" id="saveAmount">€ 0</b></div>
 
           <div class="total-row">
-            <div class="lbl">Totale stimato</div>
+            <div class="lbl">Totale stimato · <span id="payLabel">bonifico, fine mese</span></div>
             <div class="num-row">
               <span class="tot-strike num" id="origPrice"></span>
               <span class="tot-final num" id="finalPrice">€ 0</span>
@@ -503,7 +551,7 @@ footer{border-top:1px solid var(--line);padding:26px 0}
       </details>
       <details class="faq-card">
         <summary>Come si paga?<i></i></summary>
-        <p>Alla consegna, contanti o bonifico. Per le aziende agricole e i ristoranti si fattura a fine mese.</p>
+        <p>Scegli la modalità più comoda per te tra contanti alla consegna, bonifico a fine mese o pagamento dilazionato a 30, 60 o 90 giorni. Ogni opzione ha un proprio importo finale: il calcolatore te li mostra tutti, così scegli quello più conveniente per il tuo ordine.</p>
       </details>
     </div>
   </section>
@@ -521,10 +569,14 @@ footer{border-top:1px solid var(--line);padding:26px 0}
 
 <!-- ======================= DOCK MOBILE ======================= -->
 <div class="dock" id="dock">
+  <p class="dock-hint" id="dockHint"></p>
   <div class="dock-in">
     <div class="dock-left">
       <p id="dockLine">Il tuo ordine</p>
-      <b class="num" id="dockTotal">€ 0</b>
+      <div class="dock-num-row">
+        <b class="num" id="dockTotal">€ 0</b>
+        <span class="dock-disc num" id="dockDisc"></span>
+      </div>
     </div>
     <a class="btn btn-accent" href="#ticket">Vai al riepilogo</a>
   </div>
@@ -555,11 +607,12 @@ const CONFIG = {
     {n:"Pescara",km:220},{n:"Bologna",km:250}
   ],
   presets: [
-    { id:"prova",       nome:"Prima prova",         sub:"1 suino da 70 kg",          q:{g70:1, g100:0, g120:0} },
-    { id:"famiglia",    nome:"Scorta famiglia",     sub:"1 suino da 120 kg",         q:{g70:0, g100:0, g120:1} },
-    { id:"allargata",   nome:"Famiglia allargata",  sub:"3 suini, pesi misti",       q:{g70:1, g100:1, g120:1} },
-    { id:"cella",       nome:"Cella piena",         sub:"5 suini da 120 kg",         q:{g70:0, g100:0, g120:5} },
-    { id:"allevamento", nome:"Piccolo allevamento", sub:"10 suini da 70 kg",         q:{g70:10,g100:0, g120:0} }
+    { id:"prova",       nome:"Prima prova",         sub:"1 suino da 70 kg",          q:{g70:1, g100:0,  g120:0} },
+    { id:"famiglia",    nome:"Scorta famiglia",     sub:"1 suino da 120 kg",         q:{g70:0, g100:0,  g120:1}, badge:"Il più scelto" },
+    { id:"allargata",   nome:"Famiglia allargata",  sub:"3 suini da 100 kg",         q:{g70:0, g100:3,  g120:0} },
+    { id:"cella",       nome:"Cella piena",         sub:"5 suini da 100 kg",         q:{g70:0, g100:5,  g120:0} },
+    { id:"allevamento", nome:"Piccolo allevamento", sub:"10 suini da 100 kg",        q:{g70:0, g100:10, g120:0} },
+    { id:"chemacello",  nome:"Che Macello!",        sub:"15 suini da 100 kg",        q:{g70:0, g100:15, g120:0} }
   ],
   scontoAnticipo: [
     { giorni:15, sconto:0.10 },
@@ -583,11 +636,21 @@ const CONFIG = {
     "LUCA":   { pct:0.10 },
     "GIULIA": { pct:0.15 },
     "ELENA":  { pct:0.20 }
-  }
+  },
+  // Modalità di pagamento: pct si applica al totale già scontato (negativo = sconto, positivo = maggiorazione).
+  // In interfaccia non mostriamo mai questa percentuale: solo l'importo finale di ciascuna opzione.
+  pagamenti: [
+    { id:"contanti",  nome:"Contanti alla consegna",  desc:"Pagamento diretto al ritiro",  pct:-0.025 },
+    { id:"bonifico",  nome:"Bonifico, fine mese",      desc:"Fattura a fine mese",          pct:0 },
+    { id:"gg30",      nome:"Pagamento a 30 giorni",    desc:"Dilazionato",                  pct:0.02 },
+    { id:"klarna",    nome:"Klarna, a rate",           desc:"3 rate senza interessi",       pct:0.04 },
+    { id:"gg60",      nome:"Pagamento a 60 giorni",    desc:"Dilazionato",                  pct:0.05 },
+    { id:"gg90",      nome:"Pagamento a 90 giorni",    desc:"Dilazionato",                  pct:0.075 }
+  ]
 };
 
 /* ---------- stato ---------- */
-const stato = { q:{}, km:40, comune:"", promo:"" };
+const stato = { q:{}, km:40, comune:"", promo:"", pagamento:"bonifico" };
 CONFIG.tagli.forEach(t => stato.q[t.id] = 0);
 
 /* ---------- utility ---------- */
@@ -605,7 +668,7 @@ CONFIG.tagli.forEach(t => {
   el.className = "item";
   el.dataset.id = t.id;
   el.innerHTML = `
-    <div class="item-badge">${t.kg}k</div>
+    <div class="item-badge"><b>${t.kg}</b><span>kg</span></div>
     <div class="item-info">
       <b>${t.nome}</b>
       <span class="desc">${t.desc}</span>
@@ -630,10 +693,10 @@ itemsBox.addEventListener("click", e => {
 
 /* ---------- proposte rapide ---------- */
 const presetsBox = $("#presets");
-CONFIG.presets.forEach(p => {
+CONFIG.presets.forEach((p,i) => {
   const b = document.createElement("button");
   b.type = "button"; b.className = "preset"; b.dataset.id = p.id;
-  b.innerHTML = `<span class="preset-title">${p.nome}</span><span class="preset-sub">${p.sub}</span>`;
+  b.innerHTML = `${p.badge ? `<span class="p-badge">${p.badge}</span>` : ""}<span class="p-num">${String(i+1).padStart(2,"0")}</span><span class="preset-title">${p.nome}</span><span class="preset-sub">${p.sub}</span>`;
   b.onclick = () => { CONFIG.tagli.forEach(t => stato.q[t.id] = p.q[t.id] || 0); render(); };
   presetsBox.appendChild(b);
 });
@@ -703,6 +766,20 @@ function applyPromo(){ stato.promo = $("#promoCode").value.trim().toUpperCase();
 $("#promoBtn").addEventListener("click", applyPromo);
 $("#promoCode").addEventListener("keydown", e => { if (e.key === "Enter"){ e.preventDefault(); applyPromo(); } });
 
+/* ---------- modalità di pagamento ---------- */
+const payBox = $("#payList");
+CONFIG.pagamenti.forEach(p => {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "pay-opt"; b.dataset.id = p.id;
+  b.innerHTML = `
+    <span>
+      <span class="pay-name">${p.nome}</span>
+      <span class="pay-desc">${p.desc}</span>
+    </span>`;
+  b.onclick = () => { stato.pagamento = p.id; render(); };
+  payBox.appendChild(b);
+});
+
 /* ---------- funzioni sconto ---------- */
 function giorniAnticipo(){
   const v = $("#dataConsegna").value;
@@ -717,6 +794,17 @@ function scontoAnticipoDa(giorni){
 }
 function prossimaSogliaAnticipo(giorni){
   return CONFIG.scontoAnticipo.slice().sort((a,b) => a.giorni - b.giorni).find(s => s.giorni > giorni) || null;
+}
+function aggiungiUnCapo(){
+  let bestId = CONFIG.tagli[0].id, bestQ = -1;
+  CONFIG.tagli.forEach(t => { if (stato.q[t.id] > bestQ){ bestQ = stato.q[t.id]; bestId = t.id; } });
+  stato.q[bestId] = stato.q[bestId] + 1;
+  render();
+}
+function spostaData(giorni){
+  const d = new Date(oggi0); d.setDate(d.getDate() + giorni);
+  $("#dataConsegna").value = d.toISOString().slice(0,10);
+  render();
 }
 function sogliaZona(km){
   return CONFIG.soglie.find(s => km <= s.km) || CONFIG.soglie[CONFIG.soglie.length - 1];
@@ -849,28 +937,53 @@ function render(){
     upSub = `Aggiungi ${gap} cap${gap>1?"i":"o"} per azzerare i costi di trasporto.`;
   } else if (totSconti > 0){
     upTitle = `Risparmio attivo: ${eur(totSconti)}`;
-    upSub = prossimoVol ? `Aggiungi ${prossimoVol.capi - capi} cap${(prossimoVol.capi-capi)>1?"i":"o"} per uno sconto quantità ancora più alto.` : "Hai raggiunto il massimo sconto per quantità.";
+    upSub = "Continua a comporre l'ordine qui sotto: lo sconto può ancora crescere.";
   } else {
     upTitle = "Trasporto gratuito incluso";
-    upSub = prossimoVol ? `Aggiungi ${prossimoVol.capi - capi} cap${(prossimoVol.capi-capi)>1?"i":"o"} per attivare il primo sconto quantità.` : "";
+    upSub = "Componi il tuo ordine qui sotto per iniziare a scontare il totale.";
   }
   $("#upsellTitle").textContent = upTitle;
   $("#upsellSub").textContent = upSub;
   const maxCapiProgress = soglia.capi + CONFIG.scontoVolume[CONFIG.scontoVolume.length-1].offset;
   $("#progressFill").style.width = Math.min(100, Math.round((capi / maxCapiProgress) * 100)) + "%";
 
-  const hints = [];
-  if (!dataVal) hints.push("Scegli una data di consegna: prenotando con anticipo lo sconto sale fino a 10 cent/kg.");
-  else { const pa = prossimaSogliaAnticipo(giorni); if (pa) hints.push(`Sposta la consegna a ${pa.giorni}+ giorni per uno sconto anticipo di ${Math.round(pa.sconto*100)} cent/kg.`); }
-  if (capi > 0 && !stato.promo) hints.push("Hai un codice riservato? Applicalo qui sotto per uno sconto extra.");
+  /* maialino: si riempie con lo sconto al kg raggiunto (quantità + anticipo), senza numeri espliciti */
+  const pigPct = Math.min(100, Math.round((scKg / 0.50) * 100));
+  const pigGauge = $("#pigGauge");
+  pigGauge.classList.toggle("maxed", pigPct >= 100);
+  const pigH = 120 * pigPct / 100;
+  $("#pigFillRect").setAttribute("y", 120 - pigH);
+  $("#pigFillRect").setAttribute("height", pigH);
+
+  /* un solo suggerimento alla volta, senza rivelare soglie o importi esatti */
+  let nudge = null;
+  if (capi > 0 && capi >= soglia.capi){
+    if (prossimoVol){
+      nudge = { text:"Con qualche capo in più il totale potrebbe scontarsi ulteriormente.", label:"Aggiungi un capo", action: aggiungiUnCapo };
+    } else {
+      const pa = prossimaSogliaAnticipo(giorni);
+      if (pa) nudge = { text:"Prenotando con più anticipo potresti risparmiare di più sul totale.", label:"Prenota con più anticipo", action: () => spostaData(pa.giorni) };
+      else if (!stato.promo) nudge = { text:"Hai un codice riservato? Applicalo qui sotto per uno sconto extra.", label:null };
+    }
+  }
   const hintsBox = $("#upsellHints");
   hintsBox.innerHTML = "";
-  hints.slice(0,2).forEach(h => {
-    const div = document.createElement("div");
-    div.className = "upsell-hint";
-    div.innerHTML = `${icoAsk}<span>${h}</span>`;
-    hintsBox.appendChild(div);
-  });
+  if (nudge){
+    const p = document.createElement("div");
+    p.className = "upsell-hint";
+    p.textContent = nudge.text;
+    hintsBox.appendChild(p);
+    if (nudge.label){
+      const btn = document.createElement("button");
+      btn.type = "button"; btn.className = "nudge-action"; btn.textContent = nudge.label;
+      btn.onclick = nudge.action;
+      hintsBox.appendChild(btn);
+    }
+  }
+  const dockHint = $("#dockHint");
+  const dockMsg = nudge ? nudge.text : (capi > 0 && capi < soglia.capi ? upSub : "");
+  if (dockMsg){ dockHint.textContent = dockMsg; dockHint.classList.add("show"); }
+  else { dockHint.textContent = ""; dockHint.classList.remove("show"); }
 
   /* riepilogo ordine */
   const list = $("#tkList");
@@ -903,12 +1016,35 @@ function render(){
   if (totSconti > 0 && capi > 0){ saveBanner.classList.add("show"); $("#saveAmount").textContent = eur(totSconti); }
   else saveBanner.classList.remove("show");
 
-  if (totSconti > 0 && capi > 0){ $("#origPrice").textContent = eur(baseTot); $("#origPrice").style.display = "inline"; }
-  else $("#origPrice").style.display = "none";
-  animateTo($("#finalPrice"), Math.round(finalTot), eur);
-  $("#avgNote").textContent = capi > 0 ? `Prezzo effettivo: ${(finalTot/kgTot).toLocaleString("it-IT",{minimumFractionDigits:2,maximumFractionDigits:2})} €/kg` : "Seleziona i capi per iniziare";
+  /* modalità di pagamento: aggiorna l'importo effettivo di ciascuna opzione, mai la percentuale */
+  const payDef = CONFIG.pagamenti.find(p => p.id === stato.pagamento) || CONFIG.pagamenti[1];
+  const totaleConPagamento = Math.max(0, finalTot * (1 + payDef.pct));
+  let payMigliore = null;
+  CONFIG.pagamenti.forEach(p => {
+    const importo = Math.max(0, finalTot * (1 + p.pct));
+    if (!payMigliore || importo < payMigliore.importo) payMigliore = { id:p.id, importo };
+  });
+  CONFIG.pagamenti.forEach(p => {
+    const opt = payBox.querySelector(`[data-id="${p.id}"]`);
+    opt.classList.toggle("active", p.id === stato.pagamento);
+    let tag = opt.querySelector(".pay-tag");
+    const isBest = capi > 0 && p.id === payMigliore.id;
+    if (isBest && !tag){
+      tag = document.createElement("span"); tag.className = "pay-tag"; tag.textContent = "Più conveniente";
+      opt.appendChild(tag);
+    } else if (!isBest && tag){
+      tag.remove();
+    }
+  });
 
-  animateTo($("#dockTotal"), Math.round(finalTot), eur);
+  if (capi > 0 && totaleConPagamento < baseTot){ $("#origPrice").textContent = eur(baseTot); $("#origPrice").style.display = "inline"; }
+  else $("#origPrice").style.display = "none";
+  $("#payLabel").textContent = payDef.nome.toLowerCase();
+  animateTo($("#finalPrice"), Math.round(totaleConPagamento), eur);
+  $("#avgNote").textContent = capi > 0 ? `Prezzo effettivo: ${(totaleConPagamento/kgTot).toLocaleString("it-IT",{minimumFractionDigits:2,maximumFractionDigits:2})} €/kg` : "Seleziona i capi per iniziare";
+
+  animateTo($("#dockTotal"), Math.round(totaleConPagamento), eur);
+  $("#dockDisc").textContent = (capi>0 && totSconti>0) ? `−${Math.round(totSconti/baseTot*100)}%` : "";
   $("#dockLine").textContent = `${capi} cap${capi===1?"o":"i"} · ${statoSped==='free' && capi>0 ? "trasporto gratis" : "il tuo ordine"}`;
   $("#dock").classList.toggle("up", capi > 0);
 
@@ -922,7 +1058,7 @@ function render(){
   msg += ".";
   if (capi === 0) msg += " Vorrei informazioni sui suini vivi.";
   else {
-    msg += ` Vorrei ordinare: ${capiDesc}. Consegna a ${destDesc}${dataStr ? `, indicativamente il ${dataStr}` : ""}. Totale stimato ${eur(finalTot)}`;
+    msg += ` Vorrei ordinare: ${capiDesc}. Consegna a ${destDesc}${dataStr ? `, indicativamente il ${dataStr}` : ""}. Pagamento: ${payDef.nome.toLowerCase()}. Totale stimato ${eur(totaleConPagamento)}`;
     if (totSconti > 0) msg += ` (sconti già inclusi per ${eur(totSconti)})`;
     if (promoPct > 0) msg += `, codice ${stato.promo} applicato`;
     msg += ".";
