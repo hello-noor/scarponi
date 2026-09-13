@@ -9,6 +9,13 @@
 <meta property="og:title" content="Scarponi · Suini vivi da Assisi">
 <meta property="og:description" content="Suini vivi da 70, 100 e 130 kg. Sconti automatici, trasporto gratuito da Assisi.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Scarponi · Suini vivi da Assisi">
+<meta name="twitter:description" content="Suini vivi da 70, 100 e 130 kg. Sconti automatici, trasporto gratuito da Assisi.">
+<meta name="twitter:image" content="og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&display=swap" rel="stylesheet">
@@ -342,9 +349,22 @@ footer{border-top:1px solid var(--line);padding:26px 0}
   color:var(--paper);box-shadow:0 -18px 36px -28px rgba(0,0,0,.8);transform:translateY(102%);
   transition:transform .5s var(--ease)}
 .dock.up{transform:none}
-.dock-hint{display:none;font-size:.72rem;color:rgba(245,240,234,.8);line-height:1.35;
-  padding:9px 18px 0;margin:0;max-width:1180px;margin-inline:auto;border-top:1px solid rgba(245,240,234,.1)}
+.dock-hint{display:none;font-size:.74rem;font-weight:700;color:var(--calc-accent-text,#F0AAC0);line-height:1.35;
+  padding:9px 18px 0;margin:0;max-width:1180px;margin-inline:auto;border-top:1px solid rgba(245,240,234,.14);
+  opacity:1;transition:opacity .3s var(--ease)}
 .dock-hint.show{display:block}
+.dock-hint.fading{opacity:0}
+.dock-sheet{max-height:0;overflow:hidden;transition:max-height .4s var(--ease);max-width:1180px;margin:0 auto}
+.dock.open .dock-sheet{max-height:56vh;overflow-y:auto}
+.dock-sheet-handle{display:block;width:36px;height:4px;border-radius:4px;background:rgba(245,240,234,.35);
+  border:0;margin:10px auto 2px;padding:0;cursor:pointer}
+.dock-sheet-handle:hover{background:rgba(245,240,234,.55)}
+.dock-sheet-body{padding:8px 18px 14px;font-size:.82rem}
+.ds-line{display:flex;justify-content:space-between;gap:12px;padding:7px 0;
+  border-bottom:1px dashed rgba(245,240,234,.14);color:rgba(245,240,234,.85)}
+.ds-line:last-child{border-bottom:0}
+.ds-line span:last-child{font-weight:700;color:var(--paper)}
+.ds-line.ds-total span:last-child{color:var(--calc-accent-text,#F0AAC0);font-size:1.05rem}
 .dock-in{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;
   max-width:1180px;margin:0 auto}
 .dock-left p{color:rgba(245,240,234,.6);font-size:.72rem;margin:0}
@@ -558,6 +578,10 @@ footer{border-top:1px solid var(--line);padding:26px 0}
         <summary>Come si paga?<i></i></summary>
         <p>Scegli la modalità più comoda per te tra contanti alla consegna, bonifico a fine mese o pagamento dilazionato a 30, 60 o 90 giorni. Ogni opzione ha un proprio importo finale: il calcolatore te li mostra tutti, così scegli quello più conveniente per il tuo ordine.</p>
       </details>
+      <details class="faq-card">
+        <summary>La documentazione è in regola?<i></i></summary>
+        <p>Sì. Ogni capo viaggia con il regolare Modello IV e con tutta la documentazione sanitaria e veterinaria richiesta per il trasporto di animali vivi: tracciabilità, provenienza e controlli sono sempre in ordine, dalla stalla alla consegna.</p>
+      </details>
     </div>
   </section>
 
@@ -574,6 +598,10 @@ footer{border-top:1px solid var(--line);padding:26px 0}
 
 <!-- ======================= DOCK MOBILE ======================= -->
 <div class="dock" id="dock">
+  <div class="dock-sheet" id="dockSheet">
+    <button type="button" class="dock-sheet-handle" id="dockHandle" aria-label="Apri riepilogo esteso"></button>
+    <div class="dock-sheet-body" id="dockSheetBody"></div>
+  </div>
   <p class="dock-hint" id="dockHint"></p>
   <div class="dock-in">
     <div class="dock-left">
@@ -583,7 +611,7 @@ footer{border-top:1px solid var(--line);padding:26px 0}
         <span class="dock-disc num" id="dockDisc"></span>
       </div>
     </div>
-    <a class="btn btn-accent" href="#ticket">Vai al riepilogo</a>
+    <button type="button" class="btn btn-accent" id="dockCta">Vai al riepilogo</button>
   </div>
 </div>
 
@@ -727,6 +755,27 @@ function haversineKm(lat1, lon1, lat2, lon2){
   return Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)) * 1.25);
 }
 let geoTimeout = null;
+
+/* ---------- tabellone di avvisi (mobile) ---------- */
+let tabelloneMsgs = [];
+let tabelloneIdx = 0;
+function renderTabelloneSlide(){
+  const dockHint = $("#dockHint");
+  if (!tabelloneMsgs.length){ dockHint.classList.remove("show"); return; }
+  if (tabelloneIdx >= tabelloneMsgs.length) tabelloneIdx = 0;
+  dockHint.textContent = tabelloneMsgs[tabelloneIdx];
+  dockHint.classList.add("show");
+}
+setInterval(() => {
+  if (tabelloneMsgs.length < 2) return;
+  const dockHint = $("#dockHint");
+  dockHint.classList.add("fading");
+  setTimeout(() => {
+    tabelloneIdx = (tabelloneIdx + 1) % tabelloneMsgs.length;
+    renderTabelloneSlide();
+    dockHint.classList.remove("fading");
+  }, 300);
+}, 4000);
 $("#locInput").addEventListener("input", e => {
   const q = e.target.value.trim();
   stato.comune = "";
@@ -811,6 +860,23 @@ function spostaData(giorni){
   $("#dataConsegna").value = d.toISOString().slice(0,10);
   render();
 }
+function scrollToStep(selector){
+  const el = document.querySelector(selector);
+  if (el) el.scrollIntoView({ behavior:"smooth", block:"center" });
+}
+
+/* ---------- foglio estraibile mobile (swipe-up) ---------- */
+const dockEl = $("#dock");
+$("#dockHandle").addEventListener("click", () => dockEl.classList.toggle("open"));
+let touchStartY = null;
+dockEl.addEventListener("touchstart", e => { touchStartY = e.touches[0].clientY; }, { passive:true });
+dockEl.addEventListener("touchmove", e => {
+  if (touchStartY === null) return;
+  const dy = touchStartY - e.touches[0].clientY;
+  if (dy > 36){ dockEl.classList.add("open"); touchStartY = null; }
+  else if (dy < -36){ dockEl.classList.remove("open"); touchStartY = null; }
+}, { passive:true });
+dockEl.addEventListener("touchend", () => { touchStartY = null; });
 function sogliaZona(km){
   return CONFIG.soglie.find(s => km <= s.km) || CONFIG.soglie[CONFIG.soglie.length - 1];
 }
@@ -996,10 +1062,27 @@ function render(){
       hintsBox.appendChild(btn);
     }
   }
-  const dockHint = $("#dockHint");
-  const dockMsg = nudge ? nudge.text : (capi > 0 && capi < soglia.capi ? upSub : "");
-  if (dockMsg){ dockHint.textContent = dockMsg; dockHint.classList.add("show"); }
-  else { dockHint.textContent = ""; dockHint.classList.remove("show"); }
+  tabelloneMsgs = [];
+  if (capi === 0){
+    tabelloneMsgs.push("Aggiungi almeno un capo per iniziare il tuo preventivo.");
+    tabelloneMsgs.push("Scegli una proposta rapida qui sopra per partire veloce.");
+  } else {
+    if (capi < soglia.capi){
+      const gap = soglia.capi - capi;
+      tabelloneMsgs.push(`Aggiungi ${gap} cap${gap>1?"i":"o"} per il trasporto gratuito.`);
+    }
+    if (prossimoVol) tabelloneMsgs.push("Aggiungi capi: il totale potrebbe scontarsi ancora.");
+    const paTick = prossimaSogliaAnticipo(giorni);
+    if (paTick){
+      const giorniInPiu = paTick.giorni - giorni;
+      tabelloneMsgs.push(`Sposta la consegna di ${giorniInPiu} giorn${giorniInPiu===1?"o":"i"} per risparmiare ancora.`);
+    }
+    if (stato.pagamento !== "contanti") tabelloneMsgs.push("Paga in contanti alla consegna: è l'opzione più conveniente.");
+    if (!stato.promo) tabelloneMsgs.push("Hai un codice riservato? Applicalo per uno sconto extra.");
+    if (!dataVal) tabelloneMsgs.push("Aggiungi una data di consegna per completare il preventivo.");
+    if (!tabelloneMsgs.length) tabelloneMsgs.push("Il tuo preventivo è pronto: invialo qui sotto.");
+  }
+  renderTabelloneSlide();
 
   /* riepilogo ordine */
   const list = $("#tkList");
@@ -1067,6 +1150,44 @@ function render(){
   $("#dockLine").textContent = `${capi} cap${capi===1?"o":"i"} · ${statoSped==='free' && capi>0 ? "trasporto gratis" : "il tuo ordine"}`;
   $("#dock").classList.toggle("up", capi > 0);
 
+  /* foglio esteso: mini-riepilogo, apribile con swipe-up o toccando la maniglia */
+  const sheetBody = $("#dockSheetBody");
+  if (capi === 0){
+    sheetBody.innerHTML = `<div class="ds-line"><span>Il carrello è vuoto</span><span></span></div>`;
+  } else {
+    let html = "";
+    CONFIG.tagli.forEach(t => {
+      if (!stato.q[t.id]) return;
+      html += `<div class="ds-line"><span>${stato.q[t.id]} × ${t.nome}</span><span>${eur(stato.q[t.id]*t.kg*t.prezzo)}</span></div>`;
+    });
+    if (euroVolume > 0) html += `<div class="ds-line"><span>Sconto quantità</span><span>− ${eur(euroVolume)}</span></div>`;
+    if (euroAnticipo > 0) html += `<div class="ds-line"><span>Sconto anticipo</span><span>− ${eur(euroAnticipo)}</span></div>`;
+    if (euroPromo > 0) html += `<div class="ds-line"><span>Codice riservato</span><span>− ${eur(euroPromo)}</span></div>`;
+    if (euroPagamento > 0) html += `<div class="ds-line"><span>Sconto pagamento</span><span>− ${eur(euroPagamento)}</span></div>`;
+    html += `<div class="ds-line"><span>Trasporto (${stato.comune || km + " km"})</span><span>${statoSped==='free' ? 'Gratuito' : 'Da confermare'}</span></div>`;
+    html += `<div class="ds-line ds-total"><span>Totale · ${payDef.nome.toLowerCase()}</span><span>${eur(totaleConPagamento)}</span></div>`;
+    sheetBody.innerHTML = html;
+  }
+
+  /* pulsante dock dinamico: segue il suggerimento attivo */
+  const dockCta = $("#dockCta");
+  if (capi === 0){
+    dockCta.textContent = "Scegli i capi";
+    dockCta.onclick = () => scrollToStep("#items");
+  } else if (nudge && nudge.label){
+    dockCta.textContent = nudge.label;
+    dockCta.onclick = () => { nudge.action(); };
+  } else if (capi < soglia.capi){
+    dockCta.textContent = "Aggiungi capi";
+    dockCta.onclick = () => scrollToStep("#items");
+  } else if (nudge && !nudge.label){
+    dockCta.textContent = "Aggiungi un codice";
+    dockCta.onclick = () => scrollToStep("#promoCode");
+  } else {
+    dockCta.textContent = "Vai al riepilogo";
+    dockCta.onclick = () => scrollToStep("#ticket");
+  }
+
   /* link precompilati */
   const capiDesc = CONFIG.tagli.filter(t => stato.q[t.id]).map(t => `${stato.q[t.id]} da ${t.kg} kg`).join(", ");
   const destDesc = stato.comune ? `${stato.comune} (circa ${km} km dalla sede Scarponi)` : `circa ${km} km dalla sede Scarponi`;
@@ -1094,6 +1215,25 @@ function render(){
 }
 
 render();
+
+/* ---------- prezzi e codici sconto: caricati da config.json, se presente ----------
+   Scarponi aggiorna prezzi e codici da admin.html, senza toccare questo file. */
+fetch("./config.json", { cache: "no-store" })
+  .then(r => r.ok ? r.json() : null)
+  .then(data => {
+    if (!data) return;
+    if (Array.isArray(data.tagli)){
+      data.tagli.forEach(dt => {
+        const t = CONFIG.tagli.find(x => x.id === dt.id);
+        if (t && typeof dt.prezzo === "number" && dt.prezzo > 0) t.prezzo = dt.prezzo;
+      });
+    }
+    if (data.codiciPromo && typeof data.codiciPromo === "object"){
+      CONFIG.codiciPromo = data.codiciPromo;
+    }
+    render();
+  })
+  .catch(() => { /* config.json non trovato o non raggiungibile: restano i prezzi scritti qui sopra */ });
 </script>
 </body>
 </html>

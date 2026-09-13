@@ -1,0 +1,14 @@
+{
+  "aggiornato": "2026-09-13",
+  "note": "Modifica questo file solo tramite admin.html — non a mano, per evitare errori di formato.",
+  "tagli": [
+    { "id": "g130", "prezzo": 3.30 },
+    { "id": "g100", "prezzo": 3.50 },
+    { "id": "g70",  "prezzo": 4.00 }
+  ],
+  "codiciPromo": {
+    "LUCA":   { "pct": 0.10 },
+    "GIULIA": { "pct": 0.15 },
+    "ELENA":  { "pct": 0.20 }
+  }
+}
