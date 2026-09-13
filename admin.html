@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Scarponi · Pannello prezzi e codici (uso interno)</title>
+<title>Scarponi · Pannello prezzi e sconti (uso interno)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&display=swap" rel="stylesheet">
@@ -19,16 +19,16 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--paper);color:var(--ink);font-family:'Bricolage Grotesque',ui-sans-serif,system-ui,sans-serif;
   font-size:16px;line-height:1.5;padding:0 0 80px}
-.wrap{max-width:720px;margin:0 auto;padding:0 20px}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
 header{padding:34px 0 20px;border-bottom:1px solid var(--line);margin-bottom:28px}
 .eyebrow{font-size:.72rem;text-transform:uppercase;letter-spacing:.16em;font-weight:700;color:var(--accent-deep)}
 h1{font-size:1.7rem;font-weight:700;letter-spacing:-.02em;margin-top:8px}
-header p{color:var(--ink-soft);max-width:56ch;margin-top:8px;font-size:.94rem}
+header p{color:var(--ink-soft);max-width:60ch;margin-top:8px;font-size:.94rem}
 .warn{background:var(--accent-wash);color:var(--accent-deep);border-radius:14px;padding:14px 16px;
   font-size:.86rem;margin-top:16px;line-height:1.5}
 .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:20px}
 .card h2{font-size:1.05rem;font-weight:700;margin-bottom:4px}
-.card .hint{font-size:.82rem;color:var(--muted);margin-bottom:18px}
+.card .hint{font-size:.82rem;color:var(--muted);margin-bottom:18px;line-height:1.5}
 .field-row{display:grid;grid-template-columns:1fr 140px;gap:12px;align-items:center;padding:10px 0;
   border-bottom:1px solid var(--paper-2)}
 .field-row:last-child{border-bottom:0}
@@ -37,6 +37,7 @@ header p{color:var(--ink-soft);max-width:56ch;margin-top:8px;font-size:.94rem}
 .field-row input[type=number]{width:100%;font-family:inherit;font-size:.95rem;padding:10px 12px;
   border-radius:10px;border:1px solid var(--line);background:var(--paper);text-align:right}
 .field-row input:focus{outline:none;border-color:var(--accent)}
+
 .promo-row{display:grid;grid-template-columns:1fr 100px 40px;gap:10px;align-items:center;margin-bottom:10px}
 .promo-row input[type=text]{font-family:'Bricolage Grotesque',monospace;text-transform:uppercase;letter-spacing:.04em}
 .promo-row input{width:100%;font-family:inherit;font-size:.92rem;padding:10px 12px;border-radius:10px;
@@ -44,13 +45,24 @@ header p{color:var(--ink-soft);max-width:56ch;margin-top:8px;font-size:.94rem}
 .promo-row input:focus{outline:none;border-color:var(--accent)}
 .promo-row .pct-wrap{position:relative}
 .promo-row .pct-wrap span{position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.85rem}
-.promo-row button{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--paper);
-  cursor:pointer;color:var(--accent-deep);font-size:1.1rem;line-height:1}
-.promo-row button:hover{background:var(--accent-wash)}
+
+.tier-row{display:grid;grid-template-columns:auto 90px auto 90px 40px;gap:8px;align-items:center;margin-bottom:10px;font-size:.88rem}
+.tier-row span.lbl{color:var(--ink-soft)}
+.tier-row input{width:100%;font-family:inherit;font-size:.92rem;padding:9px 10px;border-radius:10px;
+  border:1px solid var(--line);background:var(--paper);text-align:center}
+.tier-row input:focus{outline:none;border-color:var(--accent)}
+.tier-row .pct-wrap{position:relative}
+.tier-row .pct-wrap span{position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.8rem}
+
+.rm{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--paper);
+  cursor:pointer;color:var(--accent-deep);font-size:1.05rem;line-height:1;flex:none}
+.rm:hover{background:var(--accent-wash)}
+
 .btn{display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;font-family:inherit;font-size:.9rem;
   font-weight:600;padding:12px 20px;border-radius:100px;transition:transform .25s var(--ease)}
 .btn:hover{transform:translateY(-2px)}
 .btn-ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.btn-ghost.small{padding:8px 15px;font-size:.82rem}
 .btn-accent{background:var(--accent);color:#fff}
 .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
 .status{margin-top:14px;padding:12px 15px;border-radius:12px;background:var(--ok-wash);color:var(--ok);
@@ -61,14 +73,18 @@ header p{color:var(--ink-soft);max-width:56ch;margin-top:8px;font-size:.94rem}
 .steps ol{padding-left:20px;font-size:.9rem;color:var(--ink-soft);display:flex;flex-direction:column;gap:8px}
 .steps code{background:var(--paper-2);padding:2px 6px;border-radius:6px;font-size:.85em}
 footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:30px}
+@media(max-width:480px){
+  .tier-row{grid-template-columns:1fr;justify-items:start}
+  .tier-row .rm{justify-self:end;margin-top:-4px}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div class="eyebrow">Uso interno · non indicizzato</div>
-    <h1>Prezzi e codici sconto</h1>
-    <p>Da qui aggiorni i prezzi al kg (settimanalmente, secondo la Borsa Merci di Mantova) e gestisci i codici riservati usati nel calcolatore del sito. Le modifiche qui NON si applicano da sole al sito: generi un file, lo scarichi, e lo carichi tu su GitHub.</p>
+    <h1>Prezzi e sconti</h1>
+    <p>Da qui aggiorni i prezzi al kg (settimanalmente, secondo la Borsa Merci di Mantova), le soglie di trasporto gratuito, gli sconti per prenotazione anticipata e per quantità, e i codici riservati. Le modifiche qui NON si applicano da sole al sito: generi un file, lo scarichi, e lo carichi tu su GitHub.</p>
     <div class="warn">Questa pagina non ha una password: chiunque abbia il link può modificarla. Non condividere il link pubblicamente — tienilo solo per te.</div>
   </header>
 
@@ -76,11 +92,11 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:30px}
     <h2>Prezzi al kg</h2>
     <div class="hint">Aggiorna qui i tre prezzi. Il calcolatore del sito li userà appena carichi il nuovo file.</div>
     <div class="field-row">
-      <label>Suino da 70 kg<span class="sub">taglia M · da accrescimento</span></label>
+      <label>Suino da 70 kg<span class="sub">taglia M · da accrescimento (Magroncello)</span></label>
       <input type="number" id="p70" step="0.01" min="0" value="4.00">
     </div>
     <div class="field-row">
-      <label>Suino da 100 kg<span class="sub">taglia L</span></label>
+      <label>Suino da 100 kg<span class="sub">taglia L · suino leggero</span></label>
       <input type="number" id="p100" step="0.01" min="0" value="3.50">
     </div>
     <div class="field-row">
@@ -90,10 +106,31 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:30px}
   </div>
 
   <div class="card">
+    <h2>Soglie di trasporto gratuito</h2>
+    <div class="hint">Fino a quanti km il trasporto è gratis, e quanti capi minimo servono per ciascuna fascia. Va dalla fascia più vicina (in alto) a quella più lontana (in basso).</div>
+    <div id="soglieList"></div>
+    <button type="button" class="btn btn-ghost small" id="addSoglia">+ Aggiungi fascia</button>
+  </div>
+
+  <div class="card">
+    <h2>Sconto per prenotazione anticipata</h2>
+    <div class="hint">Più giorni prima della consegna si prenota, più sale lo sconto sul prezzo al kg. Il sito applica sempre la soglia più alta raggiunta.</div>
+    <div id="anticipoList"></div>
+    <button type="button" class="btn btn-ghost small" id="addAnticipo">+ Aggiungi soglia</button>
+  </div>
+
+  <div class="card">
+    <h2>Sconto per quantità</h2>
+    <div class="hint">Quanti capi in più, rispetto al minimo già previsto per la fascia di trasporto gratuito di quella zona, servono per ogni scaglione di sconto. Esempio: se in una zona il minimo gratuito è 1 capo e qui scrivi "2 capi in più", lo sconto scatta a 3 capi totali in quella zona.</div>
+    <div id="volumeList"></div>
+    <button type="button" class="btn btn-ghost small" id="addVolume">+ Aggiungi scaglione</button>
+  </div>
+
+  <div class="card">
     <h2>Codici riservati</h2>
     <div class="hint">Uno sconto percentuale extra sul totale, per chi ha il codice. Sono visibili nel sorgente del sito: usali come cortesia via passaparola, non come sistema segreto.</div>
     <div id="promoList"></div>
-    <button type="button" class="btn btn-ghost" id="addPromo">+ Aggiungi codice</button>
+    <button type="button" class="btn btn-ghost small" id="addPromo">+ Aggiungi codice</button>
   </div>
 
   <div class="actions">
@@ -105,11 +142,11 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:30px}
   <div class="steps">
     <h2>Come pubblicare le modifiche</h2>
     <ol>
-      <li>Compila prezzi e codici qui sopra, poi premi <strong>"Genera e scarica config.json"</strong>.</li>
+      <li>Compila prezzi, soglie, sconti e codici qui sopra, poi premi <strong>"Genera e scarica config.json"</strong>.</li>
       <li>Il browser scarica un file chiamato <code>config.json</code>.</li>
       <li>Vai sul repository GitHub del sito, nella stessa cartella dove si trova <code>listino-scarponi.html</code>.</li>
       <li>Carica il nuovo <code>config.json</code> trascinandolo nella pagina di GitHub, scegliendo di <strong>sostituire</strong> quello esistente, e conferma il commit.</li>
-      <li>Entro qualche minuto il sito mostrerà i nuovi prezzi e codici — nessun altro file va toccato.</li>
+      <li>Entro qualche minuto il sito mostrerà i nuovi valori — nessun altro file va toccato.</li>
     </ol>
   </div>
 
@@ -119,6 +156,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:30px}
 <script>
 const $ = s => document.querySelector(s);
 
+/* ---------- codici riservati ---------- */
 function addPromoRow(codice, pct){
   const row = document.createElement("div");
   row.className = "promo-row";
@@ -130,11 +168,54 @@ function addPromoRow(codice, pct){
   $("#promoList").appendChild(row);
 }
 
+/* ---------- soglie di trasporto ---------- */
+function addSogliaRow(km, capi){
+  const row = document.createElement("div");
+  row.className = "tier-row";
+  row.innerHTML = `
+    <span class="lbl">Fino a</span>
+    <input type="number" class="soglia-km" min="1" step="5" value="${km != null ? km : ""}">
+    <span class="lbl">km, minimo</span>
+    <input type="number" class="soglia-capi" min="1" step="1" value="${capi != null ? capi : ""}">
+    <button type="button" class="rm">&times;</button>`;
+  row.querySelector(".rm").onclick = () => row.remove();
+  $("#soglieList").appendChild(row);
+}
+
+/* ---------- sconto anticipo ---------- */
+function addAnticipoRow(giorni, pct){
+  const row = document.createElement("div");
+  row.className = "tier-row";
+  row.innerHTML = `
+    <span class="lbl">Almeno</span>
+    <input type="number" class="ant-giorni" min="1" step="1" value="${giorni != null ? giorni : ""}">
+    <span class="lbl">giorni, sconto</span>
+    <div class="pct-wrap"><input type="number" class="ant-pct" min="0" max="90" step="1" value="${pct != null ? Math.round(pct*100) : ""}"><span>%</span></div>
+    <button type="button" class="rm">&times;</button>`;
+  row.querySelector(".rm").onclick = () => row.remove();
+  $("#anticipoList").appendChild(row);
+}
+
+/* ---------- sconto quantità ---------- */
+function addVolumeRow(capiInPiu, pct){
+  const row = document.createElement("div");
+  row.className = "tier-row";
+  row.innerHTML = `
+    <span class="lbl">Almeno</span>
+    <input type="number" class="vol-capi" min="1" step="1" value="${capiInPiu != null ? capiInPiu : ""}">
+    <span class="lbl">capi in più, sconto</span>
+    <div class="pct-wrap"><input type="number" class="vol-pct" min="0" max="90" step="1" value="${pct != null ? Math.round(pct*100) : ""}"><span>%</span></div>
+    <button type="button" class="rm">&times;</button>`;
+  row.querySelector(".rm").onclick = () => row.remove();
+  $("#volumeList").appendChild(row);
+}
+
 function caricaConfigCorrente(){
   fetch("./config.json", { cache: "no-store" })
     .then(r => r.ok ? r.json() : null)
     .then(data => {
-      if (!data) { addPromoRow("LUCA", 0.10); addPromoRow("GIULIA", 0.15); addPromoRow("ELENA", 0.20); return; }
+      if (!data){ impostaValoriDiDefault(); return; }
+
       if (Array.isArray(data.tagli)){
         data.tagli.forEach(t => {
           if (t.id === "g70")  $("#p70").value  = t.prezzo;
@@ -142,16 +223,37 @@ function caricaConfigCorrente(){
           if (t.id === "g130") $("#p130").value = t.prezzo;
         });
       }
+
       const codici = data.codiciPromo || {};
       const keys = Object.keys(codici);
-      if (!keys.length){ addPromoRow("", null); }
+      if (!keys.length) addPromoRow("", null);
       else keys.forEach(k => addPromoRow(k, codici[k].pct));
+
+      const soglie = Array.isArray(data.soglie) && data.soglie.length ? data.soglie : [{km:100,capi:1},{km:200,capi:3},{km:300,capi:5}];
+      soglie.forEach(s => addSogliaRow(s.km, s.capi));
+
+      const anticipo = Array.isArray(data.scontoAnticipo) && data.scontoAnticipo.length ? data.scontoAnticipo : [{giorni:5,sconto:.03},{giorni:7,sconto:.05},{giorni:10,sconto:.07},{giorni:15,sconto:.10}];
+      anticipo.slice().sort((a,b)=>a.giorni-b.giorni).forEach(s => addAnticipoRow(s.giorni, s.sconto));
+
+      const volume = Array.isArray(data.scontoVolume) && data.scontoVolume.length ? data.scontoVolume : [{capiInPiu:2,sconto:.05},{capiInPiu:4,sconto:.10},{capiInPiu:7,sconto:.15},{capiInPiu:9,sconto:.20},{capiInPiu:14,sconto:.25},{capiInPiu:19,sconto:.30},{capiInPiu:24,sconto:.35},{capiInPiu:29,sconto:.40}];
+      volume.slice().sort((a,b)=>a.capiInPiu-b.capiInPiu).forEach(s => addVolumeRow(s.capiInPiu, s.sconto));
     })
-    .catch(() => { addPromoRow("LUCA", 0.10); addPromoRow("GIULIA", 0.15); addPromoRow("ELENA", 0.20); });
+    .catch(impostaValoriDiDefault);
 }
+
+function impostaValoriDiDefault(){
+  addPromoRow("LUCA", 0.10); addPromoRow("GIULIA", 0.15); addPromoRow("ELENA", 0.20);
+  [[100,1],[200,3],[300,5]].forEach(([km,capi]) => addSogliaRow(km,capi));
+  [[5,.03],[7,.05],[10,.07],[15,.10]].forEach(([g,p]) => addAnticipoRow(g,p));
+  [[2,.05],[4,.10],[7,.15],[9,.20],[14,.25],[19,.30],[24,.35],[29,.40]].forEach(([c,p]) => addVolumeRow(c,p));
+}
+
 caricaConfigCorrente();
 
 $("#addPromo").addEventListener("click", () => addPromoRow("", null));
+$("#addSoglia").addEventListener("click", () => addSogliaRow(null, null));
+$("#addAnticipo").addEventListener("click", () => addAnticipoRow(null, null));
+$("#addVolume").addEventListener("click", () => addVolumeRow(null, null));
 
 $("#generaBtn").addEventListener("click", () => {
   const codiciPromo = {};
@@ -161,6 +263,29 @@ $("#generaBtn").addEventListener("click", () => {
     if (codice && !isNaN(pct) && pct > 0) codiciPromo[codice] = { pct: Math.round(pct) / 100 };
   });
 
+  const soglie = [];
+  document.querySelectorAll("#soglieList .tier-row").forEach(row => {
+    const km = parseFloat(row.querySelector(".soglia-km").value);
+    const capi = parseFloat(row.querySelector(".soglia-capi").value);
+    if (km > 0 && capi > 0) soglie.push({ km, capi: Math.round(capi) });
+  });
+  soglie.sort((a,b) => a.km - b.km);
+
+  const scontoAnticipo = [];
+  document.querySelectorAll("#anticipoList .tier-row").forEach(row => {
+    const giorni = parseFloat(row.querySelector(".ant-giorni").value);
+    const pct = parseFloat(row.querySelector(".ant-pct").value);
+    if (giorni > 0 && !isNaN(pct) && pct >= 0) scontoAnticipo.push({ giorni: Math.round(giorni), sconto: Math.round(pct) / 100 });
+  });
+
+  const scontoVolume = [];
+  document.querySelectorAll("#volumeList .tier-row").forEach(row => {
+    const capiInPiu = parseFloat(row.querySelector(".vol-capi").value);
+    const pct = parseFloat(row.querySelector(".vol-pct").value);
+    if (capiInPiu > 0 && !isNaN(pct) && pct >= 0) scontoVolume.push({ capiInPiu: Math.round(capiInPiu), sconto: Math.round(pct) / 100 });
+  });
+  scontoVolume.sort((a,b) => a.capiInPiu - b.capiInPiu);
+
   const config = {
     aggiornato: new Date().toISOString().slice(0,10),
     note: "Modifica questo file solo tramite admin.html — non a mano, per evitare errori di formato.",
@@ -169,7 +294,10 @@ $("#generaBtn").addEventListener("click", () => {
       { id:"g100", prezzo: parseFloat($("#p100").value) || 0 },
       { id:"g70",  prezzo: parseFloat($("#p70").value)  || 0 }
     ],
-    codiciPromo
+    codiciPromo,
+    soglie,
+    scontoAnticipo,
+    scontoVolume
   };
 
   const blob = new Blob([JSON.stringify(config, null, 2)], { type: "application/json" });

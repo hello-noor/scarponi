@@ -1268,8 +1268,8 @@ function render(){
 
 render();
 
-/* ---------- prezzi e codici sconto: caricati da config.json, se presente ----------
-   Scarponi aggiorna prezzi e codici da admin.html, senza toccare questo file. */
+/* ---------- prezzi, sconti e codici: caricati da config.json, se presente ----------
+   Scarponi aggiorna prezzi, soglie, sconti e codici da admin.html, senza toccare questo file. */
 fetch("./config.json", { cache: "no-store" })
   .then(r => r.ok ? r.json() : null)
   .then(data => {
@@ -1283,9 +1283,25 @@ fetch("./config.json", { cache: "no-store" })
     if (data.codiciPromo && typeof data.codiciPromo === "object"){
       CONFIG.codiciPromo = data.codiciPromo;
     }
+    if (Array.isArray(data.soglie) && data.soglie.length){
+      CONFIG.soglie = data.soglie
+        .filter(s => s.km > 0 && s.capi > 0)
+        .sort((a,b) => a.km - b.km);
+    }
+    if (Array.isArray(data.scontoAnticipo) && data.scontoAnticipo.length){
+      CONFIG.scontoAnticipo = data.scontoAnticipo
+        .filter(s => s.giorni > 0 && s.sconto >= 0)
+        .map(s => ({ giorni:s.giorni, sconto:s.sconto }));
+    }
+    if (Array.isArray(data.scontoVolume) && data.scontoVolume.length){
+      CONFIG.scontoVolume = data.scontoVolume
+        .filter(s => s.capiInPiu > 0 && s.sconto >= 0)
+        .map(s => ({ offset:s.capiInPiu, sconto:s.sconto }))
+        .sort((a,b) => a.offset - b.offset);
+    }
     render();
   })
-  .catch(() => { /* config.json non trovato o non raggiungibile: restano i prezzi scritti qui sopra */ });
+  .catch(() => { /* config.json non trovato o non raggiungibile: restano i valori scritti qui sopra */ });
 </script>
 </body>
 </html>

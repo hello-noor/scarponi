@@ -2,31 +2,34 @@
   "aggiornato": "2026-09-13",
   "note": "Modifica questo file solo tramite admin.html — non a mano, per evitare errori di formato.",
   "tagli": [
-    {
-      "id": "g130",
-      "prezzo": 3.3
-    },
-    {
-      "id": "g100",
-      "prezzo": 3.5
-    },
-    {
-      "id": "g70",
-      "prezzo": 4
-    }
+    { "id": "g130", "prezzo": 3.30 },
+    { "id": "g100", "prezzo": 3.50 },
+    { "id": "g70",  "prezzo": 4.00 }
   ],
   "codiciPromo": {
-    "LUCA": {
-      "pct": 0.05
-    },
-    "GIULIA": {
-      "pct": 0.1
-    },
-    "ELENA": {
-      "pct": 0.15
-    },
-    "EDOARDO": {
-      "pct": 0.2
-    }
-  }
+    "LUCA":   { "pct": 0.10 },
+    "GIULIA": { "pct": 0.15 },
+    "ELENA":  { "pct": 0.20 }
+  },
+  "soglie": [
+    { "km": 100, "capi": 1 },
+    { "km": 200, "capi": 3 },
+    { "km": 300, "capi": 5 }
+  ],
+  "scontoAnticipo": [
+    { "giorni": 5,  "sconto": 0.03 },
+    { "giorni": 7,  "sconto": 0.05 },
+    { "giorni": 10, "sconto": 0.07 },
+    { "giorni": 15, "sconto": 0.10 }
+  ],
+  "scontoVolume": [
+    { "capiInPiu": 2,  "sconto": 0.05 },
+    { "capiInPiu": 4,  "sconto": 0.10 },
+    { "capiInPiu": 7,  "sconto": 0.15 },
+    { "capiInPiu": 9,  "sconto": 0.20 },
+    { "capiInPiu": 14, "sconto": 0.25 },
+    { "capiInPiu": 19, "sconto": 0.30 },
+    { "capiInPiu": 24, "sconto": 0.35 },
+    { "capiInPiu": 29, "sconto": 0.40 }
+  ]
 }
