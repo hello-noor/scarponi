@@ -128,18 +128,18 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:30px}
     <div class="hint">Quanti capi di ogni taglia erano nel preventivo, e a che prezzo al kg (di norma quello del listino di quella settimana).</div>
     <div class="cat-row">
       <label>Suino da 130 kg · XL</label>
-      <input type="number" id="n130" min="0" step="1" value="0" placeholder="capi">
-      <div class="price-wrap"><input type="number" id="pr130" min="0" step="0.01" value="3.30"><span>€/kg</span></div>
+      <input type="number" inputmode="numeric" id="n130" min="0" step="1" value="0" placeholder="capi">
+      <div class="price-wrap"><input type="number" inputmode="decimal" id="pr130" min="0" step="0.01" value="3.30"><span>€/kg</span></div>
     </div>
     <div class="cat-row">
       <label>Suino da 100 kg · L</label>
-      <input type="number" id="n100" min="0" step="1" value="0" placeholder="capi">
-      <div class="price-wrap"><input type="number" id="pr100" min="0" step="0.01" value="3.50"><span>€/kg</span></div>
+      <input type="number" inputmode="numeric" id="n100" min="0" step="1" value="0" placeholder="capi">
+      <div class="price-wrap"><input type="number" inputmode="decimal" id="pr100" min="0" step="0.01" value="3.50"><span>€/kg</span></div>
     </div>
     <div class="cat-row">
       <label>Suino da 70 kg · M</label>
-      <input type="number" id="n70" min="0" step="1" value="0" placeholder="capi">
-      <div class="price-wrap"><input type="number" id="pr70" min="0" step="0.01" value="4.00"><span>€/kg</span></div>
+      <input type="number" inputmode="numeric" id="n70" min="0" step="1" value="0" placeholder="capi">
+      <div class="price-wrap"><input type="number" inputmode="decimal" id="pr70" min="0" step="0.01" value="4.00"><span>€/kg</span></div>
     </div>
     <div class="actions" style="margin-top:14px">
       <button type="button" class="btn btn-ghost" id="generaCampi">Aggiorna i campi di pesatura ↓</button>
@@ -151,7 +151,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:30px}
     <div class="hint">Lo sconto totale (in %) è quello che il calcolatore del sito mostrava al cliente nel preventivo. Il pagamento è quello scelto: se "contanti alla consegna", si applica lo sconto pagamento previsto.</div>
     <div class="field-row">
       <label>Sconto concordato<span class="sub">quantità + anticipo + codice, come da preventivo</span></label>
-      <input type="number" id="scontoPct" min="0" max="90" step="0.5" value="0">
+      <input type="number" inputmode="decimal" id="scontoPct" min="0" max="90" step="0.5" value="0">
     </div>
     <div class="field-row">
       <label>Metodo di pagamento</label>
@@ -245,15 +245,18 @@ $("#parseMsgBtn").addEventListener("click", () => {
   const capiMatch = testo.match(/🐷\s*Capi:\s*(.+)/i);
   CATS.forEach(c => $("#n" + c.id).value = 0);
   if (capiMatch){
-    let trovatiCapi = false;
-    capiMatch[1].split(",").forEach(parte => {
-      const m = parte.match(/(\d+)\s*da\s*(\d+)\s*kg/i);
-      if (m){
-        const el = $("#n" + m[2]);
-        if (el){ el.value = (parseInt(el.value) || 0) + parseInt(m[1]); trovatiCapi = true; }
+    let trovatiCapi = false, trovatiPrezzi = false;
+    const items = [...capiMatch[1].matchAll(/(\d+)\s*da\s*(\d+)\s*kg(?:\s*a\s*([\d.,]+)\s*€\s*\/\s*kg)?/gi)];
+    items.forEach(m => {
+      const el = $("#n" + m[2]);
+      if (el){ el.value = (parseInt(el.value) || 0) + parseInt(m[1]); trovatiCapi = true; }
+      if (m[3]){
+        const prezzoEl = $("#pr" + m[2]);
+        if (prezzoEl){ prezzoEl.value = parseEuro(m[3]); trovatiPrezzi = true; }
       }
     });
     if (trovatiCapi) trovati.push("capi");
+    if (trovatiPrezzi) trovati.push("prezzi per taglia");
   }
 
   const pagSel = $("#pagamento");
@@ -277,14 +280,21 @@ $("#parseMsgBtn").addEventListener("click", () => {
   const totale = totaleMatch ? parseEuro(totaleMatch[1]) : null;
   if (totale != null){ $("#totalePreventivo").value = Math.round(totale); trovati.push("totale"); }
 
-  const scontoMatch = testo.match(/💰\s*Sconto totale:\s*([€\d.,\s]+)/i);
-  const scontoEuro = scontoMatch ? parseEuro(scontoMatch[1]) : null;
-  if (scontoEuro != null && totale != null){
-    const pagPct = parseFloat(pagSel.value) || 0;
-    const baseStimato = totale / (1 + pagPct / 100) + scontoEuro;
-    if (baseStimato > 0){
-      $("#scontoPct").value = Math.round((scontoEuro / baseStimato * 100) * 10) / 10;
-      trovati.push("sconto");
+  const scontoPctMatch = testo.match(/🏷️\s*Sconto:\s*([\d.,]+)\s*%/i);
+  if (scontoPctMatch){
+    $("#scontoPct").value = parseEuro(scontoPctMatch[1]);
+    trovati.push("sconto");
+  } else {
+    /* messaggi generati prima dell'aggiunta della percentuale: ricalcolo dal valore in € (approssimato) */
+    const scontoMatch = testo.match(/💰\s*Sconto totale:\s*([€\d.,\s]+)/i);
+    const scontoEuro = scontoMatch ? parseEuro(scontoMatch[1]) : null;
+    if (scontoEuro != null && totale != null){
+      const pagPct = parseFloat(pagSel.value) || 0;
+      const baseStimato = totale / (1 + pagPct / 100) + scontoEuro;
+      if (baseStimato > 0){
+        $("#scontoPct").value = Math.round((scontoEuro / baseStimato * 100) * 10) / 10;
+        trovati.push("sconto (stimato)");
+      }
     }
   }
 
@@ -316,14 +326,24 @@ function generaCampiPesatura(){
     let grid = `<h3>${c.nome} — ${n} cap${n>1?"i":"o"}</h3><div class="peso-grid">`;
     for (let i = 1; i <= n; i++){
       const valoreSalvato = pesiSalvati[c.id + "-" + i] || "";
-      grid += `<div class="peso-item"><span>#${i}</span><input type="number" class="peso-input" data-cat="${c.id}" data-idx="${i}" min="0" step="0.5" placeholder="kg" value="${valoreSalvato}"></div>`;
+      grid += `<div class="peso-item"><span>#${i}</span><input type="number" inputmode="decimal" class="peso-input" data-cat="${c.id}" data-idx="${i}" min="0" step="0.5" placeholder="kg" value="${valoreSalvato}"></div>`;
     }
     grid += "</div>";
     wrap.innerHTML = grid;
     box.appendChild(wrap);
   });
   if (!totaleCapi) box.innerHTML = `<div class="peso-empty">Inserisci il numero di capi nella sezione 1: i campi di pesatura compaiono da soli.</div>`;
-  document.querySelectorAll(".peso-input").forEach(inp => inp.addEventListener("input", aggiornaRiepilogo));
+  const pesoInputs = Array.from(document.querySelectorAll(".peso-input"));
+  pesoInputs.forEach((inp, idx) => {
+    inp.addEventListener("input", aggiornaRiepilogo);
+    inp.addEventListener("keydown", e => {
+      if (e.key === "Enter"){
+        e.preventDefault();
+        const next = pesoInputs[idx + 1];
+        if (next) next.focus(); else inp.blur();
+      }
+    });
+  });
   aggiornaRiepilogo();
 }
 $("#generaCampi").addEventListener("click", generaCampiPesatura);

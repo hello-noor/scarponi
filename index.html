@@ -1237,7 +1237,7 @@ function render(){
   }
 
   /* link precompilati */
-  const capiDesc = CONFIG.tagli.filter(t => stato.q[t.id]).map(t => `${stato.q[t.id]} da ${t.kg} kg`).join(", ");
+  const capiDesc = CONFIG.tagli.filter(t => stato.q[t.id]).map(t => `${stato.q[t.id]} da ${t.kg} kg a ${t.prezzo.toLocaleString("it-IT",{minimumFractionDigits:2})} €/kg`).join(", ");
   const destDesc = stato.comune ? `${stato.comune} (circa ${km} km dalla sede Scarponi)` : `circa ${km} km dalla sede Scarponi`;
   const dataStr = dataVal ? new Date(dataVal + "T00:00:00").toLocaleDateString("it-IT",{day:"numeric",month:"long",year:"numeric"}) : "da concordare";
   let msg = "Ciao";
@@ -1246,12 +1246,13 @@ function render(){
   if (capi === 0){
     msg += " Vorrei informazioni sui suini vivi.";
   } else {
+    const scontoTotPct = capi>0 && baseTot>0 ? Math.round(risparmioTotale/baseTot*100*10)/10 : 0;
     const righe = [
       `🐷 Capi: ${capiDesc}`,
       `📍 Consegna: ${destDesc}`,
       `📅 Data: ${dataStr}`,
       `💳 Pagamento: ${payDef.nome}`,
-      `💰 Sconto totale: ${risparmioTotale > 0 ? eur(risparmioTotale) : "€ 0"}`,
+      `🏷️ Sconto: ${scontoTotPct}% (${risparmioTotale > 0 ? "− " + eur(risparmioTotale) : "€ 0"})`,
       `⚖️ Prezzo medio: ${(totaleConPagamento/kgTot).toLocaleString("it-IT",{minimumFractionDigits:2,maximumFractionDigits:2})} €/kg`,
       `💶 Totale: ${eur(totaleConPagamento)}`
     ];
