@@ -1239,20 +1239,24 @@ function render(){
   /* link precompilati */
   const capiDesc = CONFIG.tagli.filter(t => stato.q[t.id]).map(t => `${stato.q[t.id]} da ${t.kg} kg`).join(", ");
   const destDesc = stato.comune ? `${stato.comune} (circa ${km} km dalla sede Scarponi)` : `circa ${km} km dalla sede Scarponi`;
-  const dataStr = dataVal ? new Date(dataVal + "T00:00:00").toLocaleDateString("it-IT",{day:"numeric",month:"long",year:"numeric"}) : null;
+  const dataStr = dataVal ? new Date(dataVal + "T00:00:00").toLocaleDateString("it-IT",{day:"numeric",month:"long",year:"numeric"}) : "da concordare";
   let msg = "Ciao";
   if (nome) msg += `, sono ${nome}`;
   msg += ".";
-  if (capi === 0) msg += " Vorrei informazioni sui suini vivi.";
-  else {
-    msg += ` Vorrei ordinare: ${capiDesc}. Consegna a ${destDesc}${dataStr ? `, indicativamente il ${dataStr}` : ""}. Pagamento: ${payDef.nome.toLowerCase()}.`;
-    const dettagliSconti = [];
-    if (euroVolume > 0) dettagliSconti.push(`quantità ${eur(euroVolume)}`);
-    if (euroAnticipo > 0) dettagliSconti.push(`anticipo ${eur(euroAnticipo)}`);
-    if (euroPromo > 0) dettagliSconti.push(`codice ${stato.promo} ${eur(euroPromo)}`);
-    if (euroPagamento > 0) dettagliSconti.push(`pagamento ${eur(euroPagamento)}`);
-    if (dettagliSconti.length) msg += ` Sconti applicati: ${dettagliSconti.join(", ")}.`;
-    msg += ` Prezzo medio ${(totaleConPagamento/kgTot).toLocaleString("it-IT",{minimumFractionDigits:2,maximumFractionDigits:2})} €/kg. Totale stimato ${eur(totaleConPagamento)}.`;
+  if (capi === 0){
+    msg += " Vorrei informazioni sui suini vivi.";
+  } else {
+    const righe = [
+      `🐷 Capi: ${capiDesc}`,
+      `📍 Consegna: ${destDesc}`,
+      `📅 Data: ${dataStr}`,
+      `💳 Pagamento: ${payDef.nome}`,
+      `💰 Sconto totale: ${risparmioTotale > 0 ? eur(risparmioTotale) : "€ 0"}`,
+      `⚖️ Prezzo medio: ${(totaleConPagamento/kgTot).toLocaleString("it-IT",{minimumFractionDigits:2,maximumFractionDigits:2})} €/kg`,
+      `💶 Totale: ${eur(totaleConPagamento)}`
+    ];
+    if (promoPct > 0) righe.push(`🎟️ Codice: ${stato.promo}`);
+    msg += "\nVorrei ordinare:\n\n" + righe.join("\n");
   }
   const wa = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
   $("#waBtn").href = wa;
