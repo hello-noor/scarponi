@@ -11,7 +11,7 @@
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&display=swap" rel="stylesheet">
 <style>
 :root{
   --ink:#17130F;
@@ -20,9 +20,9 @@
   --paper:#F5F0EA;
   --paper-2:#EDE5DC;
   --line:#DCD1C5;
-  --accent:#C0605A;
-  --accent-deep:#8E3E3A;
-  --accent-wash:#F2DED9;
+  --accent:#BC5279;
+  --accent-deep:#82304F;
+  --accent-wash:#F5DDE6;
   --ok:#4E7A55;
   --ok-wash:#E2EBE0;
   --radius:20px;
@@ -34,14 +34,15 @@ html{scroll-behavior:smooth}
 body{
   background:var(--paper);
   color:var(--ink);
-  font-family:'Outfit',system-ui,sans-serif;
+  font-family:'Bricolage Grotesque',ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-optical-sizing:auto;
   font-size:16px;
   line-height:1.48;
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
   padding-bottom:114px;
 }
-.num{font-family:'JetBrains Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.num{font-variant-numeric:tabular-nums lining-nums}
 .wrap{max-width:1180px;margin:0 auto;padding:0 18px}
 section{padding:clamp(34px,6vw,74px) 0}
 h1,h2,h3,h4{letter-spacing:-.03em;line-height:1.08;font-weight:600}
@@ -125,14 +126,14 @@ nav{
   --ink:#F5F0EA;
   --ink-soft:#D9CFC5;
   --muted:#9C8F82;
-  --calc-accent-text:#E29089;
+  --calc-accent-text:#E9A0B7;
 }
 .calc-grid{display:grid;grid-template-columns:1fr;gap:18px;align-items:start;margin-top:6px}
 @media(min-width:960px){.calc-grid{grid-template-columns:1.22fr .78fr;gap:26px}}
 
 .step-box{background:var(--paper);border-radius:var(--radius);border:1px solid var(--line);padding:19px 20px;margin-bottom:14px}
 .step-head{display:flex;align-items:baseline;gap:10px;margin-bottom:14px}
-.step-num{font-family:'JetBrains Mono',monospace;font-size:.74rem;color:var(--calc-accent-text);font-weight:700}
+.step-num{font-size:.74rem;color:var(--calc-accent-text);font-weight:700;font-variant-numeric:tabular-nums}
 .step-head h3{font-size:1rem;font-weight:600;letter-spacing:-.01em}
 .step-sub{margin-left:auto;font-size:.72rem;color:var(--muted);font-weight:600;white-space:nowrap}
 
@@ -146,7 +147,7 @@ nav{
 .preset.active .preset-title{color:var(--paper)}
 .preset-sub{font-size:.68rem;color:var(--muted);display:block;margin-top:1px}
 .preset.active .preset-sub{color:rgba(36,30,26,.6)}
-.preset .p-num{position:absolute;top:9px;right:11px;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;color:var(--muted)}
+.preset .p-num{position:absolute;top:9px;right:11px;font-size:.6rem;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
 .preset.active .p-num{color:rgba(36,30,26,.5)}
 .preset .p-badge{position:absolute;top:-9px;left:11px;font-size:.6rem;font-weight:700;background:var(--accent);color:#fff;padding:3px 8px;border-radius:100px;white-space:nowrap}
 
@@ -200,7 +201,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
   margin-top:-9px;cursor:grab;box-shadow:0 4px 10px -4px rgba(23,19,15,.8)}
 input[type=range]::-moz-range-thumb{width:22px;height:22px;border:0;border-radius:50%;background:var(--ink);cursor:grab}
 .km-row{display:flex;justify-content:space-between;font-size:.76rem;color:var(--muted)}
-.km-row b{color:var(--ink);font-family:'JetBrains Mono',monospace;font-weight:600}
+.km-row b{color:var(--ink);font-weight:600}
 
 .status{display:flex;gap:11px;align-items:flex-start;padding:12px 14px;border-radius:13px;background:var(--paper-2);margin-top:12px}
 .status.free{background:var(--ok-wash)}
@@ -220,7 +221,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border:0;border-radiu
 .field input[type=date]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(192,96,90,.13)}
 
 .promo-row{display:flex;gap:9px}
-.promo-row input{flex:1;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.04em;
+.promo-row input{flex:1;text-transform:uppercase;letter-spacing:.04em;
   font-size:.86rem;padding:11px 13px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
 .promo-row input:focus{outline:none;border-color:var(--accent)}
 .promo-status{margin-top:10px;font-size:.8rem;font-weight:500;display:none;align-items:center;gap:8px;
@@ -358,9 +359,9 @@ footer{border-top:1px solid var(--line);padding:26px 0}
   <div class="wrap nav-in">
     <a class="brand" href="#top">
       <svg class="brand-ico" viewBox="0 0 40 40" aria-hidden="true">
-        <circle cx="20" cy="20" r="19" fill="#C0605A"/>
+        <circle cx="20" cy="20" r="19" fill="#BC5279"/>
         <ellipse cx="20" cy="21" rx="10" ry="8.5" fill="#F5F0EA"/>
-        <circle cx="16.6" cy="21" r="1.9" fill="#C0605A"/><circle cx="23.4" cy="21" r="1.9" fill="#C0605A"/>
+        <circle cx="16.6" cy="21" r="1.9" fill="#BC5279"/><circle cx="23.4" cy="21" r="1.9" fill="#BC5279"/>
       </svg>
       <span>Scarponi<small>Assisi</small></span>
     </a>
@@ -442,8 +443,8 @@ footer{border-top:1px solid var(--line);padding:26px 0}
           <datalist id="cittaList"></datalist>
           <div class="loc-note" id="locNote"></div>
           <div class="chips" id="chips"></div>
-          <input type="range" id="km" min="0" max="300" step="5" value="40" aria-label="Distanza in chilometri da Assisi">
-          <div class="km-row"><span>Assisi</span><b class="num" id="kmVal">40 km</b><span>300 km</span></div>
+          <input type="range" id="km" min="0" max="300" step="5" value="40" aria-label="Distanza in chilometri dalla sede Scarponi">
+          <div class="km-row"><span>Sede Scarponi</span><b class="num" id="kmVal">40 km</b><span>300 km</span></div>
           <div class="status" id="status">
             <span class="status-ico" id="statusIcon"></span>
             <div><b id="statusTitle"></b><span id="statusText"></span></div>
@@ -535,7 +536,7 @@ footer{border-top:1px solid var(--line);padding:26px 0}
       </details>
       <details class="faq-card">
         <summary>Quando è gratis il trasporto?<i></i></summary>
-        <p>Entro 100 km da Assisi sempre, anche per un capo solo. Fino a 200 km con un ordine minimo di 3 capi, fino a 300 km con 5 capi. Oltre, si valuta insieme.</p>
+        <p>Entro 100 km dalla sede Scarponi sempre, anche per un capo solo. Fino a 200 km con un ordine minimo di 3 capi, fino a 300 km con 5 capi. Oltre, si valuta insieme.</p>
       </details>
       <details class="faq-card">
         <summary>Come funzionano gli sconti?<i></i></summary>
@@ -558,7 +559,7 @@ footer{border-top:1px solid var(--line);padding:26px 0}
 
   <footer>
     <div class="foot-row">
-      <span><strong style="color:var(--ink)">Scarponi</strong> · Commercio suini vivi, Capodacqua di Assisi (PG)</span>
+      <span><strong style="color:var(--ink)">Scarponi</strong> · Commercio suini vivi, via Romana 28, Capodacqua di Assisi (PG)</span>
       <div class="foot-links">
         <a id="footTel" href="#">Telefono</a>
         <a id="footWa" href="#" target="_blank" rel="noopener">WhatsApp</a>
@@ -589,7 +590,7 @@ footer{border-top:1px solid var(--line);padding:26px 0}
 const CONFIG = {
   telefono: "+39 347 191 7366",
   whatsapp: "393471917366",
-  assisi: { lat: 43.0707, lon: 12.6175 },
+  assisi: { lat: 43.0275, lon: 12.6393 }, // sede Scarponi: via Romana 28, Capodacqua di Assisi (PG)
   tagli: [
     { id:"g120", nome:"Suino da 120 kg", kg:120, prezzo:3.30, desc:"Già pronto per la macellazione: ideale per lavorazione immediata e salumi." },
     { id:"g100", nome:"Suino da 100 kg", kg:100, prezzo:3.50, desc:"Misura intermedia, pronto a breve o per un ultimo accrescimento." },
@@ -607,12 +608,12 @@ const CONFIG = {
     {n:"Pescara",km:220},{n:"Bologna",km:250}
   ],
   presets: [
-    { id:"prova",       nome:"Prima prova",         sub:"1 suino da 70 kg",          q:{g70:1, g100:0,  g120:0} },
+    { id:"prova",       nome:"Prima prova",         sub:"1 suino da 70 kg",          q:{g70:1, g100:0,  g120:0}, badge:"Per iniziare" },
     { id:"famiglia",    nome:"Scorta famiglia",     sub:"1 suino da 120 kg",         q:{g70:0, g100:0,  g120:1}, badge:"Il più scelto" },
-    { id:"allargata",   nome:"Famiglia allargata",  sub:"3 suini da 100 kg",         q:{g70:0, g100:3,  g120:0} },
-    { id:"cella",       nome:"Cella piena",         sub:"5 suini da 100 kg",         q:{g70:0, g100:5,  g120:0} },
-    { id:"allevamento", nome:"Piccolo allevamento", sub:"10 suini da 100 kg",        q:{g70:0, g100:10, g120:0} },
-    { id:"chemacello",  nome:"Che Macello!",        sub:"15 suini da 100 kg",        q:{g70:0, g100:15, g120:0} }
+    { id:"allargata",   nome:"Famiglia allargata",  sub:"3 suini da 100 kg",         q:{g70:0, g100:3,  g120:0}, badge:"Sconto attivo" },
+    { id:"cella",       nome:"Cella piena",         sub:"5 suini da 100 kg",         q:{g70:0, g100:5,  g120:0}, badge:"Risparmio alto" },
+    { id:"allevamento", nome:"Piccolo allevamento", sub:"10 suini da 100 kg",        q:{g70:0, g100:10, g120:0}, badge:"Grande sconto" },
+    { id:"chemacello",  nome:"Che Macello!",        sub:"15 suini da 100 kg",        q:{g70:0, g100:15, g120:0}, badge:"Fornitura grande" }
   ],
   scontoAnticipo: [
     { giorni:15, sconto:0.10 },
@@ -658,7 +659,7 @@ const eur = n => "€ " + Math.round(n).toLocaleString("it-IT");
 const kgFmt = n => Math.round(n).toLocaleString("it-IT") + " kg";
 const $ = s => document.querySelector(s);
 const icoOk = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4E7A55" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>`;
-const icoWarn = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C0605A" stroke-width="2.4" stroke-linecap="round"><path d="M3 17h18M6 17V9m5 8V7m5 10v-5"/></svg>`;
+const icoWarn = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#BC5279" stroke-width="2.4" stroke-linecap="round"><path d="M3 17h18M6 17V9m5 8V7m5 10v-5"/></svg>`;
 const icoAsk = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7C6E63" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.6v.1"/></svg>`;
 
 /* ---------- capi ---------- */
@@ -741,7 +742,7 @@ $("#locInput").addEventListener("input", e => {
           stato.km = km;
           stato.comune = data[0].display_name.split(",")[0];
           $("#km").value = Math.min(300, km);
-          $("#locNote").textContent = `${stato.comune} · circa ${km} km da Assisi`;
+          $("#locNote").textContent = `${stato.comune} · circa ${km} km dalla sede Scarponi`;
           render();
         } else {
           $("#locNote").textContent = "Comune non trovato: usa lo slider qui sotto.";
@@ -885,10 +886,10 @@ function render(){
     testo = "Ragioniamo caso per caso in base alle consegne già in programma su quella direttrice.";
   } else if (capi === 0){
     statoSped = "idle"; titolo = "Aggiungi un capo per iniziare";
-    testo = `A ${km} km da Assisi il trasporto è gratis ${soglia.capi === 1 ? "da subito" : `con almeno ${soglia.capi} capi`}.`;
+    testo = `A ${km} km dalla sede Scarponi il trasporto è gratis ${soglia.capi === 1 ? "da subito" : `con almeno ${soglia.capi} capi`}.`;
   } else if (capi >= soglia.capi){
     statoSped = "free"; titolo = "Trasporto gratuito incluso";
-    testo = soglia.km === 100 ? "Sei entro i 100 km da Assisi: nessun costo aggiuntivo." : `Con ${capi} capi copriamo i ${km} km senza costi di trasporto.`;
+    testo = soglia.km === 100 ? "Sei entro i 100 km dalla sede Scarponi: nessun costo aggiuntivo." : `Con ${capi} capi copriamo i ${km} km senza costi di trasporto.`;
   } else {
     statoSped = "warn";
     const mancano = soglia.capi - capi;
@@ -1051,7 +1052,7 @@ function render(){
   /* link precompilati */
   const nome = $("#nomeCliente").value.trim();
   const capiDesc = CONFIG.tagli.filter(t => stato.q[t.id]).map(t => `${stato.q[t.id]} da ${t.kg} kg`).join(", ");
-  const destDesc = stato.comune ? `${stato.comune} (circa ${km} km da Assisi)` : `circa ${km} km da Assisi`;
+  const destDesc = stato.comune ? `${stato.comune} (circa ${km} km dalla sede Scarponi)` : `circa ${km} km dalla sede Scarponi`;
   const dataStr = dataVal ? new Date(dataVal + "T00:00:00").toLocaleDateString("it-IT",{day:"numeric",month:"long",year:"numeric"}) : null;
   let msg = "Ciao";
   if (nome) msg += `, sono ${nome}`;
