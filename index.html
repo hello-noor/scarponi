@@ -138,7 +138,7 @@ nav{
 .calc-grid{display:grid;grid-template-columns:1fr;gap:18px;align-items:start;margin-top:6px}
 @media(min-width:960px){.calc-grid{grid-template-columns:1.22fr .78fr;gap:26px}}
 
-.step-box{background:var(--paper);border-radius:var(--radius);border:1px solid var(--line);padding:19px 20px;margin-bottom:14px}
+.step-box{background:var(--paper);border-radius:var(--radius);border:1px solid var(--line);padding:19px 20px;margin-bottom:14px;overflow-x:hidden}
 .step-head{display:flex;align-items:baseline;gap:10px;margin-bottom:14px}
 .step-num{font-size:.74rem;color:var(--calc-accent-text);font-weight:700;font-variant-numeric:tabular-nums}
 .step-head h3{font-size:1rem;font-weight:600;letter-spacing:-.01em}
@@ -227,7 +227,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border:0;border-radiu
   color:var(--muted);display:inline-flex;align-items:center;gap:7px}
 .anticipo-pill.on{background:var(--ok-wash);color:var(--ok)}
 
-.field input[type=date]{width:100%;font-family:inherit;font-size:.9rem;padding:12px 14px;border-radius:13px;
+.field input[type=date]{width:100%;max-width:100%;min-width:0;font-family:inherit;font-size:.9rem;padding:12px 10px;border-radius:13px;
   border:1px solid var(--line);background:var(--paper);color:var(--ink)}
 .field input[type=date]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(192,96,90,.13)}
 
@@ -356,9 +356,15 @@ footer{border-top:1px solid var(--line);padding:26px 0}
 .dock-hint.fading{opacity:0}
 .dock-sheet{max-height:0;overflow:hidden;transition:max-height .4s var(--ease);max-width:1180px;margin:0 auto}
 .dock.open .dock-sheet{max-height:56vh;overflow-y:auto}
-.dock-sheet-handle{display:block;width:36px;height:4px;border-radius:4px;background:rgba(245,240,234,.35);
-  border:0;margin:10px auto 2px;padding:0;cursor:pointer}
-.dock-sheet-handle:hover{background:rgba(245,240,234,.55)}
+.dock-sheet-handle{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;background:transparent;
+  border:0;margin:0;padding:9px 0 5px;cursor:pointer}
+.dock-sheet-handle .handle-bar{width:36px;height:4px;border-radius:4px;background:rgba(245,240,234,.35);transition:background .2s}
+.dock-sheet-handle:hover .handle-bar{background:rgba(245,240,234,.55)}
+.dock-sheet-handle .handle-cue{display:flex;align-items:center;gap:5px;font-size:.64rem;font-weight:700;
+  color:var(--calc-accent-text,#F0AAC0);text-transform:uppercase;letter-spacing:.06em;
+  animation:cueBounce 2.2s ease-in-out infinite}
+.dock.open .dock-sheet-handle .handle-cue{display:none}
+@keyframes cueBounce{0%,100%{transform:translateY(0);opacity:.6}50%{transform:translateY(-3px);opacity:1}}
 .dock-sheet-body{padding:8px 18px 14px;font-size:.82rem}
 .ds-line{display:flex;justify-content:space-between;gap:12px;padding:7px 0;
   border-bottom:1px dashed rgba(245,240,234,.14);color:rgba(245,240,234,.85)}
@@ -371,6 +377,7 @@ footer{border-top:1px solid var(--line);padding:26px 0}
 .dock-left .dock-num-row{display:flex;align-items:baseline;gap:8px}
 .dock-left b{font-size:1.2rem;letter-spacing:-.03em}
 .dock-disc{font-size:.72rem;font-weight:700;color:#7FBD86}
+.dock-strike{font-size:.85rem;color:rgba(245,240,234,.45);text-decoration:line-through;font-weight:500}
 .dock .btn-accent{padding:11px 18px;font-size:.85rem;white-space:nowrap}
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
@@ -599,7 +606,13 @@ footer{border-top:1px solid var(--line);padding:26px 0}
 <!-- ======================= DOCK MOBILE ======================= -->
 <div class="dock" id="dock">
   <div class="dock-sheet" id="dockSheet">
-    <button type="button" class="dock-sheet-handle" id="dockHandle" aria-label="Apri riepilogo esteso"></button>
+    <button type="button" class="dock-sheet-handle" id="dockHandle" aria-label="Apri riepilogo esteso">
+      <span class="handle-cue">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+        Scorri su per i dettagli
+      </span>
+      <span class="handle-bar"></span>
+    </button>
     <div class="dock-sheet-body" id="dockSheetBody"></div>
   </div>
   <p class="dock-hint" id="dockHint"></p>
@@ -607,6 +620,7 @@ footer{border-top:1px solid var(--line);padding:26px 0}
     <div class="dock-left">
       <p id="dockLine">Il tuo ordine</p>
       <div class="dock-num-row">
+        <span class="dock-strike num" id="dockStrike"></span>
         <b class="num" id="dockTotal">€ 0</b>
         <span class="dock-disc num" id="dockDisc"></span>
       </div>
@@ -625,8 +639,8 @@ const CONFIG = {
   assisi: { lat: 43.0275, lon: 12.6393 }, // sede Scarponi: via Romana 28, Capodacqua di Assisi (PG)
   tagli: [
     { id:"g130", nome:"Suino da 130 kg", kg:130, prezzo:3.30, taglia:"XL", desc:"Già pronto per la macellazione: ideale per lavorazione immediata e salumi." },
-    { id:"g100", nome:"Suino da 100 kg", kg:100, prezzo:3.50, taglia:"L",  desc:"Misura intermedia, pronto a breve o per un ultimo accrescimento." },
-    { id:"g70",  nome:"Suino da 70 kg",  kg:70,  prezzo:4.00, taglia:"M",  desc:"Da accrescimento: per chi vuole allevarlo e farlo crescere in stalla." }
+    { id:"g100", nome:"Suino da 100 kg", kg:100, prezzo:3.50, taglia:"L",  desc:"Suino leggero: misura intermedia, pronto a breve o per un ultimo accrescimento." },
+    { id:"g70",  nome:"Suino da 70 kg",  kg:70,  prezzo:4.00, taglia:"M",  desc:"Magroncello, da accrescimento: per chi vuole allevarlo e farlo crescere in stalla." }
   ],
   soglie: [
     { km:100, capi:1 },
@@ -757,14 +771,20 @@ function haversineKm(lat1, lon1, lat2, lon2){
 let geoTimeout = null;
 
 /* ---------- tabellone di avvisi (mobile) ---------- */
-let tabelloneMsgs = [];
+let tabelloneMsgs = []; // array di { text, ctaLabel, action }
 let tabelloneIdx = 0;
 function renderTabelloneSlide(){
   const dockHint = $("#dockHint");
+  const dockCta = $("#dockCta");
   if (!tabelloneMsgs.length){ dockHint.classList.remove("show"); return; }
   if (tabelloneIdx >= tabelloneMsgs.length) tabelloneIdx = 0;
-  dockHint.textContent = tabelloneMsgs[tabelloneIdx];
+  const slide = tabelloneMsgs[tabelloneIdx];
+  dockHint.textContent = slide.text;
   dockHint.classList.add("show");
+  if (dockCta && slide.ctaLabel){
+    dockCta.textContent = slide.ctaLabel;
+    dockCta.onclick = slide.action;
+  }
 }
 setInterval(() => {
   if (tabelloneMsgs.length < 2) return;
@@ -1064,23 +1084,23 @@ function render(){
   }
   tabelloneMsgs = [];
   if (capi === 0){
-    tabelloneMsgs.push("Aggiungi almeno un capo per iniziare il tuo preventivo.");
-    tabelloneMsgs.push("Scegli una proposta rapida qui sopra per partire veloce.");
+    tabelloneMsgs.push({ text:"Aggiungi almeno un capo per iniziare il tuo preventivo.", ctaLabel:"Scegli i capi", action:() => scrollToStep("#items") });
+    tabelloneMsgs.push({ text:"Scegli una proposta rapida qui sopra per partire veloce.", ctaLabel:"Vedi le proposte", action:() => scrollToStep("#presets") });
   } else {
     if (capi < soglia.capi){
       const gap = soglia.capi - capi;
-      tabelloneMsgs.push(`Aggiungi ${gap} cap${gap>1?"i":"o"} per il trasporto gratuito.`);
+      tabelloneMsgs.push({ text:`Aggiungi ${gap} cap${gap>1?"i":"o"} per il trasporto gratuito.`, ctaLabel:"Aggiungi capi", action:() => scrollToStep("#items") });
     }
-    if (prossimoVol) tabelloneMsgs.push("Aggiungi capi: il totale potrebbe scontarsi ancora.");
+    if (prossimoVol) tabelloneMsgs.push({ text:"Aggiungi capi: il totale potrebbe scontarsi ancora.", ctaLabel:"Aggiungi capi", action:() => scrollToStep("#items") });
     const paTick = prossimaSogliaAnticipo(giorni);
     if (paTick){
       const giorniInPiu = paTick.giorni - giorni;
-      tabelloneMsgs.push(`Sposta la consegna di ${giorniInPiu} giorn${giorniInPiu===1?"o":"i"} per risparmiare ancora.`);
+      tabelloneMsgs.push({ text:`Sposta la consegna di ${giorniInPiu} giorn${giorniInPiu===1?"o":"i"} per risparmiare ancora.`, ctaLabel:"Modifica data", action:() => { spostaData(paTick.giorni); scrollToStep("#dataConsegna"); } });
     }
-    if (stato.pagamento !== "contanti") tabelloneMsgs.push("Paga in contanti alla consegna: è l'opzione più conveniente.");
-    if (!stato.promo) tabelloneMsgs.push("Hai un codice riservato? Applicalo per uno sconto extra.");
-    if (!dataVal) tabelloneMsgs.push("Aggiungi una data di consegna per completare il preventivo.");
-    if (!tabelloneMsgs.length) tabelloneMsgs.push("Il tuo preventivo è pronto: invialo qui sotto.");
+    if (stato.pagamento !== "contanti") tabelloneMsgs.push({ text:"Paga in contanti alla consegna: è l'opzione più conveniente.", ctaLabel:"Cambia pagamento", action:() => scrollToStep("#payList") });
+    if (!stato.promo) tabelloneMsgs.push({ text:"Hai un codice riservato? Applicalo per uno sconto extra.", ctaLabel:"Inserisci codice", action:() => scrollToStep("#promoCode") });
+    if (!dataVal) tabelloneMsgs.push({ text:"Aggiungi una data di consegna per completare il preventivo.", ctaLabel:"Aggiungi data", action:() => scrollToStep("#dataConsegna") });
+    if (!tabelloneMsgs.length) tabelloneMsgs.push({ text:"Il tuo preventivo è pronto: invialo qui sotto.", ctaLabel:"Vai al riepilogo", action:() => scrollToStep("#ticket") });
   }
   renderTabelloneSlide();
 
@@ -1146,7 +1166,9 @@ function render(){
   $("#totalHint").textContent = guida;
 
   animateTo($("#dockTotal"), Math.round(totaleConPagamento), eur);
-  $("#dockDisc").textContent = (capi>0 && risparmioTotale>0) ? `−${Math.round(risparmioTotale/baseTot*100)}%` : "";
+  if (capi > 0 && totaleConPagamento < baseTot){ $("#dockStrike").textContent = eur(baseTot); $("#dockStrike").style.display = "inline"; }
+  else $("#dockStrike").style.display = "none";
+  $("#dockDisc").textContent = (capi>0 && risparmioTotale>0) ? `−${Math.round(risparmioTotale/baseTot*100)}% · −${eur(risparmioTotale)}` : "";
   $("#dockLine").textContent = `${capi} cap${capi===1?"o":"i"} · ${statoSped==='free' && capi>0 ? "trasporto gratis" : "il tuo ordine"}`;
   $("#dock").classList.toggle("up", capi > 0);
 
@@ -1167,25 +1189,6 @@ function render(){
     html += `<div class="ds-line"><span>Trasporto (${stato.comune || km + " km"})</span><span>${statoSped==='free' ? 'Gratuito' : 'Da confermare'}</span></div>`;
     html += `<div class="ds-line ds-total"><span>Totale · ${payDef.nome.toLowerCase()}</span><span>${eur(totaleConPagamento)}</span></div>`;
     sheetBody.innerHTML = html;
-  }
-
-  /* pulsante dock dinamico: segue il suggerimento attivo */
-  const dockCta = $("#dockCta");
-  if (capi === 0){
-    dockCta.textContent = "Scegli i capi";
-    dockCta.onclick = () => scrollToStep("#items");
-  } else if (nudge && nudge.label){
-    dockCta.textContent = nudge.label;
-    dockCta.onclick = () => { nudge.action(); };
-  } else if (capi < soglia.capi){
-    dockCta.textContent = "Aggiungi capi";
-    dockCta.onclick = () => scrollToStep("#items");
-  } else if (nudge && !nudge.label){
-    dockCta.textContent = "Aggiungi un codice";
-    dockCta.onclick = () => scrollToStep("#promoCode");
-  } else {
-    dockCta.textContent = "Vai al riepilogo";
-    dockCta.onclick = () => scrollToStep("#ticket");
   }
 
   /* link precompilati */
