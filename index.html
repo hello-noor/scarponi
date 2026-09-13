@@ -1252,7 +1252,7 @@ function render(){
       `📍 Consegna: ${destDesc}`,
       `📅 Data: ${dataStr}`,
       `💳 Pagamento: ${payDef.nome}`,
-      `🏷️ Sconto: ${scontoTotPct}% (${risparmioTotale > 0 ? "− " + eur(risparmioTotale) : "€ 0"})`,
+      `🏷️ Sconto: ${scontoTotPct.toLocaleString("it-IT")}% (${risparmioTotale > 0 ? "− " + eur(risparmioTotale) : "€ 0"})`,
       `⚖️ Prezzo medio: ${(totaleConPagamento/kgTot).toLocaleString("it-IT",{minimumFractionDigits:2,maximumFractionDigits:2})} €/kg`,
       `💶 Totale: ${eur(totaleConPagamento)}`
     ];
