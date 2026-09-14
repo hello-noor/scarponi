@@ -40,11 +40,13 @@ header p{color:var(--ink-soft);max-width:60ch;margin-top:8px;font-size:.94rem}
   border-bottom:1px solid var(--paper-2)}
 .cat-row:last-child{border-bottom:0}
 .cat-row label{font-size:.9rem;font-weight:600}
+.cat-row .sub{display:block;font-size:.72rem;color:var(--muted);font-weight:400}
 .cat-row input{width:100%;font-family:inherit;font-size:.92rem;padding:9px 10px;border-radius:10px;
   border:1px solid var(--line);background:var(--paper);text-align:center}
 .cat-row input:focus{outline:none;border-color:var(--accent)}
 .cat-row .price-wrap{position:relative}
-.cat-row .price-wrap span{position:absolute;right:9px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.72rem}
+.cat-row .price-wrap input{background:var(--ok-wash);border-color:rgba(78,122,85,.3);font-weight:700;color:var(--ok)}
+.cat-row .price-wrap span{position:absolute;right:9px;top:50%;transform:translateY(-50%);color:var(--ok);font-size:.68rem}
 
 .field-row{display:grid;grid-template-columns:1fr 140px;gap:12px;align-items:center;padding:10px 0;
   border-bottom:1px solid var(--paper-2)}
@@ -78,6 +80,7 @@ header p{color:var(--ink-soft);max-width:60ch;margin-top:8px;font-size:.94rem}
 .rline{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px dashed rgba(245,240,234,.14);font-size:.9rem}
 .rline:last-of-type{border-bottom:0}
 .rline span:last-child{font-weight:700}
+.rline.sub span{color:rgba(245,240,234,.55);font-weight:500;font-size:.82rem}
 .rtotal{margin-top:14px;padding-top:14px;border-top:1px solid rgba(245,240,234,.2)}
 .rtotal .lbl{font-size:.78rem;color:rgba(245,240,234,.6);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
 .rtotal .num-big{font-size:2rem;font-weight:700;letter-spacing:-.03em;margin-top:2px}
@@ -97,13 +100,13 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:30px}
   <header>
     <div class="eyebrow">Uso interno · non indicizzato</div>
     <h1>Conto alla consegna</h1>
-    <p>Come ricordato nel sito, i prezzi mostrati al cliente sul peso medio; il conto preciso si fa alla bilancia. Da qui inserisci i dati dell'ordine concordato e il peso reale di ogni capo, e ottieni il totale esatto — rispettando lo sconto e il pagamento già concordati in fase di preventivo.</p>
+    <p>I prezzi mostrati al cliente sono sul peso medio; il conto preciso si fa alla bilancia. Da qui inserisci il prezzo netto già concordato per ogni taglia (quello scritto nel messaggio del cliente, già scontato) e il peso reale di ciascun capo: il totale esatto viene da solo, capo per capo.</p>
     <div class="warn">Pagina privata, senza password: non condividere il link. È solo uno strumento di calcolo — non invia né salva nulla, tutto resta sul tuo telefono/computer finché tieni aperta la pagina.</div>
   </header>
 
   <div class="card">
     <h2>Incolla il messaggio ricevuto</h2>
-    <div class="hint">Copia il messaggio WhatsApp del cliente (quello con capi, sconto, pagamento e totale) e incollalo qui: i campi qui sotto si compilano da soli. Controlla sempre i numeri prima di procedere — la pesatura resta comunque da fare a mano.</div>
+    <div class="hint">Copia il messaggio WhatsApp del cliente e incollalo qui: i campi qui sotto — capi, prezzo netto per taglia, pagamento — si compilano da soli. Controlla sempre i numeri prima di procedere; la pesatura resta comunque da fare a mano.</div>
     <textarea id="pasteBox" rows="6" placeholder="Incolla qui il messaggio ricevuto su WhatsApp…" style="width:100%;font-family:inherit;font-size:.88rem;padding:12px 13px;border-radius:12px;border:1px solid var(--line);background:var(--paper);resize:vertical"></textarea>
     <div class="actions" style="margin-top:12px">
       <button type="button" class="btn btn-accent" id="parseMsgBtn">Compila i campi dal messaggio</button>
@@ -124,22 +127,22 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:30px}
   </div>
 
   <div class="card">
-    <h2>1 · Capi ordinati e prezzo concordato</h2>
-    <div class="hint">Quanti capi di ogni taglia erano nel preventivo, e a che prezzo al kg (di norma quello del listino di quella settimana).</div>
+    <h2>1 · Capi e prezzo netto concordato</h2>
+    <div class="hint">Il prezzo qui è quello <strong>già scontato</strong> — quello scritto nel messaggio del cliente (es. "2×XL a 2,97€/kg"), non il prezzo di listino. Se un cliente in consegna ne vuole uno in più della stessa taglia, aumenta solo il numero di capi: userà automaticamente questo stesso prezzo netto.</div>
     <div class="cat-row">
-      <label>Suino da 130 kg · XL</label>
+      <label>Suino da 130 kg · XL<span class="sub">pronto macellazione</span></label>
       <input type="number" inputmode="numeric" id="n130" min="0" step="1" value="0" placeholder="capi">
-      <div class="price-wrap"><input type="number" inputmode="decimal" id="pr130" min="0" step="0.01" value="3.30"><span>€/kg</span></div>
+      <div class="price-wrap"><input type="number" inputmode="decimal" id="pr130" min="0" step="0.01" value="3.30"><span>netto €/kg</span></div>
     </div>
     <div class="cat-row">
-      <label>Suino da 100 kg · L</label>
+      <label>Suino da 100 kg · L<span class="sub">suino leggero</span></label>
       <input type="number" inputmode="numeric" id="n100" min="0" step="1" value="0" placeholder="capi">
-      <div class="price-wrap"><input type="number" inputmode="decimal" id="pr100" min="0" step="0.01" value="3.50"><span>€/kg</span></div>
+      <div class="price-wrap"><input type="number" inputmode="decimal" id="pr100" min="0" step="0.01" value="3.50"><span>netto €/kg</span></div>
     </div>
     <div class="cat-row">
-      <label>Suino da 70 kg · M</label>
+      <label>Suino da 70 kg · M<span class="sub">Magroncello</span></label>
       <input type="number" inputmode="numeric" id="n70" min="0" step="1" value="0" placeholder="capi">
-      <div class="price-wrap"><input type="number" inputmode="decimal" id="pr70" min="0" step="0.01" value="4.00"><span>€/kg</span></div>
+      <div class="price-wrap"><input type="number" inputmode="decimal" id="pr70" min="0" step="0.01" value="4.00"><span>netto €/kg</span></div>
     </div>
     <div class="actions" style="margin-top:14px">
       <button type="button" class="btn btn-ghost" id="generaCampi">Aggiorna i campi di pesatura ↓</button>
@@ -147,21 +150,21 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:30px}
   </div>
 
   <div class="card">
-    <h2>2 · Sconto e pagamento concordati</h2>
-    <div class="hint">Lo sconto totale (in %) è quello che il calcolatore del sito mostrava al cliente nel preventivo. Il pagamento è quello scelto: se "contanti alla consegna", si applica lo sconto pagamento previsto.</div>
+    <h2>2 · Riferimento (informativo)</h2>
+    <div class="hint">Questi dati non entrano nel calcolo — il prezzo netto della sezione 1 li ha già dentro. Servono solo per il riepilogo e la ricevuta finale.</div>
     <div class="field-row">
-      <label>Sconto concordato<span class="sub">quantità + anticipo + codice, come da preventivo</span></label>
+      <label>Sconto incluso nel prezzo<span class="sub">come indicato nel messaggio</span></label>
       <input type="number" inputmode="decimal" id="scontoPct" min="0" max="90" step="0.5" value="0">
     </div>
     <div class="field-row">
       <label>Metodo di pagamento</label>
       <select id="pagamento">
-        <option value="0" selected>Bonifico, fine mese (prezzo pieno)</option>
-        <option value="-2.5">Contanti alla consegna (−2,5%)</option>
-        <option value="0">Klarna, a rate (prezzo pieno)</option>
-        <option value="2">Pagamento a 30 giorni (+2%)</option>
-        <option value="5">Pagamento a 60 giorni (+5%)</option>
-        <option value="7.5">Pagamento a 90 giorni (+7,5%)</option>
+        <option value="0" selected>Bonifico, fine mese</option>
+        <option value="-2.5">Contanti alla consegna</option>
+        <option value="0">Klarna, a rate</option>
+        <option value="2">Pagamento a 30 giorni</option>
+        <option value="5">Pagamento a 60 giorni</option>
+        <option value="7.5">Pagamento a 90 giorni</option>
       </select>
     </div>
     <div class="field-row">
@@ -179,9 +182,7 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:30px}
   <div class="riepilogo">
     <h2>Riepilogo finale</h2>
     <div class="rline"><span>Peso totale reale</span><span id="rPeso">0 kg</span></div>
-    <div class="rline"><span>Subtotale (peso reale × prezzo)</span><span id="rSub">€ 0</span></div>
-    <div class="rline"><span id="rScontoLbl">Sconto concordato (0%)</span><span id="rSconto">− € 0</span></div>
-    <div class="rline"><span id="rPagLbl">Pagamento</span><span id="rPag">€ 0</span></div>
+    <div id="rDettagli"></div>
     <div class="rtotal">
       <div class="lbl">Totale da incassare</div>
       <div class="num-big" id="rTotale">€ 0</div>
@@ -205,8 +206,10 @@ const CATS = [
   { id:"100", nome:"Suino da 100 kg", taglia:"L" },
   { id:"70",  nome:"Suino da 70 kg",  taglia:"M" }
 ];
+const TAGLIA_TO_ID = { XL:"130", L:"100", M:"70" };
 
-/* prezzi di partenza: prova a leggerli da config.json, se presente accanto a questa pagina */
+/* prezzi di listino di partenza: prova a leggerli da config.json (solo come base di riferimento —
+   vengono sovrascritti dal prezzo NETTO se incolli un messaggio) */
 fetch("./config.json", { cache:"no-store" })
   .then(r => r.ok ? r.json() : null)
   .then(data => {
@@ -246,17 +249,30 @@ $("#parseMsgBtn").addEventListener("click", () => {
   CATS.forEach(c => $("#n" + c.id).value = 0);
   if (capiMatch){
     let trovatiCapi = false, trovatiPrezzi = false;
-    const items = [...capiMatch[1].matchAll(/(\d+)\s*da\s*(\d+)\s*kg(?:\s*a\s*([\d.,]+)\s*€\s*\/\s*kg)?/gi)];
-    items.forEach(m => {
-      const el = $("#n" + m[2]);
+    // formato nuovo e compatto: "2×XL a 2,97€/kg"
+    const nuovi = [...capiMatch[1].matchAll(/(\d+)\s*×\s*([A-Z]+)\s*a\s*([\d.,]+)\s*€\s*\/\s*kg/gi)];
+    nuovi.forEach(m => {
+      const id = TAGLIA_TO_ID[m[2].toUpperCase()];
+      if (!id) return;
+      const el = $("#n" + id);
       if (el){ el.value = (parseInt(el.value) || 0) + parseInt(m[1]); trovatiCapi = true; }
-      if (m[3]){
-        const prezzoEl = $("#pr" + m[2]);
-        if (prezzoEl){ prezzoEl.value = parseEuro(m[3]); trovatiPrezzi = true; }
-      }
+      const prezzoEl = $("#pr" + id);
+      if (prezzoEl){ prezzoEl.value = parseEuro(m[3]); trovatiPrezzi = true; }
     });
+    // formato vecchio, di riserva: "2 da 130 kg a 3,30 €/kg" (prezzo di listino, non netto)
+    if (!nuovi.length){
+      const vecchi = [...capiMatch[1].matchAll(/(\d+)\s*da\s*(\d+)\s*kg(?:\s*a\s*([\d.,]+)\s*€\s*\/\s*kg)?/gi)];
+      vecchi.forEach(m => {
+        const el = $("#n" + m[2]);
+        if (el){ el.value = (parseInt(el.value) || 0) + parseInt(m[1]); trovatiCapi = true; }
+        if (m[3]){
+          const prezzoEl = $("#pr" + m[2]);
+          if (prezzoEl){ prezzoEl.value = parseEuro(m[3]); trovatiPrezzi = true; }
+        }
+      });
+    }
     if (trovatiCapi) trovati.push("capi");
-    if (trovatiPrezzi) trovati.push("prezzi per taglia");
+    if (trovatiPrezzi) trovati.push("prezzo netto per taglia");
   }
 
   const pagSel = $("#pagamento");
@@ -276,27 +292,12 @@ $("#parseMsgBtn").addEventListener("click", () => {
     if (indiceTrovato >= 0){ pagSel.selectedIndex = indiceTrovato; trovati.push("pagamento"); }
   }
 
-  const totaleMatch = testo.match(/💶\s*Totale:\s*([€\d.,\s]+)/i);
+  const totaleMatch = testo.match(/💶\s*Totale[^:]*:\s*([€\d.,\s]+)/i);
   const totale = totaleMatch ? parseEuro(totaleMatch[1]) : null;
   if (totale != null){ $("#totalePreventivo").value = Math.round(totale); trovati.push("totale"); }
 
-  const scontoPctMatch = testo.match(/🏷️\s*Sconto:\s*([\d.,]+)\s*%/i);
-  if (scontoPctMatch){
-    $("#scontoPct").value = parseEuro(scontoPctMatch[1]);
-    trovati.push("sconto");
-  } else {
-    /* messaggi generati prima dell'aggiunta della percentuale: ricalcolo dal valore in € (approssimato) */
-    const scontoMatch = testo.match(/💰\s*Sconto totale:\s*([€\d.,\s]+)/i);
-    const scontoEuro = scontoMatch ? parseEuro(scontoMatch[1]) : null;
-    if (scontoEuro != null && totale != null){
-      const pagPct = parseFloat(pagSel.value) || 0;
-      const baseStimato = totale / (1 + pagPct / 100) + scontoEuro;
-      if (baseStimato > 0){
-        $("#scontoPct").value = Math.round((scontoEuro / baseStimato * 100) * 10) / 10;
-        trovati.push("sconto (stimato)");
-      }
-    }
-  }
+  const scontoPctMatch = testo.match(/🏷️[^:]*:\s*([\d.,]+)\s*%/i);
+  if (scontoPctMatch){ $("#scontoPct").value = parseEuro(scontoPctMatch[1]); trovati.push("sconto (informativo)"); }
 
   generaCampiPesatura();
 
@@ -358,38 +359,30 @@ let generaCampiTimeout = null;
 });
 
 function aggiornaRiepilogo(){
-  let pesoTotale = 0, subtotale = 0;
+  let pesoTotale = 0, totaleFinale = 0;
   const dettagli = [];
   CATS.forEach(c => {
-    const prezzo = parseFloat($("#pr" + c.id).value) || 0;
+    const prezzoNetto = parseFloat($("#pr" + c.id).value) || 0;
     const pesi = [];
     document.querySelectorAll(`.peso-input[data-cat="${c.id}"]`).forEach(inp => {
       const kg = parseFloat(inp.value) || 0;
       pesi.push(kg);
       pesoTotale += kg;
-      subtotale += kg * prezzo;
+      totaleFinale += kg * prezzoNetto;
     });
     if (pesi.length){
       const totKg = pesi.reduce((a,b) => a+b, 0);
-      dettagli.push({ nome:c.nome, taglia:c.taglia, prezzo, pesi, totKg, subtot: totKg*prezzo });
+      dettagli.push({ nome:c.nome, taglia:c.taglia, prezzoNetto, pesi, totKg, subtot: totKg*prezzoNetto });
     }
   });
 
-  const scontoPct = Math.max(0, Math.min(90, parseFloat($("#scontoPct").value) || 0));
-  const scontoEuro = subtotale * (scontoPct / 100);
-  const dopoSconto = subtotale - scontoEuro;
-
-  const pagSel = $("#pagamento");
-  const pagPct = parseFloat(pagSel.value) || 0;
-  const pagEuro = dopoSconto * (pagPct / 100);
-  const totaleFinale = Math.max(0, dopoSconto + pagEuro);
-
   $("#rPeso").textContent = pesoTotale.toLocaleString("it-IT",{maximumFractionDigits:1}) + " kg";
-  $("#rSub").textContent = eur(subtotale);
-  $("#rScontoLbl").textContent = `Sconto concordato (${scontoPct}%)`;
-  $("#rSconto").textContent = "− " + eur(scontoEuro);
-  $("#rPagLbl").textContent = "Pagamento: " + pagSel.options[pagSel.selectedIndex].text.split(" (")[0];
-  $("#rPag").textContent = pagEuro === 0 ? "incluso" : (pagEuro > 0 ? "+ " + eur(pagEuro) : "− " + eur(-pagEuro));
+
+  const rDettagli = $("#rDettagli");
+  rDettagli.innerHTML = dettagli.map(d =>
+    `<div class="rline sub"><span>${d.taglia} — ${d.totKg.toLocaleString("it-IT",{maximumFractionDigits:1})} kg × ${d.prezzoNetto.toLocaleString("it-IT",{minimumFractionDigits:2})} €/kg</span><span>${eur(d.subtot)}</span></div>`
+  ).join("");
+
   $("#rTotale").textContent = eur(totaleFinale);
 
   const rDelta = $("#rDelta");
@@ -405,13 +398,16 @@ function aggiornaRiepilogo(){
     rDelta.style.display = "none";
   }
 
-  return { pesoTotale, subtotale, scontoPct, scontoEuro, pagEuro, pagPct, pagLabel: pagSel.options[pagSel.selectedIndex].text.split(" (")[0], totaleFinale, dettagli };
+  const pagSel = $("#pagamento");
+  const scontoPct = parseFloat($("#scontoPct").value) || 0;
+  return { pesoTotale, totaleFinale, dettagli, scontoPct, pagLabel: pagSel.options[pagSel.selectedIndex].text };
 }
 
 ["scontoPct","pagamento","totalePreventivo","pr130","pr100","pr70"].forEach(id => {
   $("#" + id).addEventListener("input", aggiornaRiepilogo);
   $("#" + id).addEventListener("change", aggiornaRiepilogo);
 });
+aggiornaRiepilogo();
 
 $("#generaMsg").addEventListener("click", () => {
   const r = aggiornaRiepilogo();
@@ -421,18 +417,16 @@ $("#generaMsg").addEventListener("click", () => {
   r.dettagli.forEach(d => {
     righe.push(`🐷 ${d.nome} (${d.taglia}) — ${d.pesi.length} cap${d.pesi.length>1?"i":"o"}`);
     d.pesi.forEach((kg,i) => righe.push(`   #${i+1}: ${kg.toLocaleString("it-IT",{maximumFractionDigits:1})} kg`));
-    righe.push(`   Totale: ${d.totKg.toLocaleString("it-IT",{maximumFractionDigits:1})} kg × ${d.prezzo.toLocaleString("it-IT",{minimumFractionDigits:2})} €/kg = ${eur(d.subtot)}`);
+    righe.push(`   Totale: ${d.totKg.toLocaleString("it-IT",{maximumFractionDigits:1})} kg × ${d.prezzoNetto.toLocaleString("it-IT",{minimumFractionDigits:2})} €/kg netto = ${eur(d.subtot)}`);
     righe.push("");
   });
   righe.push(`⚖️ Peso totale: ${r.pesoTotale.toLocaleString("it-IT",{maximumFractionDigits:1})} kg`);
-  righe.push(`🧮 Subtotale: ${eur(r.subtotale)}`);
-  righe.push(`🏷️ Sconto concordato: ${r.scontoPct}% (− ${eur(r.scontoEuro)})`);
-  righe.push(`💳 ${r.pagLabel}${r.pagEuro !== 0 ? ` (${r.pagEuro>0?"+":"−"} ${eur(Math.abs(r.pagEuro))})` : ""}`);
+  righe.push(`💳 ${r.pagLabel}`);
   righe.push(`💶 TOTALE DA PAGARE: ${eur(r.totaleFinale)}`);
 
   let msg = "Ciao";
   if (nome) msg += `, ${nome}`;
-  msg += `,\necco la ricevuta con il conto pesato alla bilancia:\n\n${righe.join("\n")}\n\nGrazie!`;
+  msg += `,\necco la ricevuta con il conto pesato alla bilancia (prezzi già al netto degli sconti concordati):\n\n${righe.join("\n")}\n\nGrazie!`;
 
   const box = $("#msgBox");
   box.textContent = msg;

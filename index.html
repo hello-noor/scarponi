@@ -135,6 +135,42 @@ nav{
   --muted:#9C8F82;
   --calc-accent-text:#E9A0B7;
 }
+.gate-banner{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px 20px;margin-bottom:18px;transition:background .3s var(--ease),box-shadow .3s var(--ease)}
+.gate-banner.unlocked{background:var(--ok-wash);box-shadow:inset 0 0 0 1px rgba(78,122,85,.3)}
+.gate-banner.unlocked .gate-head b,.gate-banner.unlocked .gate-head span{color:#2B2620}
+.gate-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+.gate-ico{width:30px;height:30px;border-radius:50%;background:#fff;display:grid;place-items:center;flex:none}
+.gate-head b{display:block;font-size:.94rem;font-weight:700;color:var(--ink);margin-bottom:2px}
+.gate-head span{font-size:.8rem;color:var(--ink-soft);line-height:1.4}
+.gate-fields{display:grid;grid-template-columns:1fr;gap:9px}
+@media(min-width:620px){.gate-fields{grid-template-columns:1fr 1fr 1fr}}
+.gate-fields input{width:100%;font-family:inherit;font-size:.9rem;padding:11px 36px 11px 13px;border-radius:12px;
+  border:1px solid var(--line);background:#fff;color:#17130F}
+.gate-fields input::placeholder{color:#9C8F82}
+.gate-field-wrap{position:relative}
+.gate-check{position:absolute;right:10px;top:50%;transform:translateY(-50%) scale(.4);width:19px;height:19px;
+  border-radius:50%;background:var(--ok);display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .2s var(--ease),transform .2s var(--ease)}
+.gate-check.show{opacity:1;transform:translateY(-50%) scale(1)}
+.gate-fields input:focus{outline:none;border-color:var(--accent)}
+@keyframes gatePulse{0%,100%{box-shadow:inset 0 0 0 1px var(--line),0 0 0 0 rgba(188,82,121,0)}35%{box-shadow:inset 0 0 0 1px var(--accent),0 0 0 7px rgba(188,82,121,.22)}}
+.gate-banner.pulse{animation:gatePulse 1s ease-out}
+
+.gate-modal-overlay{position:fixed;inset:0;z-index:300;background:rgba(23,19,15,.6);backdrop-filter:blur(3px);
+  display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .25s var(--ease)}
+.gate-modal-overlay.show{display:flex;opacity:1}
+.gate-modal{background:var(--paper);border-radius:22px;padding:28px 26px;max-width:360px;width:100%;text-align:center;
+  box-shadow:0 30px 60px -20px rgba(0,0,0,.5);transform:scale(.94);transition:transform .25s var(--ease)}
+.gate-modal-overlay.show .gate-modal{transform:scale(1)}
+.gate-modal-ico{display:inline-flex;width:46px;height:46px;border-radius:50%;background:var(--accent-wash);
+  align-items:center;justify-content:center;margin-bottom:14px}
+.gate-modal b{display:block;font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:8px}
+.gate-modal p{font-size:.88rem;color:var(--ink-soft);line-height:1.5;margin-bottom:18px}
+.gate-modal button{border:0;cursor:pointer;font-family:inherit;font-size:.9rem;font-weight:600;color:#fff;
+  background:var(--accent);padding:12px 24px;border-radius:100px;transition:transform .25s var(--ease)}
+.gate-modal button:hover{transform:translateY(-2px)}
+
 .calc-grid{display:grid;grid-template-columns:1fr;gap:18px;align-items:start;margin-top:6px}
 @media(min-width:960px){.calc-grid{grid-template-columns:1.22fr .78fr;gap:26px}}
 
@@ -178,7 +214,7 @@ nav{
 .price-strike{text-decoration:line-through;color:var(--muted);margin-right:5px;font-weight:400}
 .stepper{display:flex;align-items:center;gap:3px;background:var(--paper-2);border-radius:100px;padding:3px;flex:none}
 .stepper button{width:32px;height:32px;border-radius:50%;border:0;background:#fff;cursor:pointer;font-size:1rem;
-  font-weight:600;display:grid;place-items:center;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08);
+  font-weight:600;display:grid;place-items:center;color:#17130F;box-shadow:0 1px 3px rgba(0,0,0,.08);
   transition:transform .2s var(--ease)}
 .stepper button:active{transform:scale(.88)}
 .stepper button:disabled{opacity:.3;cursor:not-allowed;box-shadow:none;background:transparent}
@@ -459,6 +495,41 @@ footer{border-top:1px solid var(--line);padding:26px 0}
 
   <!-- ======================= CALCOLATORE ======================= -->
   <section id="calcolatore">
+    <div class="gate-banner" id="gateBanner">
+      <div class="gate-head">
+        <span class="gate-ico" id="gateIco"></span>
+        <div>
+          <b id="gateTitle">Sblocca gli sconti automatici</b>
+          <span id="gateSub">Inserisci i tuoi dati: senza questi il totale resta al prezzo pieno di listino.</span>
+        </div>
+      </div>
+      <div class="gate-fields">
+        <div class="gate-field-wrap">
+          <input type="text" id="gateNome" placeholder="Nome e cognome" autocomplete="name">
+          <span class="gate-check" id="checkNome"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+        </div>
+        <div class="gate-field-wrap">
+          <input type="email" id="gateEmail" placeholder="Email" autocomplete="email">
+          <span class="gate-check" id="checkEmail"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+        </div>
+        <div class="gate-field-wrap">
+          <input type="tel" id="gateCellulare" placeholder="Cellulare" autocomplete="tel" inputmode="tel">
+          <span class="gate-check" id="checkCellulare"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="gate-modal-overlay" id="gateModalOverlay">
+      <div class="gate-modal">
+        <span class="gate-modal-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#BC5279" stroke-width="2.4" stroke-linecap="round"><path d="M3 17h18M6 17V9m5 8V7m5 10v-5"/></svg>
+        </span>
+        <b>Sconti ancora bloccati</b>
+        <p>Inserisci nome, email e cellulare nel banner qui sopra: senza questi dati vedi solo il prezzo pieno di listino.</p>
+        <button type="button" id="gateModalOk">Li inserisco ora</button>
+      </div>
+    </div>
+
     <div class="calc-grid">
       <div>
         <div class="step-box">
@@ -555,8 +626,6 @@ footer{border-top:1px solid var(--line);padding:26px 0}
             <div class="avg-note" id="avgNote">Seleziona i capi per iniziare</div>
           </div>
 
-          <div class="name-field"><input type="text" id="nomeCliente" placeholder="Il tuo nome e cognome" autocomplete="name"></div>
-
           <a class="btn btn-accent" id="waBtn" href="#" target="_blank" rel="noopener">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.7 15l-1.2 4.3 4.4-1.2A10 10 0 1 0 12 2Zm5.6 14.2c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.7-4.4-3.9-.1-.2-1-1.4-1-2.6s.6-1.8.9-2.1c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .6l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 2 1.1.9 1.9 1.2 2.2 1.4.3.1.5.1.6-.1l.9-1c.2-.2.4-.2.6-.1l1.9.9c.2.1.4.2.5.3.1.1.1.6-.1 1.2Z"/></svg>
             Invia l'ordine su WhatsApp
@@ -647,6 +716,8 @@ footer{border-top:1px solid var(--line);padding:26px 0}
 const CONFIG = {
   telefono: "+39 347 191 7366",
   whatsapp: "393471917366",
+  // URL del Web App di Google Apps Script che riceve i lead (vedi istruzioni separate). Vuoto = disattivato.
+  leadWebhookUrl: "https://script.google.com/macros/s/AKfycbyVjJta5uHu_MvhWmEqAJOUmlzPmCXZUtZw1DyuPdKFr3_gE078_GjFAP0BF8QeRpPiDg/exec",
   assisi: { lat: 43.0275, lon: 12.6393 }, // sede Scarponi: via Romana 28, Capodacqua di Assisi (PG)
   tagli: [
     { id:"g130", nome:"Suino da 130 kg", kg:130, prezzo:3.30, taglia:"XL", desc:"Già pronto per la macellazione: ideale per lavorazione immediata e salumi." },
@@ -711,6 +782,49 @@ const CONFIG = {
 const stato = { q:{}, km:40, comune:"", promo:"", pagamento:"bonifico" };
 CONFIG.tagli.forEach(t => stato.q[t.id] = 0);
 
+/* ---------- tracciamento lead (Google Sheet) ---------- */
+const sessionId = (crypto.randomUUID ? crypto.randomUUID() : (Date.now() + "-" + Math.random().toString(36).slice(2)));
+let ultimoLeadSnapshot = null;   // ultimi dati calcolati, pronti per l'invio
+let ultimoSbloccato = false;     // stato sblocco più recente, letto anche fuori da render()
+let leadDebounce = null;
+
+function inviaLead(azione, dati){
+  if (!CONFIG.leadWebhookUrl) return; // non configurato: nessun invio
+  const payload = Object.assign({ azione, sessionId }, dati);
+  fetch(CONFIG.leadWebhookUrl, {
+    method: "POST",
+    mode: "no-cors", // non serve leggere la risposta, solo inviare
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(payload)
+  }).catch(() => { /* invio best-effort: un errore di rete qui non deve bloccare il cliente */ });
+}
+
+/* invio "a caldo" via sendBeacon: l'unico modo affidabile di mandare dati mentre la pagina si sta chiudendo */
+function inviaLeadBeacon(azione, dati){
+  if (!CONFIG.leadWebhookUrl || !navigator.sendBeacon) return;
+  const payload = JSON.stringify(Object.assign({ azione, sessionId }, dati));
+  navigator.sendBeacon(CONFIG.leadWebhookUrl, new Blob([payload], { type: "text/plain;charset=utf-8" }));
+}
+
+/* aggiorna la riga ~1,5s dopo l'ultima modifica, così non manda una richiesta a ogni tasto premuto */
+function programmaAggiornamentoLead(){
+  if (!ultimoSbloccato || !ultimoLeadSnapshot) return;
+  clearTimeout(leadDebounce);
+  leadDebounce = setTimeout(() => inviaLead("lead", ultimoLeadSnapshot), 1500);
+}
+
+/* invio di sicurezza: se il cliente chiude la scheda prima che scatti l'aggiornamento programmato */
+window.addEventListener("beforeunload", () => {
+  clearTimeout(leadDebounce);
+  if (ultimoSbloccato && ultimoLeadSnapshot) inviaLeadBeacon("lead", ultimoLeadSnapshot);
+});
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden" && ultimoSbloccato && ultimoLeadSnapshot){
+    clearTimeout(leadDebounce);
+    inviaLeadBeacon("lead", ultimoLeadSnapshot);
+  }
+});
+
 /* ---------- utility ---------- */
 const eur = n => "€ " + Math.round(n).toLocaleString("it-IT");
 const kgFmt = n => Math.round(n).toLocaleString("it-IT") + " kg";
@@ -747,6 +861,7 @@ itemsBox.addEventListener("click", e => {
   const q = document.getElementById("q-" + id);
   q.classList.remove("bump"); void q.offsetWidth; q.classList.add("bump");
   render();
+  promemoriaGateSeBloccato();
 });
 
 /* ---------- proposte rapide ---------- */
@@ -760,6 +875,7 @@ CONFIG.presets.forEach((p,i) => {
     const intensita = Object.values(p.q).reduce((a,c) => a + c, 0);
     spawnConfetti(b, intensita);
     render();
+    promemoriaGateSeBloccato();
   };
   presetsBox.appendChild(b);
 });
@@ -848,11 +964,11 @@ $("#locInput").addEventListener("input", e => {
 const oggi0 = new Date(); oggi0.setHours(0,0,0,0);
 const domani = new Date(oggi0); domani.setDate(domani.getDate() + 1);
 $("#dataConsegna").min = domani.toISOString().slice(0,10);
-$("#dataConsegna").addEventListener("change", render);
-$("#nomeCliente").addEventListener("input", render);
+$("#dataConsegna").addEventListener("change", () => { render(); promemoriaGateSeBloccato(); });
+["gateNome","gateEmail","gateCellulare"].forEach(id => $("#" + id).addEventListener("input", render));
 
 /* ---------- codice riservato ---------- */
-function applyPromo(){ stato.promo = $("#promoCode").value.trim().toUpperCase(); render(); }
+function applyPromo(){ stato.promo = $("#promoCode").value.trim().toUpperCase(); render(); promemoriaGateSeBloccato(); }
 $("#promoBtn").addEventListener("click", applyPromo);
 $("#promoCode").addEventListener("keydown", e => { if (e.key === "Enter"){ e.preventDefault(); applyPromo(); } });
 
@@ -866,7 +982,7 @@ CONFIG.pagamenti.forEach(p => {
       <span class="pay-name">${p.nome}</span>
       <span class="pay-desc">${p.desc}</span>
     </span>`;
-  b.onclick = () => { stato.pagamento = p.id; render(); };
+  b.onclick = () => { stato.pagamento = p.id; render(); promemoriaGateSeBloccato(); };
   payBox.appendChild(b);
 });
 
@@ -900,6 +1016,33 @@ function scrollToStep(selector){
   const el = document.querySelector(selector);
   if (el) el.scrollIntoView({ behavior:"smooth", block:"center" });
 }
+function emailValida(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
+function cellulareValido(v){ return v.replace(/\D/g, "").length >= 9; }
+
+/* richiama l'attenzione sul banner gate quando si modifica qualcosa a sconti ancora bloccati:
+   pulse sul banner + popup di avviso */
+function promemoriaGateSeBloccato(){
+  const capiOra = CONFIG.tagli.reduce((s,t) => s + stato.q[t.id], 0);
+  const banner = $("#gateBanner");
+  if (capiOra > 0 && !banner.classList.contains("unlocked")){
+    banner.classList.remove("pulse"); void banner.offsetWidth; banner.classList.add("pulse");
+    $("#gateModalOverlay").classList.add("show");
+  }
+}
+function chiudiPopupGate(){
+  $("#gateModalOverlay").classList.remove("show");
+  scrollToStep("#gateBanner");
+  const campi = ["gateNome","gateEmail","gateCellulare"];
+  const primoVuoto = campi.find(id => !$("#" + id).value.trim()) || "gateNome";
+  setTimeout(() => $("#" + primoVuoto).focus(), 450);
+}
+$("#gateModalOk").addEventListener("click", chiudiPopupGate);
+$("#gateModalOverlay").addEventListener("click", e => { if (e.target.id === "gateModalOverlay") chiudiPopupGate(); });
+$("#waBtn").addEventListener("click", () => {
+  clearTimeout(leadDebounce);
+  if (ultimoSbloccato && ultimoLeadSnapshot) inviaLead("lead", ultimoLeadSnapshot); // dati freschi, senza aspettare il debounce
+  inviaLead("invio_wa", {});
+});
 
 /* ---------- animazione coriandoli alla scelta di una proposta rapida ---------- */
 function spawnConfetti(originEl, intensity){
@@ -983,24 +1126,62 @@ function render(){
   const giorni = giorniAnticipo();
   const soglia = sogliaZona(km);
 
-  const scVol = scontoVolumeDa(capi, soglia);
-  const scAntic = scontoAnticipoDa(giorni);
+  /* gate: gli sconti (quantità, anticipo, codice, pagamento) si attivano solo con contatti validi */
+  const gateNome = $("#gateNome").value.trim();
+  const gateEmail = $("#gateEmail").value.trim();
+  const gateCell = $("#gateCellulare").value.trim();
+  const sbloccato = gateNome.length >= 2 && emailValida(gateEmail) && cellulareValido(gateCell);
+
+  const scVol = sbloccato ? scontoVolumeDa(capi, soglia) : 0;
+  const scAntic = sbloccato ? scontoAnticipoDa(giorni) : 0;
   const euroVolume = kgTot * scVol;
   const euroAnticipo = kgTot * scAntic;
   const subtotale = Math.max(0, baseTot - euroVolume - euroAnticipo);
-  const promoDef = CONFIG.codiciPromo[stato.promo];
+  const promoDef = sbloccato ? CONFIG.codiciPromo[stato.promo] : null;
   const promoPct = promoDef ? promoDef.pct : 0;
   const euroPromo = subtotale * promoPct;
   const totSconti = euroVolume + euroAnticipo + euroPromo;
   const finalTot = Math.max(0, baseTot - totSconti);
   const scKg = scVol + scAntic;
-  const nome = $("#nomeCliente").value.trim();
+  const nome = gateNome;
 
   /* modalità di pagamento: calcolata subito per poterla contare nel risparmio totale */
-  const payDef = CONFIG.pagamenti.find(p => p.id === stato.pagamento) || CONFIG.pagamenti[1];
+  const payDefRaw = CONFIG.pagamenti.find(p => p.id === stato.pagamento) || CONFIG.pagamenti[1];
+  const payDef = sbloccato ? payDefRaw : { ...payDefRaw, pct: 0 };
   const totaleConPagamento = Math.max(0, finalTot * (1 + payDef.pct));
   const euroPagamento = Math.max(0, finalTot - totaleConPagamento); // solo se il pagamento fa risparmiare
   const risparmioTotale = totSconti + euroPagamento;
+
+  /* banner gate: sblocca gli sconti con contatti validi */
+  const gateBanner = $("#gateBanner");
+  gateBanner.classList.toggle("unlocked", sbloccato);
+  if (sbloccato) $("#gateModalOverlay").classList.remove("show");
+  $("#checkNome").classList.toggle("show", gateNome.length >= 2);
+  $("#checkEmail").classList.toggle("show", emailValida(gateEmail));
+  $("#checkCellulare").classList.toggle("show", cellulareValido(gateCell));
+  $("#gateIco").innerHTML = sbloccato ? icoOk : icoAsk;
+  $("#gateTitle").textContent = sbloccato ? "Sconti sbloccati" : "Sblocca gli sconti automatici";
+  $("#gateSub").textContent = sbloccato
+    ? "I tuoi dati sono a posto: il calcolatore applica sconto quantità, anticipo, codice e pagamento."
+    : "Compila i tre campi qui sotto: si sblocca da solo, non serve premere nulla. Il segno di spunta verde conferma ogni campo.";
+
+  /* aggiorna sempre l'istantanea dei dati, così è pronta per l'invio periodico, alla chiusura o all'invio WA */
+  ultimoSbloccato = sbloccato;
+  const capiDettaglio = CONFIG.tagli.filter(t => stato.q[t.id]).map(t => `${stato.q[t.id]}×${t.taglia}`).join(", ");
+  const scontoPctSnap = capi>0 && baseTot>0 ? Math.round(risparmioTotale/baseTot*100*10)/10 : 0;
+  ultimoLeadSnapshot = {
+    nome: gateNome, email: gateEmail, cellulare: gateCell,
+    capiDettaglio: capiDettaglio,
+    capi: capi, kg: Math.round(kgTot), totaleBase: Math.round(baseTot),
+    scontoPct: scontoPctSnap, scontoEuro: Math.round(risparmioTotale),
+    codicePromo: promoPct > 0 ? stato.promo : "",
+    prezzoMedio: capi>0 ? (totaleConPagamento/kgTot).toLocaleString("it-IT",{minimumFractionDigits:2,maximumFractionDigits:2}) : "",
+    totaleFinale: Math.round(totaleConPagamento),
+    destinazione: stato.comune || (km + " km"),
+    dataConsegna: dataVal || "",
+    pagamento: stato.pagamento
+  };
+  if (sbloccato) programmaAggiornamentoLead();
 
   /* capi: badge, prezzo per riga */
   CONFIG.tagli.forEach(t => {
@@ -1099,7 +1280,9 @@ function render(){
 
   /* un solo suggerimento alla volta */
   let nudge = null;
-  if (capi > 0 && capi >= soglia.capi){
+  if (!sbloccato && capi > 0){
+    nudge = { text:"Inserisci nome, email e cellulare qui sopra per sbloccare gli sconti.", label:"Sblocca gli sconti", action: () => scrollToStep("#gateBanner") };
+  } else if (capi > 0 && capi >= soglia.capi){
     if (prossimoVol){
       nudge = { text:"Con qualche capo in più il totale potrebbe scontarsi ulteriormente.", label:"Aggiungi un capo", action: aggiungiUnCapo };
     } else {
@@ -1130,6 +1313,12 @@ function render(){
   if (capi === 0){
     tabelloneMsgs.push({ text:"Aggiungi almeno un capo per iniziare il tuo preventivo.", ctaLabel:"Scegli i capi", action:() => scrollToStep("#items") });
     tabelloneMsgs.push({ text:"Scegli una proposta rapida qui sopra per partire veloce.", ctaLabel:"Vedi le proposte", action:() => scrollToStep("#presets") });
+  } else if (!sbloccato){
+    tabelloneMsgs.push({ text:"Inserisci nome, email e cellulare per sbloccare gli sconti.", ctaLabel:"Sblocca gli sconti", action:() => scrollToStep("#gateBanner") });
+    if (capi < soglia.capi){
+      const gap = soglia.capi - capi;
+      tabelloneMsgs.push({ text:`Aggiungi ${gap} cap${gap>1?"i":"o"} per il trasporto gratuito.`, ctaLabel:"Aggiungi capi", action:() => scrollToStep("#items") });
+    }
   } else {
     if (capi < soglia.capi){
       const gap = soglia.capi - capi;
@@ -1206,7 +1395,6 @@ function render(){
   if (capi === 0) guida = "Aggiungi almeno un capo qui sopra per generare il preventivo.";
   else if (nudge) guida = nudge.text;
   else if (!dataVal) guida = "Aggiungi una data di consegna per completare il preventivo.";
-  else if (!nome) guida = "Inserisci il tuo nome qui sotto per un preventivo pronto da inviare.";
   else guida = "Il tuo preventivo è pronto: invialo con il pulsante qui sotto.";
   $("#totalHint").textContent = guida;
 
@@ -1237,7 +1425,10 @@ function render(){
   }
 
   /* link precompilati */
-  const capiDesc = CONFIG.tagli.filter(t => stato.q[t.id]).map(t => `${stato.q[t.id]} da ${t.kg} kg a ${t.prezzo.toLocaleString("it-IT",{minimumFractionDigits:2})} €/kg`).join(", ");
+  const capiDesc = CONFIG.tagli.filter(t => stato.q[t.id]).map(t => {
+    const prezzoNetto = Math.max(0, (t.prezzo - scKg) * (1 - promoPct) * (1 + payDef.pct));
+    return `${stato.q[t.id]}×${t.taglia} a ${prezzoNetto.toLocaleString("it-IT",{minimumFractionDigits:2,maximumFractionDigits:2})}€/kg`;
+  }).join(", ");
   const destDesc = stato.comune ? `${stato.comune} (circa ${km} km dalla sede Scarponi)` : `circa ${km} km dalla sede Scarponi`;
   const dataStr = dataVal ? new Date(dataVal + "T00:00:00").toLocaleDateString("it-IT",{day:"numeric",month:"long",year:"numeric"}) : "da concordare";
   let msg = "Ciao";
@@ -1251,13 +1442,14 @@ function render(){
       `🐷 Capi: ${capiDesc}`,
       `📍 Consegna: ${destDesc}`,
       `📅 Data: ${dataStr}`,
+      `📧 Email: ${gateEmail}`,
+      `📱 Cellulare: ${gateCell}`,
       `💳 Pagamento: ${payDef.nome}`,
-      `🏷️ Sconto: ${scontoTotPct.toLocaleString("it-IT")}% (${risparmioTotale > 0 ? "− " + eur(risparmioTotale) : "€ 0"})`,
-      `⚖️ Prezzo medio: ${(totaleConPagamento/kgTot).toLocaleString("it-IT",{minimumFractionDigits:2,maximumFractionDigits:2})} €/kg`,
-      `💶 Totale: ${eur(totaleConPagamento)}`
+      `🏷️ Sconto incluso nel prezzo: ${scontoTotPct.toLocaleString("it-IT")}%`,
+      `💶 Totale stimato: ${eur(totaleConPagamento)}`
     ];
     if (promoPct > 0) righe.push(`🎟️ Codice: ${stato.promo}`);
-    msg += "\nVorrei ordinare:\n\n" + righe.join("\n");
+    msg += "\nVorrei ordinare:\n\n" + righe.join("\n") + "\n\n(I prezzi indicati per taglia sono già al netto di tutti gli sconti concordati.)";
   }
   const wa = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
   $("#waBtn").href = wa;
